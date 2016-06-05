@@ -32,4 +32,9 @@ public class CalculateServiceTest extends ServiceTestCase<CalculateService>
     {
         assertEquals(5, getService().getResult());
     }
+    
+    public void testAdd2()
+    {
+        assertEquals(5, getService().getResult());
+    }
 }
