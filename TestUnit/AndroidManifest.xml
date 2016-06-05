@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ziptestunit"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="23" />
+
+    <!-- 记住这个一要放在application外面，不然会出现配置错误 信息 -->
+    <!-- targetPackage 填写的是 应用的包名 -->
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="TestsApp"
+        android:targetPackage="com.ziptestunit" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <!-- 在本应用中导入需要使用的包，放在application里面activity外面 -->
+        <uses-library android:name="android.test.runner" />
+
+        <activity
+            android:name="com.android.activity.CaculateActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.android.service.CalculateService" >
+        </service>
+
+        <provider
+            android:name="com.android.contentprovider.HistoryProvider"
+            android:authorities="com.android.contentprovider"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" >
+        </provider>
+    </application>
+
+</manifest>
