@@ -1,6 +1,7 @@
 #Config of WorkPlace
 .metadata/
 .recommenders/
+RemoteSystemsTempFiles/
 
 # Built application files
 *.apk
