@@ -1,0 +1,8 @@
+检验每个模块需要自己手动去修改Manifest的入口
+
+入口列举：
+一、database
+
+二、bitmap
+
+三、http

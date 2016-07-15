@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/panodemo_main_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/panodemo_main_title" >
+
+        <com.baidu.lbsapi.panoramaview.PanoramaView
+            android:id="@+id/panorama"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:clickable="true" />
+
+        <Button
+            android:id="@+id/panodemo_main_btn_imagemarker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_style"
+            android:text="添加图片标注"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/panodemo_main_btn_textmarker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/panodemo_main_btn_imagemarker"
+            android:background="@drawable/button_style"
+            android:text="添加文字标注"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/panodemo_main_btn_showarrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_style"
+            android:text="隐藏全景箭头"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/panodemo_main_btn_arrowstyle_01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/panodemo_main_btn_showarrow"
+            android:background="@drawable/button_style"
+            android:text="箭头样式01"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/panodemo_main_btn_arrowstyle_02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/panodemo_main_btn_arrowstyle_01"
+            android:background="@drawable/button_style"
+            android:text="箭头样式02"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/panodemo_main_btn_indoor_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_style"
+            android:text="隐藏内景相册"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/seekpitch_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <TextView
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:text="俯仰角(-90~90): " />
+
+            <SeekBar
+                android:id="@+id/seekpitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="180"
+                android:progress="90" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/seekheading_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/seekpitch_ly"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <TextView
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:text="偏航角(+0~360): " />
+
+            <SeekBar
+                android:id="@+id/seekheading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="360"
+                android:progress="180" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/seeklevel_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/seekheading_ly"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <TextView
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:text="缩放级别(1~5): " />
+
+            <SeekBar
+                android:id="@+id/seeklevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="4"
+                android:progress="0" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

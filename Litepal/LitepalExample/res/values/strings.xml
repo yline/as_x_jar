@@ -1,0 +1,109 @@
+<!--
+   Copyright (C) Tony Green, Litepal Framework Open Source Project
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+ 
+        http://www.apache.org/licenses/LICENSE-2.0
+ 
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<resources>
+
+    <string name="app_name">LitePal Sample</string>
+    <string name="manage_table_sample">Manage Tables Sample</string>
+    <string name="crud_sample">CRUD Sample</string>
+    <string name="manage_table">Manage Tables</string>
+    <string name="crud">CRUD</string>
+    <string name="aggregate_functions">Aggregate Functions</string>
+    <string name="aggregate_sample">Aggregate Sample</string>
+    <string name="table_generation_tip">Tables will be generated automatically depending on the current model structure once you operate database.</string>
+    <string name="current_model_structure">Current Model Structure</string>
+    <string name="current_table_structure">Current Table Structure</string>
+    <string name="field_name">Field Name</string>
+    <string name="field_type">Field Type</string>
+    <string name="column_name">Name</string>
+    <string name="column_type">Type</string>
+    <string name="column_nullable">Nullable</string>
+    <string name="column_unique">Unique</string>
+    <string name="column_default">Default</string>
+    <string name="sample_codes">Sample codes:</string>
+    <string name="result">Result:</string>
+    <string name="save_sample">Save Sample</string>
+    <string name="update_sample">Update Sample</string>
+    <string name="delete_sample">Delete Sample</string>
+    <string name="query_sample">Query Sample</string>
+    <string name="count_sample">Count Sample</string>
+    <string name="max_sample">Max Sample</string>
+    <string name="min_sample">Min Sample</string>
+    <string name="average_sample">Average Sample</string>
+    <string name="sum_sample">Sum Sample</string>
+    <string name="run_codes_above">Run codes above</string>
+    <string name="sample_codes_first_line">Singer singer = new Singer&#040;&#041;&#059;</string>
+    <string name="sample_codes_second_line_pre">singer.setName&#040;\&#034;</string>
+    <string name="sample_codes_second_line_end">\&#034;&#041;&#059;</string>
+    <string name="sample_codes_third_line_pre">singer.setAge&#040;</string>
+    <string name="sample_codes_third_line_end">&#041;&#059;</string>
+    <string name="sample_codes_fourth_line_pre">singer.setMale&#040;</string>
+    <string name="sample_codes_fourth_line_end">&#041;&#059;</string>
+    <string name="sample_codes_save">singer.save&#040;&#041;&#059;</string>
+    <string name="sample_codes_update_first_line_pre">singer.update&#040;</string>
+    <string name="sample_codes_update_first_line_end">&#041;&#059;</string>
+    <string name="sample_codes_update_second_line">singer.updateAll&#040;\&#034;name=? and age=?\&#034;,</string>
+    <string name="sample_codes_update_third_line_pre">\&#034;</string>
+    <string name="sample_codes_update_third_line_mid">\&#034;, \&#034;</string>
+    <string name="sample_codes_update_third_line_end">\&#034;&#041;&#059;</string>
+    <string name="sample_codes_delete_first_line_pre">DataSupport.delete&#040;Singer.class,&#160;</string>
+    <string name="sample_codes_delete_first_line_end">&#041;&#059;</string>
+    <string name="sample_codes_delete_second_line">DataSupport.deleteAll&#040;Singer.class,</string>
+    <string name="sample_codes_delete_third_line">\&#034;name = ? and age = ?\&#034;,</string>
+    <string name="sample_codes_delete_fourth_line_pre">\&#034;</string>
+    <string name="sample_codes_delete_fourth_line_mid">\&#034;, \&#034;</string>
+    <string name="sample_codes_delete_fourth_line_end">\&#034;&#041;&#059;</string>
+    <string name="sample_desc_query_first_line">Find singer whose id is 1:</string>
+    <string name="sample_codes_query_first_line">Singer singer = DataSupport.find&#040;\nSinger.class, 1&#041;&#059;</string>
+    <string name="sample_desc_query_second_line">Find all singers:</string>
+    <string name="sample_codes_query_second_line">List&#60;Singer&#62; allSingers =\nDataSupport.findAll&#040;Singer.class&#041;&#059;</string>
+    <string name="sample_desc_query_third_line">Find all singers who are yonger than 20:</string>
+    <string name="sample_codes_query_third_line">List&#60;Singer&#62; singers =\nDataSupport.where&#040;\&#034;age &#60; ?\&#034;, \&#034;20\&#034;&#041;.\nfind&#040;Singer.class&#041;&#059;</string>
+    <string name="sample_desc_query_fourth_line">Find all female singers who are elder than 25:</string>
+    <string name="sample_codes_query_fourth_line">List&#60;Singer&#62; singers =\nDataSupport.where&#040;\n\&#034;age &#60; ? and ismale = ?\&#034;, \&#034;25\&#034;, \&#034;0\&#034;&#041;.\nfind&#040;Singer.class&#041;&#059;</string>
+    <string name="sample_desc_query_fifth_line">Find same records as above by SQL:</string>
+    <string name="sample_codes_query_fifth_line">Cursor cursor =\nDataSupport.findBySQL&#040;\n\&#034;select * from singer where\nage &#60; ? and ismale = ?\&#034;, \&#034;25\&#034;, \&#034;0\&#034;&#041;&#059;</string>
+    <string name="sample_codes_count_first_line">DataSupport.count&#040;Singer.class&#041;&#059;</string>
+    <string name="sample_codes_count_second_line_pre">DataSupport.where&#040;\&#034;age &#62; ?\&#034;, \&#034;</string>
+    <string name="sample_codes_count_second_line_end">\&#034;&#041;.</string>
+    <string name="sample_codes_count_third_line">count&#040;Singer.class&#041;&#059;</string>
+    <string name="sample_codes_max_first_line">DataSupport.max&#040;Singer.class,\n\&#034;age\&#034;, Integer.TYPE&#041;&#059;</string>
+    <string name="sample_codes_max_second_line_pre">DataSupport.where&#040;\&#034;age &#60; ?\&#034;, \&#034;</string>
+    <string name="sample_codes_max_second_line_end">\&#034;&#041;.</string>
+    <string name="sample_codes_max_third_line">max&#040;Singer.class, \&#034;age\&#034;,\nInteger.TYPE&#041;&#059;</string>
+    <string name="sample_codes_min_first_line">DataSupport.min&#040;Singer.class,\n\&#034;age\&#034;, Integer.TYPE&#041;&#059;</string>
+    <string name="sample_codes_min_second_line_pre">DataSupport.where&#040;\&#034;age &#62; ?\&#034;, \&#034;</string>
+    <string name="sample_codes_min_second_line_end">\&#034;&#041;.</string>
+    <string name="sample_codes_min_third_line">min&#040;Singer.class, \&#034;age\&#034;,\nInteger.TYPE&#041;&#059;</string>
+    <string name="sample_codes_avg_first_line">DataSupport.average&#040;Singer.class,\n\&#034;age\&#034;&#041;&#059;</string>
+    <string name="sample_codes_avg_second_line_pre">DataSupport.where&#040;\&#034;age &#62; ?\&#034;, \&#034;</string>
+    <string name="sample_codes_avg_second_line_end">\&#034;&#041;.</string>
+    <string name="sample_codes_avg_third_line">average&#040;Singer.class, \&#034;age\&#034;&#041;&#059;</string>
+    <string name="sample_codes_sum_first_line">DataSupport.sum&#040;Singer.class,\n\&#034;age\&#034;, Integer.TYPE&#041;&#059;</string>
+    <string name="sample_codes_sum_second_line_pre">DataSupport.where&#040;\&#034;age &#62; ?\&#034;, \&#034;</string>
+    <string name="sample_codes_sum_second_line_end">\&#034;&#041;.</string>
+    <string name="sample_codes_sum_third_line">sum&#040;Singer.class, \&#034;age\&#034;,\nInteger.TYPE&#041;&#059;</string>
+    <string name="taylor_swift">Taylor Swift</string>
+    <string name="justin_bieber">Justin Bieber</string>
+    <string name="one">1</string>
+    <string name="twenty_five">25</string>
+    <string name="twenty_three">23</string>
+    <string name="twenty">20</string>
+    <string name="boolean_false">false</string>
+    <string name="boolean_true">true</string>
+    <string name="error_param_is_not_valid">Param is not valid.</string>
+    <string name="number_of_rows_affected">%1$s rows affected.</string>
+
+</resources>

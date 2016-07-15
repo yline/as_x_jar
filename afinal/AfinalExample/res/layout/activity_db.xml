@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/constructdb"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="建表" />
+
+    <Button
+        android:id="@+id/insertdata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/constructdb"
+        android:layout_alignRight="@+id/constructdb"
+        android:layout_below="@+id/constructdb"
+        android:layout_marginTop="16dp"
+        android:text="插入数据" />
+
+    <Button
+        android:id="@+id/db_btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/insertdata"
+        android:layout_alignRight="@+id/insertdata"
+        android:layout_below="@+id/insertdata"
+        android:layout_marginTop="21dp"
+        android:text="删除数据" />
+
+    <EditText
+        android:id="@+id/db_et_search_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/db_btn_delete"
+        android:layout_alignRight="@+id/db_btn_delete"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:text="AoTuMan"
+        android:hint="搜索关键字" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/db_tv_searchresult"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_alignLeft="@+id/db_btn_search"
+        android:layout_alignRight="@+id/db_btn_search"
+        android:layout_below="@+id/db_btn_search"
+        android:layout_marginTop="19dp"
+        android:background="#ffffcfcf"
+        android:lines="3"
+        android:text="查找结果"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/db_btn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/db_et_search_key"
+        android:layout_alignRight="@+id/db_et_search_key"
+        android:layout_below="@+id/db_et_search_key"
+        android:layout_marginTop="20dp"
+        android:text="查找数据" />
+
+</RelativeLayout>
