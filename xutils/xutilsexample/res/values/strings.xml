@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">xUtils3 Sample</string>
-    <string name="remove">移除</string>
-    <string name="stop">停止</string>
-    <string name="start">开始下载</string>
-</resources>
