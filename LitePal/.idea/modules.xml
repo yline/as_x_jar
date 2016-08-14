@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/LitePal.iml" filepath="$PROJECT_DIR$/LitePal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LitePalInstance/LitePalInstance.iml" filepath="$PROJECT_DIR$/LitePalInstance/LitePalInstance.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LitePalLib/LitePalLib.iml" filepath="$PROJECT_DIR$/LitePalLib/LitePalLib.iml" />
+    </modules>
+  </component>
+</project>
