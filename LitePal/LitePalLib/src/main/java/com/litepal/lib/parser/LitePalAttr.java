@@ -134,11 +134,11 @@ public final class LitePalAttr
 		if (classNames == null)
 		{
 			classNames = new ArrayList<String>();
-			classNames.add("org.litepal.model.Table_Schema");
+			classNames.add("com.litepal.lib.model.Table_Schema");
 		}
 		else if (classNames.isEmpty())
 		{
-			classNames.add("org.litepal.model.Table_Schema");
+			classNames.add("com.litepal.lib.model.Table_Schema");
 		}
 		return classNames;
 	}
@@ -171,7 +171,7 @@ public final class LitePalAttr
 	 * @return If all of the fields are passed, return true. If dbname is
 	 * undefined, or version is less than 1, or version is earlier than
 	 * current version, throw InvalidAttributesException
-	 * @throws org.litepal.exceptions.InvalidAttributesException
+	 * @throws com.litepal.lib.exceptions.InvalidAttributesException
 	 */
 	public boolean checkSelfValid()
 	{

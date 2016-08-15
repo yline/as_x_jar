@@ -29,7 +29,7 @@ public class GlobalException extends RuntimeException
 	/**
 	 * Application context is null.
 	 */
-	public static final String APPLICATION_CONTEXT_IS_NULL = "Application context is null. Maybe you haven't configured your application name with \"org.litepal.LitePalApplication\" in your AndroidManifest.xml. Or you can call LitePalApplication.initialize(Context) method instead.";
+	public static final String APPLICATION_CONTEXT_IS_NULL = "Application context is null. Maybe you haven't configured your application name with \"com.litepal.lib.LitePalApplication\" in your AndroidManifest.xml. Or you can call LitePalApplication.initialize(Context) method instead.";
 
 	/**
 	 * Constructor of GlobalException.

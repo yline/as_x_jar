@@ -26,7 +26,7 @@ import com.litepal.lib.exceptions.GlobalException;
  * context. When you need context, just use
  * <b>LitePalApplication.getContext()</b>. To make this function work, you need
  * to configure your AndroidManifest.xml. Specifying
- * <b>"org.litepal.LitePalApplication"</b> as the application name in your
+ * <b>"com.litepal.lib.LitePalApplication"</b> as the application name in your
  * &lt;application&gt; tag to enable LitePal get the context. Of course if you
  * need to write your own Application class, LitePal can still live with that.
  * But just remember make your own Application class inherited from
