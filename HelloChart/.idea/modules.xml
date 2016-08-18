@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/HelloChart.iml" filepath="$PROJECT_DIR$/HelloChart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HelloChartsLib/HelloChartsLib.iml" filepath="$PROJECT_DIR$/HelloChartsLib/HelloChartsLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HelloChartsSample/HelloChartsSample.iml" filepath="$PROJECT_DIR$/HelloChartsSample/HelloChartsSample.iml" />
+    </modules>
+  </component>
+</project>
