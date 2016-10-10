@@ -10,6 +10,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -31,6 +32,8 @@ import java.util.Vector;
 
 public class CaptureActivity extends Activity implements Callback
 {
+	private static final String KEY_QRSCAN_RESULT = "qrscan";
+
 	private CaptureActivityHandler handler;
 
 	private ViewfinderView viewfinderView;
@@ -48,6 +51,12 @@ public class CaptureActivity extends Activity implements Callback
 	private boolean playBeep;
 
 	private static final float BEEP_VOLUME = 0.10f;
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+	{
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+	}
 
 	private boolean vibrate;
 
@@ -128,7 +137,7 @@ public class CaptureActivity extends Activity implements Callback
 	}
 
 	/**
-	 * 处理结果
+	 * 处理扫描出来的结果
 	 * @param result
 	 * @param barcode
 	 */
@@ -137,7 +146,8 @@ public class CaptureActivity extends Activity implements Callback
 		inactivityTimer.onActivity();
 		playBeepSoundAndVibrate();
 
-		if (result.getText().toString().trim().equals(""))
+		String resultStr = result.getText().toString().trim();
+		if (TextUtils.isEmpty(resultStr))
 		{
 			Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
 		}
@@ -145,11 +155,22 @@ public class CaptureActivity extends Activity implements Callback
 		{
 			Intent resultIntent = new Intent();
 			Bundle bundle = new Bundle();
-			bundle.putString("QR", result.getText().toString().trim());
+			bundle.putString(KEY_QRSCAN_RESULT, resultStr);
 			resultIntent.putExtras(bundle);
 			setResult(RESULT_OK, resultIntent);
 		}
 		finish();
+	}
+
+	/**
+	 * 获取返回的值
+	 * @param data
+	 * @return
+	 */
+	public static String getResult(Intent data)
+	{
+		Bundle resultBundle = data.getExtras();
+		return resultBundle.getString(KEY_QRSCAN_RESULT);
 	}
 
 	private void initCamera(SurfaceHolder surfaceHolder)

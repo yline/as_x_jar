@@ -18,7 +18,7 @@ public class MainActivity extends BaseAppCompatActivity
 
 	private EditText et_phone;
 
-	private String QRscanResult;
+	private String QRScanResult;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -33,7 +33,10 @@ public class MainActivity extends BaseAppCompatActivity
 			public void onClick(View v)
 			{
 				LogFileUtil.v(TAG, "btn_scan");
-				ScanQRcode();
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, CaptureActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
 			}
 		});
 
@@ -49,25 +52,10 @@ public class MainActivity extends BaseAppCompatActivity
 				}
 				else
 				{
-					Intent intent = new Intent();
-					intent.setClass(MainActivity.this, CreateQRcodeActivity.class);
-
-					Bundle bundle = new Bundle();
-					bundle.putString("phone", et_phone.getText().toString().trim());
-
-					intent.putExtras(bundle);
-					startActivity(intent);
+					CreateQRcodeActivity.actionStart(MainActivity.this, et_phone.getText().toString().trim());
 				}
 			}
 		});
-	}
-
-	private void ScanQRcode()
-	{
-		Intent intent = new Intent();
-		intent.setClass(MainActivity.this, CaptureActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
 	}
 
 	@Override
@@ -79,11 +67,10 @@ public class MainActivity extends BaseAppCompatActivity
 		{
 			if (resultCode == RESULT_OK)
 			{
-				Bundle resultBundle = data.getExtras();
-				QRscanResult = resultBundle.getString("QR");
+				QRScanResult = CaptureActivity.getResult(data);
 
-				LogFileUtil.v(TAG, "QRscanResult = " + QRscanResult);
-				MainApplication.toast("QRscanResult = " + QRscanResult);
+				LogFileUtil.v(TAG, "QRScanResult = " + QRScanResult);
+				MainApplication.toast("QRScanResult = " + QRScanResult);
 			}
 		}
 	}
