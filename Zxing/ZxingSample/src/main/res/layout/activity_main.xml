@@ -1,0 +1,37 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_scan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="扫描"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/et_phone"
+            android:layout_height="wrap_content"
+            android:hint="请输入电话号码："
+            android:inputType="phone"
+            android:singleLine="true">
+
+            <requestFocus/>
+        </EditText>
+
+        <Button
+            android:id="@+id/bt_createqrcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生成"/>
+    </LinearLayout>
+</LinearLayout>

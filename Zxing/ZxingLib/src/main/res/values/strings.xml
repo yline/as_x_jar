@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ZxingLib</string>
+    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+</resources>
