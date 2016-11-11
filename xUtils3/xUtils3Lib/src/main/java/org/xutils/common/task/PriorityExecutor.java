@@ -29,7 +29,6 @@ public class PriorityExecutor implements Executor
 	{
 		private final AtomicInteger mCount = new AtomicInteger(1);
 
-
 		@Override
 		public Thread newThread(Runnable runnable)
 		{

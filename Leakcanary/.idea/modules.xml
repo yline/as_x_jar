@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/LeakCanarySample/app.iml" filepath="$PROJECT_DIR$/LeakCanarySample/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Leakcanary.iml" filepath="$PROJECT_DIR$/Leakcanary.iml" />
+    </modules>
+  </component>
+</project>
