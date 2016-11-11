@@ -34,7 +34,7 @@ dependencies {
     // debugCompile(name: 'leakcanary-android-debug', ext: 'aar')
     // releaseCompile(name: 'leakcanary-android-no-op-debug', ext: 'aar')
 
-    // 库上方法, 运行无效
+    // 库上方法
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LeakCanarySample/app.iml" filepath="$PROJECT_DIR$/LeakCanarySample/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LeakCanarySample/LeakCanarySample.iml" filepath="$PROJECT_DIR$/LeakCanarySample/LeakCanarySample.iml" />
       <module fileurl="file://$PROJECT_DIR$/Leakcanary.iml" filepath="$PROJECT_DIR$/Leakcanary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LeakCanarySample/app.iml" filepath="$PROJECT_DIR$/LeakCanarySample/app.iml" />
     </modules>
   </component>
 </project>
