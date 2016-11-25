@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">TimeCalendar</string>
+
+    <string name="jan">一月</string>
+    <string name="feb">二月</string>
+    <string name="mar">三月</string>
+    <string name="apr">四月</string>
+    <string name="may">五月</string>
+    <string name="jun">六月</string>
+    <string name="jul">七月</string>
+    <string name="aug">八月</string>
+    <string name="sep">九月</string>
+    <string name="oct">十月</string>
+    <string name="nov">十一月</string>
+    <string name="dec">十二月</string>
+    <string name="mon">一</string>
+    <string name="tues">二</string>
+    <string name="wed">三</string>
+    <string name="thur">四</string>
+    <string name="fri">五</string>
+    <string name="sat">六</string>
+    <string name="sun">日</string>
+    <string name="meeting_select_day">选择会议日期</string>
+    <string name="meeting_select_room">选择会议室</string>
+    <string name="meeting_select_duration">选择时间段</string>
+    <string name="meeting_smart_scope">智能筛选时间</string>
+    <string name="meeting_select_date">选择筛选范围</string>
+    <string name="meeting_own_scope">自行选择时间</string>
+    <string name="meeting_meeting_title">会议标题</string>
+    <string name="meeting_select">筛选 </string>
+    <string name="meeting_select_scope">选择会议范围</string>
+    <string name="meeting_even_remind">事件提醒 </string>
+    <string name="meeting_more">查看更多 </string>
+    <string name="meeting_duration">预估会议时长 </string>
+    <string name="meeting_reselect">重新筛选 </string>
+    <string name="meeting_add_room">添加外部会议室 </string>
+    <string name="meeting_to_select">去筛选 </string>
+    <string name="meeting_hint">亲还没有设置筛选范围哦 </string>
+    <string name="meeting_new_meeting">新建会议</string>
+    <string name="meeting_select_meeting_type">选择会议形式</string>
+    <string name="meeting_meeting_type">会议形式</string>
+    <string name="meeting_inner_meeting">内部会议</string>
+    <string name="meeting_outer_meeting">外部会议</string>
+    <string name="meeting_select_attendee">选择参加人员</string>
+    <string name="meeting_attendee_most">必须参加</string>
+    <string name="meeting_attendee_nomost">非必须参加</string>
+    <string name="meeting_select_time_place">选择参会议时间和会议室</string>
+    <string name="meeting_time_place">会议时间和会议室</string>
+    <string name="meeting_meeting_content">会议内容</string>
+    <string name="meeting_meeting_detail">会议详情</string>
+
+</resources>

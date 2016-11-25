@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Calandar&amp;Time.iml" filepath="$PROJECT_DIR$/Calandar&amp;Time.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DatePicker/DatePicker.iml" filepath="$PROJECT_DIR$/DatePicker/DatePicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DatePickerSample/DatePickerSample.iml" filepath="$PROJECT_DIR$/DatePickerSample/DatePickerSample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TimeCalandarPrice/TimeCalandarPrice.iml" filepath="$PROJECT_DIR$/TimeCalandarPrice/TimeCalandarPrice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TimeCalendar/TimeCalendar.iml" filepath="$PROJECT_DIR$/TimeCalendar/TimeCalendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TimePicker/TimePicker.iml" filepath="$PROJECT_DIR$/TimePicker/TimePicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WheelPicker/WheelPicker.iml" filepath="$PROJECT_DIR$/WheelPicker/WheelPicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WheelPickerSample/WheelPickerSample.iml" filepath="$PROJECT_DIR$/WheelPickerSample/WheelPickerSample.iml" />
+    </modules>
+  </component>
+</project>

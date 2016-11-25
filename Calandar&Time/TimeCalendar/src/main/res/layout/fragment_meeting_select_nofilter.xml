@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_common_page">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="20dp"
+            android:text="@string/meeting_select_day"
+            android:textColor="@color/gray_lite_text"/>
+
+        <com.time.calendar.view.MyCalendarView
+            android:id="@+id/calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1">
+        </com.time.calendar.view.MyCalendarView>
+
+        <TextView
+            android:id="@+id/tv_select_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textView1"
+            android:layout_marginTop="370dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="20dp"
+            android:text="@string/meeting_select_room"
+            android:textColor="@color/gray_lite_text"/>
+
+        <RelativeLayout
+            android:id="@+id/rel_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_select_room">
+
+            <com.time.calendar.view.MyGridView
+                android:id="@+id/grid_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:horizontalSpacing="5dp"
+                android:listSelector="#00000000"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="5dp">
+            </com.time.calendar.view.MyGridView>
+
+            <EditText
+                android:id="@+id/tv_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/bg_meeting_room"
+                android:drawablePadding="10dp"
+                android:inputType="textPostalAddress"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/rel_room"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="20dp"
+            android:text="@string/meeting_select_duration"
+            android:textColor="@color/gray_lite_text"/>
+
+        <com.time.calendar.view.MyGridView
+            android:id="@+id/grid_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView3"
+            android:layout_margin="10dp"
+            android:horizontalSpacing="5dp"
+            android:listSelector="#00000000"
+            android:numColumns="5"
+            android:paddingBottom="20dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp">
+        </com.time.calendar.view.MyGridView>
+    </RelativeLayout>
+
+</ScrollView>

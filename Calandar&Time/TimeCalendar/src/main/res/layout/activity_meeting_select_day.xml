@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_common_page">
+
+    <LinearLayout
+        android:id="@+id/rel_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/title_blue"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/miui_top"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:background="#0f00"
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:id="@+id/rela_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/main_title_bg">
+
+            <ImageView
+                android:id="@+id/tv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="@null"
+                android:paddingRight="30dp"
+                android:src="@drawable/icon_back"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/meeting_select_date"
+                android:textColor="@color/white"
+                android:textSize="25sp"/>
+
+            <TextView
+                android:id="@+id/tv_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:text="@string/meeting_select"
+                android:textColor="@color/white"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_top">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.time.calendar.view.MyCalendarView
+                android:id="@+id/calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView1">
+            </com.time.calendar.view.MyCalendarView>
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:text="@string/meeting_select_scope"
+                android:textColor="@color/gray_lite_text"/>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView1"
+                android:layout_marginTop="370dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:text="@string/meeting_duration"
+                android:textColor="@color/gray_lite_text"/>
+
+            <com.time.calendar.view.MyGridView
+                android:id="@+id/grid_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView2"
+                android:layout_margin="10dp"
+                android:horizontalSpacing="5dp"
+                android:listSelector="#00000000"
+                android:numColumns="5"
+                android:paddingBottom="20dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="5dp">
+            </com.time.calendar.view.MyGridView>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

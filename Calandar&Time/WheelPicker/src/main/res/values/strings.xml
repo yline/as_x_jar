@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WheelPicker</string>
+
+    <string name="Year">Y</string>
+    <string name="Month">M</string>
+    <string name="Day">D</string>
+
+</resources>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="385dp"
+                android:background="@color/white">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/divider_gray"/>
+
+    <TextView
+        android:id="@+id/tv_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:padding="15dp"
+        android:text="一月"
+        android:textColor="@color/blue_text"
+        android:textSize="18sp"/>
+
+    <ImageView
+        android:id="@+id/img_forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@null"
+        android:padding="15dp"
+        android:src="@drawable/icon_arrows"/>
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:padding="15dp"
+            android:src="@drawable/icon_arrows_back"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_month"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <TextView
+            style="@style/weekName2"
+            android:text="日"/>
+
+        <TextView
+            style="@style/weekName2"
+            android:text="一"/>
+
+        <TextView
+            android:id="@+id/er"
+            style="@style/weekName2"
+            android:text="二"/>
+
+        <TextView
+            style="@style/weekName2"
+            android:text="三"/>
+
+        <TextView
+            style="@style/weekName2"
+            android:text="四"/>
+
+        <TextView
+            style="@style/weekName2"
+            android:text="五"/>
+
+        <TextView
+            style="@style/weekName2"
+            android:text="六"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/linearLayout1"
+        android:background="@color/divider_gray"/>
+
+    <com.time.calendar.view.UnSlideViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/divider_gray"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:background="@color/divider_gray"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:background="@color/divider_gray"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
+        android:background="@color/divider_gray"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="200dp"
+        android:background="@color/divider_gray"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="250dp"
+        android:background="@color/divider_gray"/>
+
+</RelativeLayout>

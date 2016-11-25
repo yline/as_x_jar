@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+    Android Wheel Control.
+    http://android-devblog.blogspot.com/2010/05/wheel-ui-contol.html
+   
+    Copyright 2010 Yuri Kanivets
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item>
+<!-- 	    滑轮边界下部   ?   滑轮边界上部 -->
+ 		<shape android:shape="rectangle">
+			<gradient
+				android:startColor="#f8f8ee"
+				android:centerColor="#f8f8ee"
+				android:endColor="#f8f8ee"
+				android:angle="90" />
+				
+				<stroke android:width="5dp" android:color="#f8f8ee" />
+		</shape>
+	</item>
+<!-- 	滑轮边框 -->
+	<item android:left="1dp" android:right="1dp" android:top="0dp" android:bottom="0dp">
+		<shape android:shape="rectangle">
+<!-- 		    背景下部 背景中部  背景上部 -->
+			<gradient
+				android:startColor="#fff"
+				android:centerColor="#fff"
+				android:endColor="#fff"
+				android:angle="90" />
+		</shape>
+	</item>
+</layer-list>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="crm_bule">#eff5ff</color>
+    <color name="gesture_background">#ff303237</color>
+    <color name="color_hei_8">#00000000</color>
+    <color name="gesture_path_paint">#703f83ff</color>
+    <color name="gray">#FF7A7A7A</color>
+    <color name="transparent">#00000000</color>
+    <color name="bg_listview">#FFEFEFEF</color>
+    <color name="blue">#FF02669F</color>
+    <color name="light_blue">#90dbfe</color>
+    <color name="bg_red">#ee2c4c</color>
+    <color name="bg_yellow">#fb9e1a</color>
+    <color name="bg_blue">#7ca0e3</color>
+    <color name="bg_gray">#ababab</color>
+    <color name="light_black">#929292</color>
+    <color name="bg_common_page">#FFEFEFEF</color>
+    <color name="divider_gray">#cdcdcd</color>
+    <color name="light_green">#43c072</color>
+
+    <drawable name="divider_gray_drawable">#cdcdcd</drawable>
+
+    <color name="light_gray">#f2f2f2</color>
+    <color name="dark_gray">#8d8d8d</color>
+    <color name="red_pink">#fc3a5f</color>
+    <!-- <drawable name="trans">@color/color_hei_8</drawable> -->
+    <color name="gray_background">#ececec</color>
+    <color name="gray_text">#555555</color>
+    <color name="sche_work_day">#595757</color>
+    <color name="sche_sunday">#a5a5aa</color>
+    <color name="sche_item">#e5eefd</color>
+    <!-- pdf -->
+    <color name="canvas">#404040</color>
+    <color name="toolbar">#C0000000</color>
+    <color name="page_indicator">#C0202020</color>
+    <color name="busy_indicator">#C0202020</color>
+    <color name="button_normal">#00000000</color>
+    <color name="button_pressed">#FF2572AC</color>
+    <color name="text_normal">#FFFFFF</color>
+    <color name="text_pressed">#FFFFFF</color>
+    <color name="text_border_normal">#000000</color>
+    <color name="text_border_pressed">#2572AC</color>
+    <color name="text_border_focused">#000000</color>
+    <color name="seek_thumb">#2572AC</color>
+    <color name="bar">#C0202020</color>
+    <color name="color_line">#3d3d3d</color>
+    <color name="progress_dialog_corlor">#8b8b8b</color>
+    <color name="title_blue">#3f83ff</color>
+    <color name="mail_text_color">#6e6e6e</color>
+    <color name="mail_bottom_color">#424242</color>
+    <color name="mail_bottom_back_color">#f4f4f4</color>
+    <color name="bg_listitem_bulletin_attachment_pressed">#FFFAFAE4</color>
+    <color name="blue_text">#3f83ff</color>
+    <color name="orange_salary">#fcb16e</color>
+    <color name="blue_salary">#54a0ff</color>
+    <color name="green_salary">#3dd9e3</color>
+    <color name="text_green">#18ca96</color>
+    <color name="gray_lite_text">#a4a4a4</color>
+    <color name="text_unselected">#e6e6e6</color>
+    <color name="schedele_bule_dark">#3f83ff</color>
+    <color name="schedele_bule_light">#e9f0fb</color>
+    <color name="schedele_gray">#f8f8f8</color>
+    <color name="schedele_bule">#3f83ff</color>
+    <color name="schedele_pink">#f14da6</color>
+    <color name="schedele_ca">#f38b2f</color>
+    <color name="schedele_green">#6eb520</color>
+    <color name="schedele_yellow">#f7ef1a</color>
+    <color name="green">#5ed739</color>
+    <color name="document_backgroud">#f3f3f3</color>
+    <color name="document_text">#666666</color>
+    <color name="line_color">#d6d6d6</color>
+    <color name="doc_grey_content">#6e6e6e</color>
+    <color name="doc_grey_time">#b2b2b2</color>
+    <color name="doc_driver">#d9d9d9</color>
+    <color name="doc_progress_bg">#f2f2f2</color>
+    <color name="doc_progress_title">#171718</color>
+    <color name="doc_progress_content">#787878</color>
+    <color name="doc_progress_time">#808080</color>
+    <color name="doc_progress_negative">#ff5e5e</color>
+    <color name="doc_progress_positive">#18ca96</color>
+    <color name="black_bottom">#383737</color>
+
+    <!-- 请假相关 -->
+    <color name="leave_bottom_bg">#f5f5f5</color>
+    <color name="leave_bottom_blue">#3f83ff</color>
+    <color name="leave_bottom_gray">#5b5b5b</color>
+    <color name="main_text_color">#338eff</color>
+    <color name="leave_text_color">#676767</color>
+
+    <!-- /请假相关 -->
+    <color name="green_btn">#6cb526</color>
+</resources>
