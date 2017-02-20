@@ -1,4 +1,4 @@
-package com.picasso.helper;
+package com.glide.helper;
 
 /**
  * Created by yline on 2017/2/20.

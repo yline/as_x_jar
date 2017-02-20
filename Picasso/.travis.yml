@@ -1,0 +1,36 @@
+language: android
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-25.0.2
+    - extra-android-m2repository
+    - android-25
+
+jdk:
+  - oraclejdk8
+
+script:
+  - ./gradlew clean check
+
+after_success:
+  - .buildscript/deploy_snapshot.sh
+
+env:
+  global:
+    - secure: "ewGvOsV2RSG7Zt4RIwc53LhC5cxN7TP1Bo6Wy/LVNLNMfvD5X1+z1KPzP4j036zAQ6fq6Oi/Y2Mn0HLYrmVxHInXq9rMzHVDRC0ygO1r/rQ4SHli8ZjiMOjICLn2rBdgZMN2UVca6iFblIkSBu7lAsU0hSL/fn5V840YIysX8Rk="
+    - secure: "CO/LRw7XKHBOYrwY7uUhwcDpkmQReYKxEWn2jX37k5fHPFU9Jps1rLrXlOU0OD5H2sAdnT2SaLLAd0lW9/dvrYbSDcmvrlDtHitg+uWe6r67kXOQpQty7jj8QKt660ThSbwrO8nSTPXzbbUPBdisE5TMyrUj1AgEhvjEEH2uQAg="
+
+branches:
+  except:
+    - gh-pages
+
+notifications:
+  email: false
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.gradle
