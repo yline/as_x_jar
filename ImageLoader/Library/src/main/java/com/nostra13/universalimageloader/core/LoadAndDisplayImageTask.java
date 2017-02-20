@@ -339,7 +339,7 @@ final class LoadAndDisplayImageTask implements Runnable, IoUtils.CopyListener
 		}
 		return bitmap;
 	}
-
+	
 	private Bitmap decodeImage(String imageUri) throws IOException
 	{
 		ViewScaleType viewScaleType = imageAware.getScaleType();

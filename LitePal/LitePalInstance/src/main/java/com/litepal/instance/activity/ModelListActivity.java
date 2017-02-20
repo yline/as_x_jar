@@ -43,7 +43,6 @@ import java.util.List;
 
 public class ModelListActivity extends Activity
 {
-
 	private ListView mModelListview;
 
 	private StringArrayAdapter mAdapter;

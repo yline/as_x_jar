@@ -23,7 +23,6 @@ import android.widget.AbsListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.nostra13.universalimageloader.sample.Constants;
-import com.nostra13.universalimageloader.sample.R;
 import com.nostra13.universalimageloader.sample.activity.SimpleImageActivity;
 
 /**
@@ -52,19 +51,19 @@ public abstract class AbsListViewBaseLoaderFragment extends BaseLoaderFragment
 	@Override
 	public void onPrepareOptionsMenu(Menu menu)
 	{
-		MenuItem pauseOnScrollItem = menu.findItem(R.id.item_pause_on_scroll);
+		/*MenuItem pauseOnScrollItem = menu.findItem(R.id.item_pause_on_scroll);
 		pauseOnScrollItem.setVisible(true);
 		pauseOnScrollItem.setChecked(pauseOnScroll);
 
 		MenuItem pauseOnFlingItem = menu.findItem(R.id.item_pause_on_fling);
 		pauseOnFlingItem.setVisible(true);
-		pauseOnFlingItem.setChecked(pauseOnFling);
+		pauseOnFlingItem.setChecked(pauseOnFling);*/
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		switch (item.getItemId())
+		/*switch (item.getItemId())
 		{
 			case R.id.item_pause_on_scroll:
 				pauseOnScroll = !pauseOnScroll;
@@ -78,9 +77,14 @@ public abstract class AbsListViewBaseLoaderFragment extends BaseLoaderFragment
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
-		}
+		}*/
+		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * 开启 Fragment,传入值,确定到哪一个
+	 * @param position
+	 */
 	protected void startImagePagerActivity(int position)
 	{
 		Intent intent = new Intent(getActivity(), SimpleImageActivity.class);

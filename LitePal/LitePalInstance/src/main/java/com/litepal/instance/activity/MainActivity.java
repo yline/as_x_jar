@@ -27,7 +27,6 @@ import com.litepal.instance.R;
 
 public class MainActivity extends Activity implements OnClickListener
 {
-
 	private Button mManageTableBtn;
 
 	private Button mCrudBtn;

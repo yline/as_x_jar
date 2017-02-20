@@ -47,6 +47,7 @@ public class UILApplication extends BaseApplication
 	@Override
 	public void onCreate()
 	{
+		// 监听 内存情况
 		if (Constants.Config.DEVELOPER_MODE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
 		{
 			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyDialog().build());
@@ -55,6 +56,7 @@ public class UILApplication extends BaseApplication
 
 		super.onCreate();
 
+		// 初始化 ImageLoader
 		initImageLoader(getApplicationContext());
 	}
 
@@ -71,6 +73,8 @@ public class UILApplication extends BaseApplication
 		config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
 		config.tasksProcessingOrder(QueueProcessingType.LIFO);
 		config.writeDebugLogs(); // Remove for release app
+
+		// config.imageDownloader(new OkHttpImageDownloader()); 配置Http方式
 
 		// Initialize ImageLoader with configuration.
 		ImageLoader.getInstance().init(config.build());

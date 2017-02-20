@@ -29,7 +29,6 @@ import com.litepal.instance.R;
 
 public class AggregateActivity extends Activity implements OnClickListener
 {
-
 	private Button mCountSampleBtn;
 
 	private Button mMaxSampleBtn;
