@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Gilde&amp;OkHttp/Gilde&amp;OkHttp.iml" filepath="$PROJECT_DIR$/Gilde&amp;OkHttp/Gilde&amp;OkHttp.iml" />
       <module fileurl="file://$PROJECT_DIR$/Glide&amp;OKHttp.iml" filepath="$PROJECT_DIR$/Glide&amp;OKHttp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Gilde&amp;OkHttp/app.iml" filepath="$PROJECT_DIR$/Gilde&amp;OkHttp/app.iml" />
     </modules>
   </component>
 </project>
