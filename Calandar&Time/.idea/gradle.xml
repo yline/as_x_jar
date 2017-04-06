@@ -3,9 +3,8 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="D:\study_adt_studio\studio\gradle\gradle-2.14.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -18,18 +17,7 @@
             <option value="$PROJECT_DIR$/WheelPickerSample" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/DatePicker" />
-            <option value="$PROJECT_DIR$/DatePickerSample" />
-            <option value="$PROJECT_DIR$/TimeCalandarPrice" />
-            <option value="$PROJECT_DIR$/TimeCalendar" />
-            <option value="$PROJECT_DIR$/TimePicker" />
-            <option value="$PROJECT_DIR$/WheelPicker" />
-            <option value="$PROJECT_DIR$/WheelPickerSample" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
