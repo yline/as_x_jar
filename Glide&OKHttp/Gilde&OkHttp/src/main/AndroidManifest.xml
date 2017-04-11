@@ -5,24 +5,30 @@
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
-        android:name=".activity.MainApplication"
+        android:name="com.yline.application.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+
+        <!-- 这个必须在 activity 的前面; debug时, 不需要去混淆 -->
+        <meta-data
+            android:name="com.glide.config.SingleGlideModule"
+            android:value="GlideModule"/>
+        <!--
+            <meta-data
+                android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+                android:value="GlideModule"/>-->
+
+        <activity android:name=".activity.InnerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ListActivity">
+        <activity android:name=".activity.SampleSingleActivity">
         </activity>
     </application>
-
-    <meta-data
-        android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
-        android:value="GlideModule"/>
 </manifest>
