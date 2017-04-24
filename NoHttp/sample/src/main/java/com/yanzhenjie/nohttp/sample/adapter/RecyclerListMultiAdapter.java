@@ -35,56 +35,64 @@ import butterknife.ButterKnife;
  *
  * @author Yan Zhenjie.
  */
-public class RecyclerListMultiAdapter extends BaseAdapter<RecyclerListMultiAdapter.TextViewHolder> {
+public class RecyclerListMultiAdapter extends BaseAdapter<RecyclerListMultiAdapter.TextViewHolder>
+{
+	private List<ListItem> mData;
 
+	private OnItemClickListener mClickListener;
 
-    private List<ListItem> mData;
+	public RecyclerListMultiAdapter(List<ListItem> data, OnItemClickListener clickListener)
+	{
+		this.mData = data;
+		this.mClickListener = clickListener;
+	}
 
-    private OnItemClickListener mClickListener;
+	@Override
+	public TextViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+	{
+		return new TextViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
+				.item_list_title_subtitle, parent, false));
+	}
 
-    public RecyclerListMultiAdapter(List<ListItem> data, OnItemClickListener clickListener) {
-        this.mData = data;
-        this.mClickListener = clickListener;
-    }
+	@Override
+	public int getItemCount()
+	{
+		return mData == null ? 0 : mData.size();
+	}
 
-    @Override
-    public TextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TextViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
-                .item_list_title_subtitle, parent, false));
-    }
+	public class TextViewHolder extends BaseAdapter.BaseViewHolder implements View.OnClickListener
+	{
 
-    @Override
-    public int getItemCount() {
-        return mData == null ? 0 : mData.size();
-    }
+		@BindView(R.id.item_list_title)
+		TextView mTextView;
 
-    public class TextViewHolder extends BaseAdapter.BaseViewHolder implements View.OnClickListener {
+		@BindView(R.id.item_list_title_sub)
+		TextView mTextViewSub;
 
-        @BindView(R.id.item_list_title)
-        TextView mTextView;
+		public TextViewHolder(View itemView)
+		{
+			super(itemView);
+			ButterKnife.bind(this, itemView);
+			itemView.setOnClickListener(this);
+		}
 
-        @BindView(R.id.item_list_title_sub)
-        TextView mTextViewSub;
+		@Override
+		public void setData()
+		{
+			ListItem listItem = mData.get(getAdapterPosition());
+			mTextView.setText(listItem.getTitle());
+			mTextViewSub.setText(listItem.getSubTitle());
+		}
 
-        public TextViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
-        }
+		@Override
+		public void onClick(View v)
+		{
+			if (mClickListener != null)
+			{
+				mClickListener.onItemClick(v, getAdapterPosition());
+			}
+		}
 
-        @Override
-        public void setData() {
-            ListItem listItem = mData.get(getAdapterPosition());
-            mTextView.setText(listItem.getTitle());
-            mTextViewSub.setText(listItem.getSubTitle());
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (mClickListener != null)
-                mClickListener.onItemClick(v, getAdapterPosition());
-        }
-
-    }
+	}
 
 }

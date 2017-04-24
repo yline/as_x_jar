@@ -27,14 +27,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.yanzhenjie.nohttp.sample.R;
-import com.yanzhenjie.nohttp.sample.dialog.ImageDialog;
-import com.yanzhenjie.nohttp.sample.nohttp.HttpListener;
-import com.yanzhenjie.nohttp.sample.nohttp.HttpResponseListener;
 import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
+import com.yanzhenjie.nohttp.sample.R;
+import com.yanzhenjie.nohttp.sample.dialog.ImageDialog;
+import com.yanzhenjie.nohttp.sample.nohttp.HttpListener;
+import com.yanzhenjie.nohttp.sample.nohttp.HttpResponseListener;
 
 import butterknife.ButterKnife;
 
@@ -43,223 +43,256 @@ import butterknife.ButterKnife;
  *
  * @author Yan Zhenjie.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity
+{
 
-    private CoordinatorLayout mCoordinatorLayout;
-    private AppBarLayout mAppBarLayout;
-    private Toolbar mToolbar;
-    private FrameLayout mContentLayout;
+	private CoordinatorLayout mCoordinatorLayout;
 
-    @Override
-    protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	private AppBarLayout mAppBarLayout;
 
-        Logger.e(getClass().getName());
-        getDelegate().setContentView(R.layout.activity_base);
+	private Toolbar mToolbar;
 
-        // 初始化请求队列，传入的参数是请求并发值。
-        mQueue = NoHttp.newRequestQueue(1);
+	private FrameLayout mContentLayout;
 
-        mCoordinatorLayout = ButterKnife.findById(this, R.id.coordinatorlayout);
-        mAppBarLayout = ButterKnife.findById(this, R.id.appbarlayout);
-        mToolbar = ButterKnife.findById(this, R.id.toolbar);
-        mContentLayout = ButterKnife.findById(this, R.id.content);
+	@Override
+	protected final void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
 
-        setSupportActionBar(mToolbar);
-        setBackBar(true);
-        onActivityCreate(savedInstanceState);
-    }
+		Logger.e(getClass().getName());
+		getDelegate().setContentView(R.layout.activity_base);
 
-    //-------------- NoHttp -----------//
+		// 初始化请求队列，传入的参数是请求并发值。
+		mQueue = NoHttp.newRequestQueue(1);
 
-    /**
-     * 用来标记取消。
-     */
-    private Object object = new Object();
+		mCoordinatorLayout = ButterKnife.findById(this, R.id.coordinatorlayout);
+		mAppBarLayout = ButterKnife.findById(this, R.id.appbarlayout);
+		mToolbar = ButterKnife.findById(this, R.id.toolbar);
+		mContentLayout = ButterKnife.findById(this, R.id.content);
 
-    /**
-     * 请求队列。
-     */
-    private RequestQueue mQueue;
+		setSupportActionBar(mToolbar);
+		setBackBar(true);
+		onActivityCreate(savedInstanceState);
+	}
 
-    /**
-     * 发起请求。
-     *
-     * @param what      what.
-     * @param request   请求对象。
-     * @param callback  回调函数。
-     * @param canCancel 是否能被用户取消。
-     * @param isLoading 实现显示加载框。
-     * @param <T>       想请求到的数据类型。
-     */
-    public <T> void request(int what, Request<T> request, HttpListener<T> callback, boolean canCancel, boolean
-            isLoading) {
-        request.setCancelSign(object);
-        mQueue.add(what, request, new HttpResponseListener<>(this, request, callback, canCancel, isLoading));
-    }
+	//-------------- NoHttp -----------//
 
-    @Override
-    protected void onDestroy() {
-        // 和声明周期绑定，退出时取消这个队列中的所有请求，当然可以在你想取消的时候取消也可以，不一定和声明周期绑定。
-        mQueue.cancelBySign(object);
+	/**
+	 * 用来标记取消。
+	 */
+	private Object object = new Object();
 
-        // 因为回调函数持有了activity，所以退出activity时请停止队列。
-        mQueue.stop();
+	/**
+	 * 请求队列。
+	 */
+	private RequestQueue mQueue;
 
-        super.onDestroy();
-    }
+	/**
+	 * 发起请求。
+	 *
+	 * @param what      what.
+	 * @param request   请求对象。
+	 * @param callback  回调函数。
+	 * @param canCancel 是否能被用户取消。
+	 * @param isLoading 实现显示加载框。
+	 * @param <T>       想请求到的数据类型。
+	 */
+	public <T> void request(int what, Request<T> request, HttpListener<T> callback, boolean canCancel, boolean
+			isLoading)
+	{
+		request.setCancelSign(object);
+		mQueue.add(what, request, new HttpResponseListener<>(this, request, callback, canCancel, isLoading));
+	}
 
-    protected void cancelAll() {
-        mQueue.cancelAll();
-    }
+	@Override
+	protected void onDestroy()
+	{
+		// 和声明周期绑定，退出时取消这个队列中的所有请求，当然可以在你想取消的时候取消也可以，不一定和声明周期绑定。
+		mQueue.cancelBySign(object);
 
-    protected void cancelBySign(Object object) {
-        mQueue.cancelBySign(object);
-    }
+		// 因为回调函数持有了activity，所以退出activity时请停止队列。
+		mQueue.stop();
 
-    // -------------------- BaseActivity的辅助封装 --------------------- //
+		super.onDestroy();
+	}
 
-    protected abstract void onActivityCreate(Bundle savedInstanceState);
+	protected void cancelAll()
+	{
+		mQueue.cancelAll();
+	}
 
-    public CoordinatorLayout getCoordinatorLayout() {
-        return mCoordinatorLayout;
-    }
+	protected void cancelBySign(Object object)
+	{
+		mQueue.cancelBySign(object);
+	}
 
-    public FrameLayout getContentLayout() {
-        return mContentLayout;
-    }
+	// -------------------- BaseActivity的辅助封装 --------------------- //
 
-    public AppBarLayout getAppBarLayout() {
-        return mAppBarLayout;
-    }
+	protected abstract void onActivityCreate(Bundle savedInstanceState);
 
-    public Toolbar getmToolbar() {
-        return mToolbar;
-    }
+	public CoordinatorLayout getCoordinatorLayout()
+	{
+		return mCoordinatorLayout;
+	}
 
-    @Override
-    public void setTitle(CharSequence title) {
-        mToolbar.setTitle(title);
-    }
+	public FrameLayout getContentLayout()
+	{
+		return mContentLayout;
+	}
 
-    @Override
-    public void setTitle(int titleId) {
-        mToolbar.setTitle(titleId);
-    }
+	public AppBarLayout getAppBarLayout()
+	{
+		return mAppBarLayout;
+	}
 
-    public void setSubtitle(CharSequence title) {
-        mToolbar.setSubtitle(title);
-    }
+	public Toolbar getmToolbar()
+	{
+		return mToolbar;
+	}
 
-    public void setSubtitle(int titleId) {
-        mToolbar.setSubtitle(titleId);
-    }
+	@Override
+	public void setTitle(CharSequence title)
+	{
+		mToolbar.setTitle(title);
+	}
 
-    public void setSubtitleTextColor(int color) {
-        mToolbar.setSubtitleTextColor(color);
-    }
+	@Override
+	public void setTitle(int titleId)
+	{
+		mToolbar.setTitle(titleId);
+	}
 
-    public void setTitleTextColor(int color) {
-        mToolbar.setTitleTextColor(color);
-    }
+	public void setSubtitle(CharSequence title)
+	{
+		mToolbar.setSubtitle(title);
+	}
 
-    public void setBackBar(boolean isShow) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(isShow);
-    }
+	public void setSubtitle(int titleId)
+	{
+		mToolbar.setSubtitle(titleId);
+	}
 
-    public void setContentBackground(int color) {
-        mContentLayout.setBackgroundResource(color);
-    }
+	public void setSubtitleTextColor(int color)
+	{
+		mToolbar.setSubtitleTextColor(color);
+	}
 
-    @Override
-    public void setContentView(int layoutResID) {
-        mContentLayout.removeAllViews();
-        getLayoutInflater().inflate(layoutResID, mContentLayout, true);
-    }
+	public void setTitleTextColor(int color)
+	{
+		mToolbar.setTitleTextColor(color);
+	}
 
-    @Override
-    public void setContentView(View view) {
-        mContentLayout.removeAllViews();
-        mContentLayout.addView(view);
-    }
+	public void setBackBar(boolean isShow)
+	{
+		getSupportActionBar().setDisplayHomeAsUpEnabled(isShow);
+	}
 
-    @Override
-    public void setContentView(View view, ViewGroup.LayoutParams params) {
-        mContentLayout.addView(view, params);
-    }
+	public void setContentBackground(int color)
+	{
+		mContentLayout.setBackgroundResource(color);
+	}
 
-    @Override
-    public final boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return onOptionsItemSelectedCompat(item);
-    }
+	@Override
+	public void setContentView(int layoutResID)
+	{
+		mContentLayout.removeAllViews();
+		getLayoutInflater().inflate(layoutResID, mContentLayout, true);
+	}
 
-    protected boolean onOptionsItemSelectedCompat(MenuItem item) {
-        return false;
-    }
+	@Override
+	public void setContentView(View view)
+	{
+		mContentLayout.removeAllViews();
+		mContentLayout.addView(view);
+	}
 
-    public ViewGroup getContentRoot() {
-        return mContentLayout;
-    }
+	@Override
+	public void setContentView(View view, ViewGroup.LayoutParams params)
+	{
+		mContentLayout.addView(view, params);
+	}
 
-    /**
-     * Show message dialog.
-     *
-     * @param title   title.
-     * @param message message.
-     */
-    public void showMessageDialog(int title, int message) {
-        showMessageDialog(getText(title), getText(message));
-    }
+	@Override
+	public final boolean onOptionsItemSelected(MenuItem item)
+	{
+		if (item.getItemId() == android.R.id.home)
+		{
+			finish();
+			return true;
+		}
+		return onOptionsItemSelectedCompat(item);
+	}
 
-    /**
-     * Show message dialog.
-     *
-     * @param title   title.
-     * @param message message.
-     */
-    public void showMessageDialog(int title, CharSequence message) {
-        showMessageDialog(getText(title), message);
-    }
+	protected boolean onOptionsItemSelectedCompat(MenuItem item)
+	{
+		return false;
+	}
 
-    /**
-     * Show message dialog.
-     *
-     * @param title   title.
-     * @param message message.
-     */
-    public void showMessageDialog(CharSequence title, int message) {
-        showMessageDialog(title, getText(message));
-    }
+	public ViewGroup getContentRoot()
+	{
+		return mContentLayout;
+	}
 
-    /**
-     * Show message dialog.
-     *
-     * @param title   title.
-     * @param message message.
-     */
-    public void showMessageDialog(CharSequence title, CharSequence message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton(R.string.know, (dialog, which) -> dialog.dismiss());
-        builder.show();
-    }
+	/**
+	 * Show message dialog.
+	 *
+	 * @param title   title.
+	 * @param message message.
+	 */
+	public void showMessageDialog(int title, int message)
+	{
+		showMessageDialog(getText(title), getText(message));
+	}
 
-    /**
-     * 显示图片dialog。
-     *
-     * @param title  标题。
-     * @param bitmap 图片。
-     */
-    public void showImageDialog(CharSequence title, Bitmap bitmap) {
-        ImageDialog imageDialog = new ImageDialog(this);
-        imageDialog.setTitle(title);
-        imageDialog.setImage(bitmap);
-        imageDialog.show();
-    }
+	/**
+	 * Show message dialog.
+	 *
+	 * @param title   title.
+	 * @param message message.
+	 */
+	public void showMessageDialog(int title, CharSequence message)
+	{
+		showMessageDialog(getText(title), message);
+	}
+
+	/**
+	 * Show message dialog.
+	 *
+	 * @param title   title.
+	 * @param message message.
+	 */
+	public void showMessageDialog(CharSequence title, int message)
+	{
+		showMessageDialog(title, getText(message));
+	}
+
+	/**
+	 * Show message dialog.
+	 *
+	 * @param title   title.
+	 * @param message message.
+	 */
+	public void showMessageDialog(CharSequence title, CharSequence message)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(R.string.know, (dialog, which) -> dialog.dismiss());
+		builder.show();
+	}
+
+	/**
+	 * 显示图片dialog。
+	 *
+	 * @param title  标题。
+	 * @param bitmap 图片。
+	 */
+	public void showImageDialog(CharSequence title, Bitmap bitmap)
+	{
+		ImageDialog imageDialog = new ImageDialog(this);
+		imageDialog.setTitle(title);
+		imageDialog.setImage(bitmap);
+		imageDialog.show();
+	}
 
 }

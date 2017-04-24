@@ -35,7 +35,6 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
@@ -43,5 +42,4 @@
         style="@style/MatchParent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_base"/>
-
 </android.support.design.widget.CoordinatorLayout>

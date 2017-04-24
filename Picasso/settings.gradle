@@ -1,5 +1,0 @@
-rootProject.name = 'picasso-root'
-
-include 'picasso'
-include 'picasso-pollexor'
-include 'picasso-sample'

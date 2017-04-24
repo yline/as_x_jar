@@ -22,12 +22,15 @@ import android.os.Bundle;
 /**
  * Created by Yan Zhenjie on 2016/10/16.
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends Activity
+{
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        startActivity(new Intent(this, WelActivity.class));
-        finish();
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		
+		startActivity(new Intent(this, WelActivity.class));
+		finish();
+	}
 }
