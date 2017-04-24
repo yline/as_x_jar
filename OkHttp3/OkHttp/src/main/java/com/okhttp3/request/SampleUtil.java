@@ -4,6 +4,7 @@ import com.okhttp3.helper.cache.CacheType;
 import com.okhttp3.helper.interceptor.CacheAndNetInterceptor;
 import com.okhttp3.helper.interceptor.CacheThanNetInterceptor;
 import com.okhttp3.helper.interceptor.NetThanCacheInterceptor;
+import com.okhttp3.helper.interceptor.OnCacheResponseCallback;
 import com.okhttp3.helper.interceptor.OnlyCacheInterceptor;
 import com.okhttp3.helper.interceptor.OnlyNetInterceptor;
 import com.yline.application.SDKManager;
@@ -32,8 +33,6 @@ import okhttp3.Response;
  */
 public class SampleUtil
 {
-	private static final String DEFAULT_CACHE_PATH = "Sample";
-
 	private static final int DEFAULT_CACHE_SIZE = 512 * 1024 * 1024;
 
 	public static void doGet(String httpUrl, CacheType cacheType, Map<String, String> map)
@@ -41,7 +40,7 @@ public class SampleUtil
 		doGet(httpUrl, cacheType, map, null);
 	}
 
-	public static void doGet(String httpUrl, CacheType cacheType, Map<String, String> map, CacheAndNetInterceptor.OnCacheResponseCallback callback)
+	public static void doGet(String httpUrl, CacheType cacheType, Map<String, String> map, OnCacheResponseCallback callback)
 	{
 		if (cacheType == CacheType.ONLY_NET)
 		{
@@ -86,7 +85,6 @@ public class SampleUtil
 		{
 			builder.addInterceptor(interceptor);
 		}
-		// builder.addNetworkInterceptor(new SampleNetworkInterceptor());
 		OkHttpClient okHttpClient = builder.build();
 
 		// Request

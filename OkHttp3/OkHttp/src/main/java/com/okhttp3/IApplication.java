@@ -5,8 +5,6 @@ import com.yline.application.BaseApplication;
 import com.yline.utils.FileUtil;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class IApplication extends BaseApplication
 {
@@ -17,8 +15,6 @@ public class IApplication extends BaseApplication
 	public void onCreate()
 	{
 		super.onCreate();
-
-		String crashTime = new SimpleDateFormat("yyyy_MM_dd", Locale.CHINA).format(Long.valueOf(System.currentTimeMillis()));
 
 		File topDir = FileUtil.getFileExternalDir(this, "text");
 		CacheManager.getInstance().init(topDir, max_size);

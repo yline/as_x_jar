@@ -14,7 +14,7 @@ import okhttp3.internal.http.HttpHeaders;
 import okhttp3.internal.io.FileSystem;
 import okio.ByteString;
 
-public class TextCache
+class TextCache
 {
 	private static final int VERSION = 201105;
 

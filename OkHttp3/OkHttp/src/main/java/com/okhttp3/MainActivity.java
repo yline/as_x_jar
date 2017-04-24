@@ -6,7 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.okhttp3.helper.cache.CacheType;
-import com.okhttp3.helper.interceptor.CacheAndNetInterceptor;
+import com.okhttp3.helper.interceptor.OnCacheResponseCallback;
 import com.okhttp3.request.SampleUtil;
 import com.yline.log.LogFileUtil;
 import com.yline.test.BaseTestActivity;
@@ -116,7 +116,7 @@ public class MainActivity extends BaseTestActivity
 
 				String httpUrl = "http://120.92.35.211/wanghong/wh/index.php/Api/ApiNews/new_tui";  // method cache
 				// String httpUrl = "http://api.nohttp.net/cache";  // method cache
-				SampleUtil.doGet(httpUrl, CacheType.CACHE_AND_NETWORK, map, new CacheAndNetInterceptor.OnCacheResponseCallback()
+				SampleUtil.doGet(httpUrl, CacheType.CACHE_AND_NETWORK, map, new OnCacheResponseCallback()
 				{
 					@Override
 					public void onCacheResponse(Response cacheResponse)

@@ -33,17 +33,7 @@ public class CacheAndNetInterceptor extends BaseInterceptor
 
 		postLog(response, System.nanoTime() - time1);
 		CacheManager.getInstance().write(response);
-
+		
 		return response;
-	}
-	
-	public interface OnCacheResponseCallback
-	{
-		/**
-		 * 返回缓存，若缓存为空，则cacheResponse == null
-		 *
-		 * @param cacheResponse
-		 */
-		void onCacheResponse(Response cacheResponse);
 	}
 }
