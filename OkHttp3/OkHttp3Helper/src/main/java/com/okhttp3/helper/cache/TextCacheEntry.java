@@ -16,6 +16,7 @@ import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.TlsVersion;
@@ -140,11 +141,19 @@ public class TextCacheEntry
 		}
 	}
 
-	public Response response(DiskLruCache.Snapshot snapshot)
+	public Response response(RequestBody requestBody, DiskLruCache.Snapshot snapshot)
 	{
 		String contentType = textCacheMap.get("Content-Type");
 		String contentLength = textCacheMap.get("Content-Length");
-		Request.Builder cacheRequestBuilder = new Request.Builder().url(url).method(requestMethod, null);
+		Request.Builder cacheRequestBuilder;
+		if (requestMethod == "GET")
+		{
+			cacheRequestBuilder = new Request.Builder().url(url).method(requestMethod, null);
+		}
+		else
+		{
+			cacheRequestBuilder = new Request.Builder().url(url).method(requestMethod, requestBody);
+		}
 		for (String key : varyCacheMap.keySet())
 		{
 			cacheRequestBuilder.header(key, varyCacheMap.get(key));

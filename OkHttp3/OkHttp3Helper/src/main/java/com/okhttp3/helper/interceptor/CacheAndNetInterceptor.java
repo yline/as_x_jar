@@ -33,7 +33,8 @@ public class CacheAndNetInterceptor extends BaseInterceptor
 
 		postLog(response, System.nanoTime() - time1);
 		CacheManager.getInstance().write(response);
-		
-		return response;
+		Response resultResponse = CacheManager.getInstance().get(request);
+
+		return resultResponse;
 	}
 }

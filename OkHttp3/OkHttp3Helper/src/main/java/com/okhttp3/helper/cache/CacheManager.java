@@ -5,11 +5,14 @@ import com.yline.log.LogFileUtil;
 import java.io.File;
 import java.io.IOException;
 
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class CacheManager
 {
+	public static final MediaType DEFAULT_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
+
 	private CacheManager()
 	{
 	}
@@ -34,7 +37,7 @@ public class CacheManager
 	/**
 	 * 写入缓存数据
 	 *
-	 * @param response
+	 * @param response 返回参数
 	 */
 	public void write(Response response)
 	{
