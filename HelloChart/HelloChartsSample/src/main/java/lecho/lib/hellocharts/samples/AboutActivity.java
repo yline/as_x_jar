@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -17,80 +19,125 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class AboutActivity extends ActionBarActivity {
-    public static final String TAG = AboutActivity.class.getSimpleName();
-    public static final String GITHUB_URL = "github.com/lecho/hellocharts-android";
+import java.lang.ref.WeakReference;
 
-    public static Pair<String, Integer> getAppVersionAndBuild(Context context) {
-        try {
-            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return new Pair<String, Integer>(pInfo.versionName, pInfo.versionCode);
-        } catch (Exception e) {
-            Log.e(TAG, "Could not get version number");
-            return new Pair<String, Integer>("", 0);
-        }
-    }
+public class AboutActivity extends ActionBarActivity
+{
+	public static final String TAG = AboutActivity.class.getSimpleName();
 
-    @SuppressLint("DefaultLocale")
-    public static boolean launchWebBrowser(Context context, String url) {
-        try {
-            url = url.toLowerCase();
-            if (!url.startsWith("http://") || !url.startsWith("https://")) {
-                url = "http://" + url;
-            }
+	public static final String GITHUB_URL = "github.com/lecho/hellocharts-android";
 
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
-            ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent,
-                    PackageManager.MATCH_DEFAULT_ONLY);
-            if (null == resolveInfo) {
-                Log.e(TAG, "No activity to handle web intent");
-                return false;
-            }
-            context.startActivity(intent);
-            Log.i(TAG, "Launching browser with url: " + url);
-            return true;
-        } catch (Exception e) {
-            Log.e(TAG, "Could not start web browser", e);
-            return false;
-        }
-    }
+	public static Pair<String, Integer> getAppVersionAndBuild(Context context)
+	{
+		try
+		{
+			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			return new Pair<String, Integer>(pInfo.versionName, pInfo.versionCode);
+		} catch (Exception e)
+		{
+			Log.e(TAG, "Could not get version number");
+			return new Pair<String, Integer>("", 0);
+		}
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
-        }
-    }
+	@SuppressLint("DefaultLocale")
+	public static boolean launchWebBrowser(Context context, String url)
+	{
+		try
+		{
+			url = url.toLowerCase();
+			if (!url.startsWith("http://") || !url.startsWith("https://"))
+			{
+				url = "http://" + url;
+			}
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse(url));
+			ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent,
+					PackageManager.MATCH_DEFAULT_ONLY);
+			if (null == resolveInfo)
+			{
+				Log.e(TAG, "No activity to handle web intent");
+				return false;
+			}
+			context.startActivity(intent);
+			Log.i(TAG, "Launching browser with url: " + url);
+			return true;
+		} catch (Exception e)
+		{
+			Log.e(TAG, "Could not start web browser", e);
+			return false;
+		}
+	}
 
-        public PlaceholderFragment() {
-        }
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_about);
+		if (savedInstanceState == null)
+		{
+			getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
+		}
+	}
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_about, container, false);
+	/**
+	 * A placeholder fragment containing a simple view.
+	 */
+	public static class PlaceholderFragment extends Fragment
+	{
 
-            TextView version = (TextView) rootView.findViewById(R.id.version);
-            version.setText(getAppVersionAndBuild(getActivity()).first);
+		public PlaceholderFragment()
+		{
+		}
 
-            TextView gotToGithub = (TextView) rootView.findViewById(R.id.go_to_github);
-            gotToGithub.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+			View rootView = inflater.inflate(R.layout.fragment_about, container, false);
 
-                @Override
-                public void onClick(View v) {
-                    launchWebBrowser(getActivity(), GITHUB_URL);
+			TextView version = (TextView) rootView.findViewById(R.id.version);
+			version.setText(getAppVersionAndBuild(getActivity()).first);
 
-                }
-            });
+			TextView gotToGithub = (TextView) rootView.findViewById(R.id.go_to_github);
+			gotToGithub.setOnClickListener(new View.OnClickListener()
+			{
 
-            return rootView;
-        }
-    }
+				@Override
+				public void onClick(View v)
+				{
+					launchWebBrowser(getActivity(), GITHUB_URL);
+
+				}
+			});
+
+			return rootView;
+		}
+	}
+
+	private class MyHandler extends Handler
+	{
+		private WeakReference<Context> reference;
+
+		public MyHandler(Context context)
+		{
+			reference = new WeakReference<>(context);
+		}
+		
+		@Override
+		public void handleMessage(Message msg)
+		{
+			super.handleMessage(msg);
+
+			reference.get();
+		}
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		Handler handler = null;
+		handler.removeCallbacksAndMessages(null);
+	}
 }
