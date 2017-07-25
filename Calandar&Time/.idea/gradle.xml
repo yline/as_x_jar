@@ -13,6 +13,10 @@
             <option value="$PROJECT_DIR$/TimeCalandarPrice" />
             <option value="$PROJECT_DIR$/TimeCalendar" />
             <option value="$PROJECT_DIR$/TimePicker" />
+            <option value="$PROJECT_DIR$/TimePickerFee" />
+            <option value="$PROJECT_DIR$/TimePickerFeeDemo" />
+            <option value="$PROJECT_DIR$/TimePickerKoo" />
+            <option value="$PROJECT_DIR$/TimePickerKooDemo" />
             <option value="$PROJECT_DIR$/WheelPicker" />
             <option value="$PROJECT_DIR$/WheelPickerSample" />
           </set>

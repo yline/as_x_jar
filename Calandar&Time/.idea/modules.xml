@@ -8,6 +8,10 @@
       <module fileurl="file://$PROJECT_DIR$/TimeCalandarPrice/TimeCalandarPrice.iml" filepath="$PROJECT_DIR$/TimeCalandarPrice/TimeCalandarPrice.iml" />
       <module fileurl="file://$PROJECT_DIR$/TimeCalendar/TimeCalendar.iml" filepath="$PROJECT_DIR$/TimeCalendar/TimeCalendar.iml" />
       <module fileurl="file://$PROJECT_DIR$/TimePicker/TimePicker.iml" filepath="$PROJECT_DIR$/TimePicker/TimePicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TimePickerFee/TimePickerFee.iml" filepath="$PROJECT_DIR$/TimePickerFee/TimePickerFee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TimePickerFeeDemo/TimePickerFeeDemo.iml" filepath="$PROJECT_DIR$/TimePickerFeeDemo/TimePickerFeeDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TimePickerKoo/TimePickerKoo.iml" filepath="$PROJECT_DIR$/TimePickerKoo/TimePickerKoo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TimePickerKooDemo/TimePickerKooDemo.iml" filepath="$PROJECT_DIR$/TimePickerKooDemo/TimePickerKooDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/WheelPicker/WheelPicker.iml" filepath="$PROJECT_DIR$/WheelPicker/WheelPicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/WheelPickerSample/WheelPickerSample.iml" filepath="$PROJECT_DIR$/WheelPickerSample/WheelPickerSample.iml" />
     </modules>
