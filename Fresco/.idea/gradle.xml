@@ -8,8 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/LitePalInstance" />
-            <option value="$PROJECT_DIR$/LitePalLib" />
+            <option value="$PROJECT_DIR$/FrescoLib" />
+            <option value="$PROJECT_DIR$/FrescoSample" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

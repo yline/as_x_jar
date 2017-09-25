@@ -1,0 +1,41 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
+    testCompile 'junit:junit:4.12'
+    compile 'com.facebook.fresco:fresco:1.5.0'
+    // 主依赖
+    compile 'com.facebook.fresco:animated-gif:1.5.0'
+    // 支持gif动图
+    compile 'com.facebook.fresco:animated-webp:1.5.0'
+    // 支持webp动态
+    compile 'com.facebook.fresco:webpsupport:1.5.0'
+    // 支持webp静态
+    compile 'com.facebook.fresco:imagepipeline-okhttp3:1.5.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+}
