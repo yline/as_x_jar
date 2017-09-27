@@ -5,16 +5,21 @@
     android:layout_height="match_parent">
 
     <com.yline.fresco.view.FrescoView
-        android:id="@+id/manager_fresco_view"
+        android:id="@+id/prefetch_fresco_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:actualImageScaleType="centerCrop"
+        app:fadeDuration="300"
+        app:retryImage="@drawable/image_retry"
+        app:retryImageScaleType="centerCrop"
         app:viewAspectRatio="1" />
 
     <TextView
-        android:id="@+id/manager_tv_hint"
-        android:layout_width="match_parent"
+        android:id="@+id/prefetch_tv_hint"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/manager_fresco_view"
+        android:layout_below="@id/prefetch_fresco_view"
         android:layout_marginTop="15dp"
-        android:paddingLeft="15dp" />
+        android:paddingLeft="15dp"
+        android:textIsSelectable="true" />
 </RelativeLayout>

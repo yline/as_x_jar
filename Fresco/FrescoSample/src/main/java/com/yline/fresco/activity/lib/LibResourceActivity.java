@@ -17,7 +17,7 @@ import com.yline.fresco.view.FrescoView;
  * @author yline 2017/9/25 -- 20:20
  * @version 1.0.0
  */
-public class FrescoManagerActivity extends BaseAppCompatActivity {
+public class LibResourceActivity extends BaseAppCompatActivity {
 
     private FrescoView frescoView;
 
@@ -26,18 +26,18 @@ public class FrescoManagerActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fresco_manager);
+        setContentView(R.layout.activity_lib_resource);
 
-        frescoView = (FrescoView) findViewById(R.id.manager_fresco_view);
-        tvHint = (TextView) findViewById(R.id.manager_tv_hint);
+        frescoView = (FrescoView) findViewById(R.id.lib_resource_fresco_view);
+        tvHint = (TextView) findViewById(R.id.lib_resource_tv_hint);
 
         FrescoManager.setImageResource(frescoView, R.drawable.image_background);
-        tvHint.setText("显示了Drawable目录");
+        tvHint.setText("显示了Drawable目录  R.drawable.image_background");
     }
 
     public static void launcher(Context context) {
         if (null != context) {
-            Intent intent = new Intent(context, FrescoManagerActivity.class);
+            Intent intent = new Intent(context, LibResourceActivity.class);
             if (!(context instanceof Activity)) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }

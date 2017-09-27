@@ -1,6 +1,7 @@
 package com.yline.fresco.view;
 
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 /**
@@ -15,9 +16,22 @@ public final class FrescoViewSafelyHolder extends FrescoViewHolder {
         super(frescoView);
     }
 
-    public void setImageUri(String imageUriString) {
-        Uri imageUri = Uri.parse(imageUriString);
+    public void setImageUri(String uriString) {
+        if (TextUtils.isEmpty(uriString)){
+            return;
+        }
+
+        Uri imageUri = Uri.parse(uriString);
         super.setImageUri(imageUri);
+    }
+
+    public void setImageUriLower(String uriLowerString) {
+        if (TextUtils.isEmpty(uriLowerString)){
+            return;
+        }
+
+        Uri imageUriLower = Uri.parse(uriLowerString);
+        super.setImageUriLower(imageUriLower);
     }
 
     public void setLayoutParams(int viewWidth, int viewHeight) {
@@ -28,11 +42,6 @@ public final class FrescoViewSafelyHolder extends FrescoViewHolder {
         } else {
             layoutParams = new ViewGroup.LayoutParams(viewWidth, viewHeight);
         }
-        super.setLayoutParams(layoutParams);
-    }
-
-    @Override
-    public void setLayoutParams(ViewGroup.LayoutParams layoutParams) {
         super.setLayoutParams(layoutParams);
     }
 }

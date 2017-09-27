@@ -19,9 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.yline.fresco.activity.sample.SingleActivity" />
-        <activity android:name="com.yline.fresco.activity.sample.RecyclerActivity" />
-        <activity android:name="com.yline.fresco.activity.lib.FrescoManagerActivity"/>
+        <activity android:name="com.yline.fresco.activity.sample.SampleSingleActivity" />
+        <activity android:name="com.yline.fresco.activity.sample.SampleRecyclerActivity" />
+        <activity android:name="com.yline.fresco.activity.lib.LibResourceActivity" />
+        <activity android:name="com.yline.fresco.activity.lib.LibUriActivity" />
+        <activity android:name="com.yline.fresco.activity.lib.LibUriParamActivity" />
+        <activity android:name="com.yline.fresco.activity.sample.SampleProgressiveLoadingActivity" />
+        <activity android:name="com.yline.fresco.activity.sample.SampleCallbackActivity" />
+        <activity android:name="com.yline.fresco.activity.sample.SampleBitmapActivity" />
+        <activity android:name="com.yline.fresco.activity.lib.LibControllerUriActivity" />
+        <activity android:name="com.yline.fresco.activity.lib.LibControllerDynamicActivity" />
+        <activity android:name="com.yline.fresco.activity.lib.LibProcessorUriActivity" />
+        <activity android:name="com.yline.fresco.activity.lib.LibControllerLowerActivity" />
+        <activity android:name="com.yline.fresco.activity.sample.SamplePrefetchActivity"></activity>
     </application>
 
 </manifest>

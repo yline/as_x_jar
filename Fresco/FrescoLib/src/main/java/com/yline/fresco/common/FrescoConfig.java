@@ -27,14 +27,6 @@ public class FrescoConfig {
         Set<RequestListener> requestListeners = new HashSet<>();
         requestListeners.add(new RequestLoggingListener());
 
-        /*// 小文件，磁盘缓存
-        DiskCacheConfig smallDiskCacheConfig = DiskCacheConfig.newBuilder(context)
-                .setBaseDirectoryPath(context.getExternalCacheDir())
-                .setBaseDirectoryName("FrescoSmall")
-                .setMaxCacheSize(256 * 1024 * 1024)
-                .setMaxCacheSizeOnLowDiskSpace(100 * 1024 * 1024)
-                .build();*/
-
         // 大图片，磁盘缓存
         DiskCacheConfig mainDiskCacheConfig = DiskCacheConfig.newBuilder(context)
                 .setBaseDirectoryPath(context.getExternalCacheDir())
@@ -45,11 +37,10 @@ public class FrescoConfig {
 
         // 从网络，从本地文件系统，本地资源加载图片和管理
         ImagePipelineConfig imagePipelineConfig = ImagePipelineConfig.newBuilder(context)
-                // .setSmallImageDiskCacheConfig(smallDiskCacheConfig)  // 小图片
-                .setMainDiskCacheConfig(mainDiskCacheConfig)        // 大图片
-                // .setBitmapsConfig(Bitmap.Config.ARGB_8888)    // 图片质量
+                .setMainDiskCacheConfig(mainDiskCacheConfig)        // 图片
                 .setRequestListeners(requestListeners)          // 监听器
                 .setNetworkFetcher(new OkHttpNetworkFetcher(new OkHttpClient()))
+                .setDownsampleEnabled(true) // 默认对图片进行自动缩放特性
                 .build();
 
         Fresco.initialize(context, imagePipelineConfig);  // 初始化
