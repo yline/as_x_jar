@@ -31,7 +31,8 @@
         <activity android:name="com.yline.fresco.activity.lib.LibControllerDynamicActivity" />
         <activity android:name="com.yline.fresco.activity.lib.LibProcessorUriActivity" />
         <activity android:name="com.yline.fresco.activity.lib.LibControllerLowerActivity" />
-        <activity android:name="com.yline.fresco.activity.sample.SamplePrefetchActivity"></activity>
+        <activity android:name="com.yline.fresco.activity.sample.SamplePrefetchActivity" />
+        <activity android:name="com.yline.fresco.activity.sample.DebugActivity"></activity>
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import com.yline.fresco.activity.lib.LibProcessorUriActivity;
 import com.yline.fresco.activity.lib.LibResourceActivity;
 import com.yline.fresco.activity.lib.LibUriActivity;
 import com.yline.fresco.activity.lib.LibUriParamActivity;
+import com.yline.fresco.activity.sample.DebugActivity;
 import com.yline.fresco.activity.sample.SampleBitmapActivity;
 import com.yline.fresco.activity.sample.SampleCallbackActivity;
 import com.yline.fresco.activity.sample.SamplePrefetchActivity;
@@ -110,6 +111,14 @@ public class MainActivity extends BaseTestActivity {
             @Override
             public void onClick(View v) {
                 SampleRecyclerActivity.launcher(MainActivity.this);
+            }
+        });
+
+        // Fresco Bug
+        addButton("DebugActivity", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DebugActivity.launcher(MainActivity.this);
             }
         });
     }
