@@ -107,19 +107,25 @@ class FrescoViewHolder {
                 @Override
                 public void onSubmit(String id, Object callerContext) {
                     super.onSubmit(id, callerContext);
-                    simpleLoadCallback.onStart(id, callerContext);
+                    if (null != simpleLoadCallback) {
+                        simpleLoadCallback.onStart(id, callerContext);
+                    }
                 }
 
                 @Override
                 public void onFailure(String id, Throwable throwable) {
                     super.onFailure(id, throwable);
-                    simpleLoadCallback.onFailure(id, throwable);
+                    {
+                        simpleLoadCallback.onFailure(id, throwable);
+                    }
                 }
 
                 @Override
                 public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
                     super.onFinalImageSet(id, imageInfo, animatable);
-                    simpleLoadCallback.onSuccess(id, imageInfo, animatable);
+                    if (null != simpleLoadCallback) {
+                        simpleLoadCallback.onSuccess(id, imageInfo, animatable);
+                    }
                 }
             });
         }
@@ -196,7 +202,7 @@ class FrescoViewHolder {
             return;
         }
 
-        if (null == fetchExecutor){
+        if (null == fetchExecutor) {
             return;
         }
 

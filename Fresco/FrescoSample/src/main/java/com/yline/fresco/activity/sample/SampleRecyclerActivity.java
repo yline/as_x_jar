@@ -3,13 +3,16 @@ package com.yline.fresco.activity.sample;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Animatable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 
+import com.facebook.imagepipeline.image.ImageInfo;
 import com.yline.base.BaseAppCompatActivity;
+import com.yline.fresco.FrescoManager;
+import com.yline.fresco.common.FrescoCallback;
 import com.yline.fresco.sample.R;
 import com.yline.fresco.view.FrescoView;
 import com.yline.test.UrlConstant;
@@ -46,7 +49,7 @@ public class SampleRecyclerActivity extends BaseAppCompatActivity {
 
         List<String> resultList = new ArrayList<>();
         for (int i = 0; i < 400; i++) {
-            resultList.add(UrlConstant.getUrl());
+            resultList.add(UrlConstant.getGif());
         }
         mRecyclerAdapter.setDataList(resultList);
     }
@@ -61,11 +64,28 @@ public class SampleRecyclerActivity extends BaseAppCompatActivity {
         @Override
         public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
             FrescoView frescoView = holder.get(R.id.fresco_view_recycler);
-            frescoView.setImageURI(sList.get(position));
-            frescoView.setOnClickListener(new View.OnClickListener() {
+            // FrescoManager.setImageUri(frescoView, sList.get(position));
+
+            FrescoManager.setDynamicUri(frescoView, sList.get(position), false, false, new FrescoCallback.OnSimpleLoadCallback() {
                 @Override
-                public void onClick(View v) {
-                    Log.e("xxx-", "onClick: uri = " + sList.get(holder.getAdapterPosition()));
+                public void onStart(String id, Object callerContext) {
+
+                }
+
+                @Override
+                public void onFailure(String id, Throwable throwable) {
+
+                }
+
+                @Override
+                public void onSuccess(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable animatable) {
+                    if (null != animatable) {
+                        if (animatable.isRunning()) {
+                            animatable.stop();
+                        } else {
+                            // animatable.start();
+                        }
+                    }
                 }
             });
         }

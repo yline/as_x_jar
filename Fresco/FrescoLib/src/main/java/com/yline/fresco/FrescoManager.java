@@ -81,6 +81,16 @@ public class FrescoManager {
         safelyHolder.buildControllerUri();
     }
 
+    public static void setDynamicUri(FrescoView frescoView, String dynamicUri, boolean isRetry, boolean isAutoPlayer, FrescoCallback.OnSimpleLoadCallback onSimpleLoadCallback) {
+        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
+
+        safelyHolder.setImageUri(dynamicUri);
+        safelyHolder.setAutoPlayAnimations(isAutoPlayer);
+        safelyHolder.setTapToRetryEnable(isRetry);
+        safelyHolder.setOnSimpleLoadCallback(onSimpleLoadCallback);
+        safelyHolder.buildControllerUri();
+    }
+
     /**
      * 显示需要处理的图片，例如高斯模糊
      */
