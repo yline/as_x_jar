@@ -1,0 +1,29 @@
+1，minSdkVersion >= 21 时
+android {
+    defaultConfig {
+        multiDexEnabled true
+    }
+}
+
+2，minSdkVersion < 21 时
+android {
+    defaultConfig {
+        multiDexEnabled true
+    }
+}
+
+dependencies {
+    compile 'com.android.support:multidex:1.0.1'
+}
+
+Application 中；attachBaseContext方法 中
+MultiDex.install(this);
+
+3，Dex分包缺点
+1）启动期间在设备数据分区中安装 DEX 文件的过程相当复杂，如果辅助 DEX 文件较大，可能会导致应用无响应 (ANR) 错误。
+在此情况下，您应该通过 ProGuard 应用代码压缩以尽量减小 DEX 文件的大小，并移除未使用的那部分代码
+2）使用 Dalvik 可执行文件分包的应用可能无法在运行的平台版本早于 Android 4.0（API 级别 14）的设备上启动。
+如果您的目标 API 级别低于 14，请务必针对这些版本的平台进行测试，因为您的应用可能会在启动时或加载特定类群时出现问题。代码压缩可以减少甚至有可能消除这些潜在问题。
+3）使用 Dalvik 可执行文件分包配置的应用发出非常庞大的内存分配请求，则可能会在运行期间发生崩溃。[暂时没有解决方案]
+尽管 Android 4.0（API 级别 14）提高了分配限制，但在 Android 5.0（API 级别 21）之前的 Android 版本上，应用仍有可能遭遇这一限制
+
