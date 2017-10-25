@@ -1,0 +1,15 @@
+借鉴：https://juejin.im/user/573dba2171cfe448aa97b7b0
+
+默认线程：
+Schedulers.computation(); // 计算使用，不会阻塞
+Schedulers.newThread(); // 启用新线程
+Schedulers.io(); // IO流读取
+Schedulers.shutdown(); // 关闭所有线程
+AndroidSchedulers.mainThread(); // Android主线程
+
+调用和被调用；所在的线程；若调用多次，则每次next一次就会切换一次；
+.subscribeOn(Schedulers.newThread())
+.observeOn(AndroidSchedulers.mainThread())
+
+
+
