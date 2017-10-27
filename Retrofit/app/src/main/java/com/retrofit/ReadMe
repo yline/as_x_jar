@@ -1,0 +1,12 @@
+Factory：
+
+Gson: com.squareup.retrofit2:converter-gson
+Jackson: com.squareup.retrofit2:converter-jackson
+Moshi: com.squareup.retrofit2:converter-moshi
+Protobuf: com.squareup.retrofit2:converter-protobuf
+Wire: com.squareup.retrofit2:converter-wire
+Simple XML: com.squareup.retrofit2:converter-simplexml
+Scalars (primitives, boxed, and String): com.squareup.retrofit2:converter-scalars
+
+注解对应方法
+Wiz笔记：Android/Android类/Retrofit/
