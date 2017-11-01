@@ -18,6 +18,7 @@
         android:layout_below="@+id/debug_fresco_view" />
 
     <LinearLayout
+        android:id="@+id/debug_ll_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/debug_tv"
@@ -45,6 +46,30 @@
             android:layout_marginRight="15dp"
             android:onClick="onFailedClick"
             android:text="onFailedClick"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/debug_ll_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/debug_ll_one"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:onClick="onEmptyClick"
+            android:text="onEmptyClick"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:onClick="onPrefetchClick"
+            android:text="onPrefetchClick"
             android:textAllCaps="false" />
     </LinearLayout>
 </RelativeLayout>

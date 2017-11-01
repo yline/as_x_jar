@@ -1,6 +1,5 @@
 package com.yline.fresco.common;
 
-
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.support.annotation.Nullable;

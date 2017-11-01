@@ -11,13 +11,16 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.imagepipeline.listener.BaseRequestListener;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.yline.base.BaseAppCompatActivity;
+import com.yline.fresco.FrescoManager;
 import com.yline.fresco.activity.IApplication;
 import com.yline.fresco.common.FrescoUtil;
 import com.yline.fresco.sample.R;
 import com.yline.fresco.view.FrescoView;
+import com.yline.log.LogFileUtil;
 import com.yline.test.UrlConstant;
 
 public class DebugActivity extends BaseAppCompatActivity {
@@ -64,6 +67,33 @@ public class DebugActivity extends BaseAppCompatActivity {
 
         String imageStr = IApplication.BenDiUrl;
         showFrescoView(imageStr);
+    }
+
+    public void onEmptyClick(View view){
+        clearCache();
+
+        String imageStr = "error";
+        FrescoManager.setImageUri(frescoView, imageStr);
+    }
+
+    public void onPrefetchClick(View view){
+        final String httpUrl = UrlConstant.getJpg_640_480();
+        LogFileUtil.v("httpUrl = " + httpUrl);
+
+        FrescoManager.prefetchToDiskCache(httpUrl, new BaseRequestListener() {
+            @Override
+            public void onRequestSuccess(ImageRequest request, String requestId, boolean isPrefetch) {
+                super.onRequestSuccess(request, requestId, isPrefetch);
+                LogFileUtil.v("onRequestSuccess");
+                LocalImageActivity.launcher(DebugActivity.this, httpUrl);
+            }
+
+            @Override
+            public void onRequestFailure(ImageRequest request, String requestId, Throwable throwable, boolean isPrefetch) {
+                super.onRequestFailure(request, requestId, throwable, isPrefetch);
+                LogFileUtil.v("onRequestFailure");
+            }
+        });
     }
 
     private void showFrescoView(String imageUriString) {

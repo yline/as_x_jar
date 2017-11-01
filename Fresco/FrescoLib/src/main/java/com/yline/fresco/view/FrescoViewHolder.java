@@ -10,6 +10,7 @@ import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
@@ -28,6 +29,7 @@ import java.util.concurrent.Executor;
  */
 class FrescoViewHolder {
     private ViewGroup.LayoutParams layoutParams; // View的大小
+    private ResizeOptions resizeOptions; // 内存图片大小
 
     private Uri imageUri; // 网络链接
     private Uri imageUriLower; // 低分辨率 图片链接
@@ -107,25 +109,19 @@ class FrescoViewHolder {
                 @Override
                 public void onSubmit(String id, Object callerContext) {
                     super.onSubmit(id, callerContext);
-                    if (null != simpleLoadCallback) {
-                        simpleLoadCallback.onStart(id, callerContext);
-                    }
+                    simpleLoadCallback.onStart(id, callerContext);
                 }
 
                 @Override
                 public void onFailure(String id, Throwable throwable) {
                     super.onFailure(id, throwable);
-                    {
-                        simpleLoadCallback.onFailure(id, throwable);
-                    }
+                    simpleLoadCallback.onFailure(id, throwable);
                 }
 
                 @Override
                 public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
                     super.onFinalImageSet(id, imageInfo, animatable);
-                    if (null != simpleLoadCallback) {
-                        simpleLoadCallback.onSuccess(id, imageInfo, animatable);
-                    }
+                    simpleLoadCallback.onSuccess(id, imageInfo, animatable);
                 }
             });
         }
@@ -161,6 +157,10 @@ class FrescoViewHolder {
         this.onSimpleProcessorCallback = onSimpleProcessorCallback;
     }
 
+    public void setResizeOptions(ResizeOptions resizeOptions) {
+        this.resizeOptions = resizeOptions;
+    }
+
     /**
      * 加载静态：
      * 1）静态图，测试过的支持 png、jpg、webp
@@ -172,6 +172,10 @@ class FrescoViewHolder {
         }
 
         ImageRequestBuilder imageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(imageUri);
+        if (null != resizeOptions){
+            imageRequestBuilder.setResizeOptions(resizeOptions);
+        }
+
         imageRequestBuilder.setPostprocessor(new BasePostprocessor() {
             @Override
             public void process(Bitmap bitmap) {
@@ -202,7 +206,7 @@ class FrescoViewHolder {
             return;
         }
 
-        if (null == fetchExecutor) {
+        if (null == fetchExecutor){
             return;
         }
 

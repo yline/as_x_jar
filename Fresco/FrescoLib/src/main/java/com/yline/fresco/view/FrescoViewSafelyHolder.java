@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
+import com.facebook.imagepipeline.common.ResizeOptions;
+
 /**
  * 入口检查
  *
@@ -17,8 +19,8 @@ public final class FrescoViewSafelyHolder extends FrescoViewHolder {
     }
 
     public void setImageUri(String uriString) {
-        if (TextUtils.isEmpty(uriString)){
-            return;
+        if (TextUtils.isEmpty(uriString)) {
+            uriString = "failure";
         }
 
         Uri imageUri = Uri.parse(uriString);
@@ -26,7 +28,7 @@ public final class FrescoViewSafelyHolder extends FrescoViewHolder {
     }
 
     public void setImageUriLower(String uriLowerString) {
-        if (TextUtils.isEmpty(uriLowerString)){
+        if (TextUtils.isEmpty(uriLowerString)) {
             return;
         }
 
@@ -43,5 +45,10 @@ public final class FrescoViewSafelyHolder extends FrescoViewHolder {
             layoutParams = new ViewGroup.LayoutParams(viewWidth, viewHeight);
         }
         super.setLayoutParams(layoutParams);
+    }
+
+    public void setResizeOptions(int bitmapWidth, int bitmapHeight) {
+        ResizeOptions resizeOptions = new ResizeOptions(bitmapWidth, bitmapHeight);
+        super.setResizeOptions(resizeOptions);
     }
 }

@@ -10,6 +10,7 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.listener.RequestListener;
 import com.facebook.imagepipeline.listener.RequestLoggingListener;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,12 +29,18 @@ public class FrescoConfig {
         requestListeners.add(new RequestLoggingListener());
 
         // 大图片，磁盘缓存
-        DiskCacheConfig mainDiskCacheConfig = DiskCacheConfig.newBuilder(context)
-                .setBaseDirectoryPath(context.getExternalCacheDir())
-                .setBaseDirectoryName("FrescoMain")
-                .setMaxCacheSize(1024 * 1024 * 1024)
-                .setMaxCacheSizeOnLowDiskSpace(100 * 1024 * 1024)
-                .build();
+        File parentPathFile = context.getExternalCacheDir();
+        DiskCacheConfig mainDiskCacheConfig;
+        if (null == parentPathFile) {
+            mainDiskCacheConfig = DiskCacheConfig.newBuilder(context).build();
+        } else {
+            mainDiskCacheConfig = DiskCacheConfig.newBuilder(context)
+                    .setBaseDirectoryPath(parentPathFile)
+                    .setBaseDirectoryName("fresco")
+                    .setMaxCacheSize(1024 * 1024 * 1024)
+                    .setMaxCacheSizeOnLowDiskSpace(100 * 1024 * 1024)
+                    .build();
+        }
 
         // 从网络，从本地文件系统，本地资源加载图片和管理
         ImagePipelineConfig imagePipelineConfig = ImagePipelineConfig.newBuilder(context)
