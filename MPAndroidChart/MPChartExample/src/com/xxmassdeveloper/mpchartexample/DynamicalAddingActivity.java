@@ -66,15 +66,17 @@ public class DynamicalAddingActivity extends DemoBase implements OnChartValueSel
         data.addEntry(new Entry(data.getDataSetByIndex(randomDataSetIndex).getEntryCount(), yValue), randomDataSetIndex);
         data.notifyDataChanged();
 
+
+
         // let the chart know it's data has changed
         mChart.notifyDataSetChanged();
 
-        mChart.setVisibleXRangeMaximum(6);
+        mChart.setVisibleXRangeMaximum(6); // notify之后设置才有效
         //mChart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
 //            
 //            // this automatically refreshes the chart (calls invalidate())
         mChart.moveViewTo(data.getEntryCount() - 7, 50f, AxisDependency.LEFT);
-
+        mChart.invalidate();
     }
 
     private void removeLastEntry() {

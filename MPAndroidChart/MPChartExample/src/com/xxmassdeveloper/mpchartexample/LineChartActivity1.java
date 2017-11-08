@@ -103,7 +103,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         llXAxis.setTextSize(10f);
 
         XAxis xAxis = mChart.getXAxis();
-        xAxis.enableGridDashedLine(10f, 10f, 0f);
+        xAxis.enableGridDashedLine(10f, 10f, 0f); // 虚线
         //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
         //xAxis.addLimitLine(llXAxis); // add x-axis limit line
 
@@ -128,7 +128,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.addLimitLine(ll1);
         leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaximum(200f);
+        leftAxis.setAxisMaximum(200f); // 范围
         leftAxis.setAxisMinimum(-50f);
         //leftAxis.setYOffset(20f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
@@ -143,7 +143,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         //mChart.getViewPortHandler().setMaximumScaleX(2f);
 
         // add data
-        setData(45, 100);
+        setData(85, 100);
 
 //        mChart.setVisibleXRange(20);
 //        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
