@@ -1,1 +1,1 @@
-include ':sample', ':PhotoFrescoView'
+include ':sample', ':PhotoFrescoViewLib'

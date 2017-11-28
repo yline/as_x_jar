@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PhotoDraweeView.iml" filepath="$PROJECT_DIR$/PhotoDraweeView.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PhotoFrescoView/PhotoFrescoView.iml" filepath="$PROJECT_DIR$/PhotoFrescoView/PhotoFrescoView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PhotoFrescoView.iml" filepath="$PROJECT_DIR$/PhotoFrescoView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PhotoFrescoViewLib/PhotoFrescoViewLib.iml" filepath="$PROJECT_DIR$/PhotoFrescoViewLib/PhotoFrescoViewLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/photodraweeview/photodraweeview.iml" filepath="$PROJECT_DIR$/photodraweeview/photodraweeview.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>
   </component>
