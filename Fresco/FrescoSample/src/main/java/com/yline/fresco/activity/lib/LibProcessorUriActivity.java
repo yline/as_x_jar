@@ -20,80 +20,77 @@ import com.yline.fresco.view.FrescoView;
 import com.yline.test.UrlConstant;
 
 public class LibProcessorUriActivity extends BaseAppCompatActivity {
-	private static final int Duration = 10_000;
+    private static final int Duration = 10_000;
 
-	private FrescoView frescoView;
+    private FrescoView frescoView;
 
-	private TextView tvHint;
+    private TextView tvHint;
 
-	private String uriStr;
+    private String uriStr;
 
-	private Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
 
-			switch (msg.what) {
-				case 0:
-					uriStr = UrlConstant.getJpg_640_960();
-					break;
-				case 1:
-					uriStr = UrlConstant.getPng_420_300();
-					break;
-				case 2:
-					uriStr = IApplication.BenDiUrl;
-					break;
-				case 3:
-					uriStr = UrlConstant.getWebp_Static();
-					break;
-				case 4:
-					uriStr = UrlConstant.getGif();
-					break;
-				case 5:
-					uriStr = UrlConstant.getWebp_Dynamic();
-					Log.i("xxx-", "handleMessage: stop");
-					break;
-			}
+            switch (msg.what) {
+                case 0:
+                    uriStr = UrlConstant.getJpg_640_960();
+                    break;
+                case 1:
+                    uriStr = UrlConstant.getPng_420_300();
+                    break;
+                case 2:
+                    uriStr = IApplication.BenDiUrl;
+                    break;
+                case 3:
+                    uriStr = UrlConstant.getWebp_Static();
+                    break;
+                case 4:
+                    uriStr = UrlConstant.getGif();
+                    break;
+                case 5:
+                    uriStr = UrlConstant.getWebp_Dynamic();
+                    Log.i("xxx-", "handleMessage: stop");
+                    break;
+            }
 
-			FrescoManager.setProcessorUri(frescoView, uriStr, processorCallback);
-			tvHint.setText(uriStr);
+            FrescoManager.setProcessorUri(frescoView, uriStr, 200, 200, processorCallback);
+            tvHint.setText(uriStr);
 
-			if (msg.what < 5) {
-				sendEmptyMessageDelayed(msg.what + 1, Duration);
-			}
-		}
-	};
+            if (msg.what < 5) {
+                sendEmptyMessageDelayed(msg.what + 1, Duration);
+            }
+        }
+    };
 
-	private FrescoCallback.OnSimpleProcessorCallback processorCallback = new FrescoCallback.OnSimpleProcessorCallback() {
-		@Override
-		public void onProcess(Bitmap bitmap) {
-			BitmapBlurHelper.blur(bitmap, 30); // 高斯模糊
+    private FrescoCallback.OnSimpleProcessorCallback processorCallback = new FrescoCallback.OnSimpleProcessorCallback() {
+        @Override
+        public void onProcess(Bitmap bitmap) {
+            BitmapBlurHelper.blur(bitmap, 30); // 高斯模糊
 
-			Log.i("xxx-", "process: Width = " + bitmap.getWidth() + ", height = " + bitmap.getHeight() + ", density = " + bitmap.getDensity());
-		}
-	};
+            Log.i("xxx-", "process: Width = " + bitmap.getWidth() + ", height = " + bitmap.getHeight() + ", density = " + bitmap.getDensity());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lib_processor_uri);
 
-		frescoView = (FrescoView) findViewById(R.id.lib_processor_uri_fresco_view);
-		tvHint = (TextView) findViewById(R.id.lib_processor_uri_tv_hint);
+        frescoView = (FrescoView) findViewById(R.id.lib_processor_uri_fresco_view);
+        tvHint = (TextView) findViewById(R.id.lib_processor_uri_tv_hint);
 
-		mHandler.sendEmptyMessage(0);
+        mHandler.sendEmptyMessage(0);
     }
-    
-    public static void launcher(Context context)
-    {
-    	if (null != context)
-    	{
-    		Intent intent = new Intent(context, LibProcessorUriActivity.class);
-    		if (!(context instanceof Activity))
-    		{
-    			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);	
-    		}
-    		context.startActivity(intent);
-    	}
+
+    public static void launcher(Context context) {
+        if (null != context) {
+            Intent intent = new Intent(context, LibProcessorUriActivity.class);
+            if (!(context instanceof Activity)) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+            context.startActivity(intent);
+        }
     }
 }

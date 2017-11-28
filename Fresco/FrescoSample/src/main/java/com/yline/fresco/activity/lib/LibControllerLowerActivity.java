@@ -59,9 +59,11 @@ public class LibControllerLowerActivity extends BaseAppCompatActivity {
                     uriStr = UrlConstant.getWebp_Static();
                     Log.i("xxx-", "handleMessage: stop");
                     break;
+                default:
+                    break;
             }
 
-            FrescoManager.setImageUri(frescoView, uriStrLower, uriStr);
+            FrescoManager.setImageUri(frescoView, uriStr);
             tvHint.setText(uriStrLower + "\n\n" + uriStr);
 
             if (msg.what < 3) {
@@ -81,16 +83,13 @@ public class LibControllerLowerActivity extends BaseAppCompatActivity {
         mHandler.sendEmptyMessage(0);
     }
 
-    public static void launcher(Context context)
-    {
-    	if (null != context)
-    	{
-    		Intent intent = new Intent(context, LibControllerLowerActivity.class);
-    		if (!(context instanceof Activity))
-    		{
-    			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    		}
-    		context.startActivity(intent);
-    	}
+    public static void launcher(Context context) {
+        if (null != context) {
+            Intent intent = new Intent(context, LibControllerLowerActivity.class);
+            if (!(context instanceof Activity)) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+            context.startActivity(intent);
+        }
     }
 }

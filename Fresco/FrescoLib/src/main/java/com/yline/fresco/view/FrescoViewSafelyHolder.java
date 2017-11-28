@@ -2,9 +2,11 @@ package com.yline.fresco.view;
 
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.facebook.imagepipeline.common.ResizeOptions;
+import com.yline.fresco.common.FrescoCallback;
 
 /**
  * 入口检查
@@ -16,6 +18,13 @@ public final class FrescoViewSafelyHolder extends FrescoViewHolder {
 
     public FrescoViewSafelyHolder(FrescoView frescoView) {
         super(frescoView);
+        setOnBdttErrorCallback(new FrescoCallback.OnBdttErrorCallback() {
+            @Override
+            public void onFailure(Uri imageUrl, String hint) {
+                Log.i("xxx-fresco", "onFailure: hint = " + hint + ", image = " + imageUrl);
+                // NetWorkUtil.isNetworkAvailable(LocalNewsApplication.getContext());
+            }
+        });
     }
 
     public void setImageUri(String uriString) {
@@ -25,15 +34,6 @@ public final class FrescoViewSafelyHolder extends FrescoViewHolder {
 
         Uri imageUri = Uri.parse(uriString);
         super.setImageUri(imageUri);
-    }
-
-    public void setImageUriLower(String uriLowerString) {
-        if (TextUtils.isEmpty(uriLowerString)) {
-            return;
-        }
-
-        Uri imageUriLower = Uri.parse(uriLowerString);
-        super.setImageUriLower(imageUriLower);
     }
 
     public void setLayoutParams(int viewWidth, int viewHeight) {

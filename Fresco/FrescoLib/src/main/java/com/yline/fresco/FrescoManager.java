@@ -24,47 +24,19 @@ public class FrescoManager {
     }
 
     /**
-     * 显示本地图片；Res目录下的
+     * 1）静态图，测试过的支持 png、jpg、webp
+     * 2）动态图，则只显示第一帧，测试过的支持 gif、webp
      */
-    public static void setImageResource(FrescoView frescoView, int imageId) {
-        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
-
-        Uri imageUri = new Uri.Builder().scheme(UriUtil.LOCAL_RESOURCE_SCHEME).path(String.valueOf(imageId)).build();
-        safelyHolder.setImageUri(imageUri);
-        safelyHolder.buildImageUri();
-    }
-
-    public static void setImageResource(FrescoView frescoView, int imageId, int width, int height) {
-        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
-
-        Uri imageUri = new Uri.Builder().scheme(UriUtil.LOCAL_RESOURCE_SCHEME).path(String.valueOf(imageId)).build();
-        safelyHolder.setImageUri(imageUri);
-        safelyHolder.setLayoutParams(width, height);
-        safelyHolder.buildImageUri();
-    }
-
-    /**
-     * 显示本地图片；文件夹下的；
-     * 不需要file:///格式
-     * 若路劲有file://开头，则直接使用setImageUri()即可
-     */
-    public static void setImageLocal(FrescoView frescoView, String path) {
-        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
-
-        Uri imageUri = new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME).path(path).build();
-        safelyHolder.setImageUri(imageUri);
-        safelyHolder.buildImageUri();
-    }
-
     public static void setImageUri(FrescoView frescoView, String imageUri) {
         FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
 
         safelyHolder.setImageUri(imageUri);
-        safelyHolder.buildImageUri();
+        safelyHolder.buildControllerUri();
     }
 
     /**
-     * 显示静态图
+     * 1）静态图，测试过的支持 png、jpg、webp
+     * 2）动态图，则只显示第一帧，测试过的支持 gif、webp
      *
      * @param width  控件宽度
      * @param height 控件高度
@@ -73,10 +45,15 @@ public class FrescoManager {
         FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
 
         safelyHolder.setLayoutParams(width, height);
+        safelyHolder.setResizeOptions(width, height);
         safelyHolder.setImageUri(imageUri);
-        safelyHolder.buildImageUri();
+        safelyHolder.buildControllerUri();
     }
 
+    /**
+     * 1）静态图，测试过的支持 png、jpg、webp
+     * 2）动态图，则只显示第一帧，测试过的支持 gif、webp
+     */
     public static void setImageUri(FrescoView frescoView, String imageUri, boolean isRetry, FrescoCallback.OnSimpleLoadCallback onSimpleLoadCallback) {
         FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
 
@@ -86,47 +63,92 @@ public class FrescoManager {
         safelyHolder.buildControllerUri();
     }
 
-    public static void setImageUri(FrescoView frescoView, String lowerImageUri, String imageUri) {
-        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
-
-        safelyHolder.setImageUriLower(lowerImageUri);
-        safelyHolder.setImageUri(imageUri);
-        safelyHolder.buildControllerComplexUri();
-    }
-
-    public static void setDynamicUri(FrescoView frescoView, String dynamicUri, boolean isRetry, FrescoCallback.OnSimpleLoadCallback onSimpleLoadCallback) {
-        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
-
-        safelyHolder.setImageUri(dynamicUri);
-        safelyHolder.setAutoPlayAnimations(true);
-        safelyHolder.setTapToRetryEnable(isRetry);
-        safelyHolder.setOnSimpleLoadCallback(onSimpleLoadCallback);
-        safelyHolder.buildControllerUri();
-    }
-
-    public static void setDynamicUri(FrescoView frescoView, String dynamicUri, boolean isRetry, boolean isAutoPlay, FrescoCallback.OnSimpleLoadCallback onSimpleLoadCallback) {
-        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
-
-        safelyHolder.setImageUri(dynamicUri);
-        safelyHolder.setAutoPlayAnimations(isAutoPlay);
-        safelyHolder.setTapToRetryEnable(isRetry);
-        safelyHolder.setOnSimpleLoadCallback(onSimpleLoadCallback);
-        safelyHolder.buildControllerUri();
-    }
-
+    /*******************************************不常用的方法*******************************************/
     /**
-     * 显示需要处理的图片，例如高斯模糊
+     * 显示本地图片；Res目录下的
+     *
+     * @param frescoView 展示的控件
+     * @param imageId    图片资源
      */
-    public static void setProcessorUri(FrescoView frescoView, String imageUri, FrescoCallback.OnSimpleProcessorCallback callback) {
+    public static void setImageResource(FrescoView frescoView, int imageId) {
         FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
 
+        Uri imageUri = new Uri.Builder().scheme(UriUtil.LOCAL_RESOURCE_SCHEME).path(String.valueOf(imageId)).build();
         safelyHolder.setImageUri(imageUri);
-        safelyHolder.setOnSimpleProcessorCallback(callback);
-        safelyHolder.buildProcessorUri();
+        safelyHolder.buildControllerUri();
     }
 
     /**
-     * 显示需要处理的图片，例如高斯模糊，可以提前指定内存图片宽高，以达到加速的效果
+     * 显示本地图片；Res目录下的
+     *
+     * @param frescoView 展示的控件
+     * @param imageId    图片资源
+     * @param width      控件宽度
+     * @param height     控件高度
+     */
+    public static void setImageResource(FrescoView frescoView, int imageId, int width, int height) {
+        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
+
+        Uri imageUri = new Uri.Builder().scheme(UriUtil.LOCAL_RESOURCE_SCHEME).path(String.valueOf(imageId)).build();
+        safelyHolder.setImageUri(imageUri);
+        safelyHolder.setLayoutParams(width, height);
+        safelyHolder.buildControllerUri();
+    }
+
+    /**
+     * 显示本地图片；文件夹下的；
+     * 不需要file:///格式
+     * 若路劲有file://开头，则直接使用setImageUri()即可
+     *
+     * @param frescoView 展示的控件
+     * @param path       图片路径
+     */
+    public static void setImageLocal(FrescoView frescoView, String path, FrescoCallback.OnSimpleLoadCallback onSimpleLoadCallback) {
+        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
+
+        Uri imageUri = new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME).path(path).build();
+        safelyHolder.setImageUri(imageUri);
+        safelyHolder.setOnSimpleLoadCallback(onSimpleLoadCallback);
+        safelyHolder.buildControllerUri();
+    }
+
+    /**
+     * 显示本地图片；文件夹下的；
+     * 不需要file:///格式
+     * 若路劲有file://开头，则直接使用setImageUri()即可
+     *
+     * @param frescoView   展示的控件
+     * @param path         图片路径
+     * @param bitmapWidth  期望图片的宽度
+     * @param bitmapHeight 期望图片的高度
+     */
+    public static void setImageLocal(FrescoView frescoView, String path, int bitmapWidth, int bitmapHeight) {
+        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
+
+        Uri imageUri = new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME).path(path).build();
+        safelyHolder.setImageUri(imageUri);
+        safelyHolder.setResizeOptions(bitmapWidth, bitmapHeight);
+        safelyHolder.buildControllerUri();
+    }
+
+    public static void setImageLocal(FrescoView frescoView, String path, int bitmapWidth, int bitmapHeight, FrescoCallback.OnSimpleLoadCallback onSimpleLoadCallback) {
+        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
+
+        Uri imageUri = new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME).path(path).build();
+        safelyHolder.setImageUri(imageUri);
+        safelyHolder.setResizeOptions(bitmapWidth, bitmapHeight);
+        safelyHolder.setOnSimpleLoadCallback(onSimpleLoadCallback);
+        safelyHolder.buildControllerUri();
+    }
+
+    /**
+     * 显示需要处理的图片；例如高斯模糊
+     *
+     * @param frescoView   展示的控件
+     * @param imageUri     图片链接
+     * @param bitmapWidth  期望图片的宽度
+     * @param bitmapHeight 期望图片的高度
+     * @param callback     处理图片的回调
      */
     public static void setProcessorUri(FrescoView frescoView, String imageUri, int bitmapWidth, int bitmapHeight, FrescoCallback.OnSimpleProcessorCallback callback) {
         FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
@@ -138,7 +160,11 @@ public class FrescoManager {
     }
 
     /**
-     * 加载图片，回调在子线程上执行
+     * 加载图片
+     *
+     * @param frescoView 展示的控件
+     * @param imageUri   图片链接
+     * @param callback   回调，在子线程上，执行
      */
     public static void fetchDecodedImageThread(FrescoView frescoView, String imageUri, FrescoCallback.OnSimpleFetchCallback callback) {
         FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
@@ -150,7 +176,11 @@ public class FrescoManager {
     }
 
     /**
-     * 加载图片，回调在UI上执行
+     * 加载图片
+     *
+     * @param frescoView 展示的控件
+     * @param imageUri   图片链接
+     * @param callback   回调，在UI上执行
      */
     public static void fetchDecodedImageUi(FrescoView frescoView, String imageUri, FrescoCallback.OnSimpleFetchCallback callback) {
         FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
@@ -163,19 +193,30 @@ public class FrescoManager {
 
     /*******************************************转接其它工具类*******************************************/
     /**
-     * 单纯的预加载
+     * 预加载图片，到磁盘中
+     *
+     * @param httpUri         图片链接
+     * @param requestListener 请求回调
      */
     public static void prefetchToDiskCache(String httpUri, BaseRequestListener requestListener) {
         FrescoUtil.prefetchToDiskCache(httpUri, requestListener);
     }
 
     /**
-     * 单纯的预加载
+     * 预加载图片，到内存中
+     *
+     * @param httpUri 图片链接
      */
     public static void prefetchToBitmapCache(String httpUri) {
         FrescoUtil.prefetchToBitmapCache(httpUri);
     }
 
+    /**
+     * 获取图片加载的，磁盘路径
+     *
+     * @param httpUrl 图片链接
+     * @return 路径
+     */
     public static String getCacheFilePath(String httpUrl) {
         return FrescoUtil.getPathFromDiskCache(httpUrl);
     }

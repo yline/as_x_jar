@@ -58,9 +58,11 @@ public class LibControllerDynamicActivity extends BaseAppCompatActivity {
                     uriStr = UrlConstant.getWebp_Dynamic();
                     Log.i("xxx-", "handleMessage: stop");
                     break;
+                default:
+                    break;
             }
 
-            FrescoManager.setDynamicUri(frescoView, uriStr, true, simpleLoadCallback);
+            FrescoManager.setImageUri(frescoView, uriStr, true, simpleLoadCallback);
             tvHint.setText(uriStr);
 
             if (msg.what < 5) {

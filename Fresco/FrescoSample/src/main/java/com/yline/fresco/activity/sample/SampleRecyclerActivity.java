@@ -66,7 +66,7 @@ public class SampleRecyclerActivity extends BaseAppCompatActivity {
             FrescoView frescoView = holder.get(R.id.fresco_view_recycler);
             // FrescoManager.setImageUri(frescoView, sList.get(position));
 
-            FrescoManager.setDynamicUri(frescoView, sList.get(position), false, false, new FrescoCallback.OnSimpleLoadCallback() {
+            FrescoManager.setImageUri(frescoView, sList.get(position), false, new FrescoCallback.OnSimpleLoadCallback() {
                 @Override
                 public void onStart(String id, Object callerContext) {
 

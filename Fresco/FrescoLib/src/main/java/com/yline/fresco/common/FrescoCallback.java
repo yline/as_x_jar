@@ -2,6 +2,7 @@ package com.yline.fresco.common;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.facebook.common.references.CloseableReference;
@@ -77,5 +78,15 @@ public class FrescoCallback {
          * @param bitmap bitmap
          */
         void onSuccess(Bitmap bitmap);
+    }
+
+    /**
+     * 图片加载失败，全局统一一个回调
+     */
+    public interface OnBdttErrorCallback {
+        /**
+         * 本地头条，加载失败
+         */
+        void onFailure(Uri imageUrl, String hint);
     }
 }
