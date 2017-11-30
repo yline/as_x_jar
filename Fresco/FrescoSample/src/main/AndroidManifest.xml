@@ -33,7 +33,8 @@
         <activity android:name="com.yline.fresco.activity.lib.LibControllerLowerActivity" />
         <activity android:name="com.yline.fresco.activity.sample.SamplePrefetchActivity" />
         <activity android:name="com.yline.fresco.activity.sample.DebugActivity" />
-        <activity android:name="com.yline.fresco.activity.sample.LocalImageActivity"></activity>
+        <activity android:name="com.yline.fresco.activity.sample.LocalImageActivity" />
+        <activity android:name="com.yline.fresco.activity.sample.SubScaleViewActivity" />
     </application>
 
 </manifest>

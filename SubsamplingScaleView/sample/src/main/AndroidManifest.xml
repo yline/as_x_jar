@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.davemorrissey.labs.subscaleview.test"
+    android:hardwareAccelerated="true"
+    android:versionCode="4"
+    android:versionName="3.1.0">
+
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="26" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="com.yline.IApplication"
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/sampleTheme">
+        <activity
+            android:name="com.yline.main.MainActivity"
+            android:label="Sub">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.yline.basicfeatures.BasicFeaturesActivity" />
+        <activity android:name="com.yline.basicfeatures.BasicFeaturesLargeActivity" />
+        <activity android:name="com.yline.basicfeatures.BasicFeaturesRegionActivity" />
+        <activity android:name="com.yline.event.EventHandlingActivity" />
+        <activity android:name="com.yline.event.EventHandlingAdvancedActivity" />
+        <activity android:name="com.yline.viewpager.ViewPagerActivity" />
+        <activity android:name="com.yline.configuration.ConfigurationActivity" />
+        <activity android:name="com.yline.extension.ExtensionPinActivity" />
+        <activity android:name=".animation.AnimationActivity" />
+        <activity android:name=".extension.ExtensionActivity" />
+        <activity android:name="com.yline.extension.ExtensionCircleActivity" />
+        <activity android:name="com.yline.extension.ExtensionFreehandActivity"></activity>
+    </application>
+
+</manifest>

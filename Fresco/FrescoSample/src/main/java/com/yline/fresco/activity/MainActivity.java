@@ -17,6 +17,7 @@ import com.yline.fresco.activity.sample.SamplePrefetchActivity;
 import com.yline.fresco.activity.sample.SampleProgressiveLoadingActivity;
 import com.yline.fresco.activity.sample.SampleRecyclerActivity;
 import com.yline.fresco.activity.sample.SampleSingleActivity;
+import com.yline.fresco.activity.sample.SubScaleViewActivity;
 import com.yline.test.BaseTestActivity;
 
 public class MainActivity extends BaseTestActivity {
@@ -119,6 +120,13 @@ public class MainActivity extends BaseTestActivity {
             @Override
             public void onClick(View v) {
                 DebugActivity.launcher(MainActivity.this);
+            }
+        });
+
+        addButton("SubScaleViewActivity", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SubScaleViewActivity.launcher(MainActivity.this);
             }
         });
     }
