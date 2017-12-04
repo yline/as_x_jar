@@ -3,11 +3,10 @@ package com.yline.fresco.activity.sample;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
+import android.text.TextUtils;
 
-import com.facebook.common.util.UriUtil;
 import com.facebook.imagepipeline.listener.BaseRequestListener;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.yline.base.BaseActivity;
@@ -16,7 +15,6 @@ import com.yline.fresco.activity.IApplication;
 import com.yline.fresco.sample.R;
 import com.yline.fresco.subscaleview.ImageSource;
 import com.yline.fresco.subscaleview.SubsamplingScaleImageView;
-import com.yline.test.UrlConstant;
 import com.yline.utils.LogUtil;
 import com.yline.utils.UIScreenUtil;
 
@@ -48,9 +46,8 @@ public class SubScaleViewActivity extends BaseActivity {
         mTime = System.currentTimeMillis();
 
 //        final String httpUrl = "http://img.benditoutiao.com/circle-image/alioss_1511577868047.jpeg";
-//        final String httpUrl = "http://192.168.2.184/android/git_api/libhttp/qingming.jpg";
-
-        final String httpUrl = UrlConstant.getSuper_Big(0); // 清明上河图，最大
+        final String httpUrl = "http://192.168.0.143/android/git_api/libhttp/scaleview_alioss.jpeg";
+//        final String httpUrl = UrlConstant.getSuper_Big(2); // 清明上河图，最大
         LogUtil.v("start ScaleView time = " + mTime + ", httpUrl = " + httpUrl + ", id = " + Process.myTid());
         FrescoManager.prefetchToDiskCache(httpUrl, new BaseRequestListener() {
             @Override
@@ -63,24 +60,28 @@ public class SubScaleViewActivity extends BaseActivity {
             public void onRequestSuccess(ImageRequest request, String requestId, boolean isPrefetch) {
                 super.onRequestSuccess(request, requestId, isPrefetch);
 
-                final String filePath = FrescoManager.getCacheFilePath(httpUrl);
-                Uri imageUri = new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME).path(filePath).build();
+                // 首次下载成功，需要缓存数据时间，测试：20M图片，300ms足够
+                int waitTime = 300;
+                final String fileUrl = FrescoManager.getCacheFilePath(httpUrl);
+                if (!TextUtils.isEmpty(fileUrl)) {
+                    waitTime = 0;
+                }
 
-                LogUtil.v("prefetch diffTime = " + (System.currentTimeMillis() - mTime) + ", imageUri = " + imageUri + ", id = " + Process.myTid());
+                LogUtil.v("prefetch diffTime = " + (System.currentTimeMillis() - mTime) + ", id = " + Process.myTid() + ", waitTime = " + waitTime);
                 mTime = System.currentTimeMillis();
 
-                IApplication.getHandler().post(new Runnable() {
+                // 1.7M; 只需要 100S; 19.7M; 500s足够
+                IApplication.getHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        String filePath = FrescoManager.getCacheFilePath(httpUrl);
                         mSubsamplingScaleImageView.setImage(ImageSource.uri(filePath)); // 图片太大，刚刚下载完成，第一次展示必定失败；所以，可以设置加载失败的图
 
-                        LogUtil.v("show ScaleView diffTime = " + (System.currentTimeMillis() - mTime));
+                        LogUtil.v("show ScaleView diffTime = " + (System.currentTimeMillis() - mTime) + ", filePath = " + filePath);
                         mTime = System.currentTimeMillis();
                     }
-                });
+                }, waitTime);
             }
         });
-
-
     }
 }
