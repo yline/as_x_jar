@@ -6,6 +6,7 @@ import android.view.View;
 import com.yline.fresco.activity.lib.LibControllerDynamicActivity;
 import com.yline.fresco.activity.lib.LibControllerLowerActivity;
 import com.yline.fresco.activity.lib.LibControllerUriActivity;
+import com.yline.fresco.activity.lib.LibOOMActivity;
 import com.yline.fresco.activity.lib.LibProcessorUriActivity;
 import com.yline.fresco.activity.lib.LibResourceActivity;
 import com.yline.fresco.activity.lib.LibUriActivity;
@@ -127,6 +128,13 @@ public class MainActivity extends BaseTestActivity {
             @Override
             public void onClick(View v) {
                 SubScaleViewActivity.launcher(MainActivity.this);
+            }
+        });
+
+        addButton("LibOOMActivity", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LibOOMActivity.launcher(MainActivity.this);
             }
         });
     }

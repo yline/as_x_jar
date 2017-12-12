@@ -10,79 +10,65 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.glide.R;
-import com.glide.helper.DeleteConstant;
 import com.yline.base.BaseAppCompatActivity;
-import com.yline.common.CommonRecyclerAdapter;
-import com.yline.common.CommonRecyclerViewHolder;
+import com.yline.test.UrlConstant;
+import com.yline.view.recycler.adapter.AbstractCommonRecyclerAdapter;
+import com.yline.view.recycler.holder.RecyclerViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SampleSingleActivity extends BaseAppCompatActivity
-{
-	private SampleSingleAdapter recyclerAdapter;
+public class SampleSingleActivity extends BaseAppCompatActivity {
+    private SampleSingleAdapter recyclerAdapter;
 
-	private List<String> dataList;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sample_single);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sample_single);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_sample_single);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerAdapter = new SampleSingleAdapter();
+        recyclerView.setAdapter(recyclerAdapter);
 
-		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_sample_single);
-		recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-		recyclerAdapter = new SampleSingleAdapter();
-		recyclerView.setAdapter(recyclerAdapter);
+        initData();
+    }
 
-		initData();
-	}
+    private void initData() {
+        List<String> dataList = new ArrayList<>();
+        for (int i = 0; i < 9_000; i++) {
+            dataList.add(UrlConstant.getUrl());
+        }
+        recyclerAdapter.setDataList(dataList, true);
+    }
 
-	private void initData()
-	{
-		dataList = new ArrayList<>();
-		for (int i = 0; i < 30; i++)
-		{
-			dataList.add(DeleteConstant.getUrlSquare());
-		}
-		recyclerAdapter.addAll(dataList);
-	}
+    private class SampleSingleAdapter extends AbstractCommonRecyclerAdapter<String> {
 
-	private class SampleSingleAdapter extends CommonRecyclerAdapter<String>
-	{
-		public SampleSingleAdapter()
-		{
-			sList = new ArrayList<>();
-		}
+        @Override
+        public int getItemRes() {
+            return R.layout.item_sample_single;
+        }
 
-		@Override
-		public int getItemRes()
-		{
-			return R.layout.item_sample_single;
-		}
+        @Override
+        public void onBindViewHolder(RecyclerViewHolder viewHolder, int position) {
+            viewHolder.setText(R.id.tv_title, getItem(position));
 
-		@Override
-		public void onBindViewHolder(CommonRecyclerViewHolder viewHolder, int position)
-		{
-			viewHolder.setText(R.id.tv_title, sList.get(position));
-
-			ImageView imageView = viewHolder.get(R.id.iv_title);
-			Glide.with(SampleSingleActivity.this) // 初始化
-					.load(sList.get(position)) // 下载资源
-					.asBitmap() // 确认是静态图片,就不加载动态了
-					.override(400, 400) // 设置加载的图片尺寸
-					.placeholder(R.mipmap.global_load_failed) // 占位图（图形和将要加载的图，需要保持比例一致；否则会导致拉伸）
-					.diskCacheStrategy(DiskCacheStrategy.RESULT) // 占位符  默认RESULT
-					.error(R.mipmap.global_load_failed)
-					.into(imageView); // 放置到View中
-			/*
-			Glide.get(SampleSingleActivity.this).clearDiskCache(); // 清理磁盘缓存 需要在子线程中执行
+            ImageView imageView = viewHolder.get(R.id.iv_title);
+            Glide.with(SampleSingleActivity.this) // 初始化
+                    .load(getItem(position)) // 下载资源
+                    .asBitmap() // 确认是静态图片,就不加载动态了
+                    .override(400, 400) // 设置加载的图片尺寸
+                    .placeholder(R.mipmap.global_load_failed) // 占位图（图形和将要加载的图，需要保持比例一致；否则会导致拉伸）
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT) // 占位符  默认RESULT
+                    .error(R.mipmap.global_load_failed)
+                    .into(imageView); // 放置到View中
+            /*
+            Glide.get(SampleSingleActivity.this).clearDiskCache(); // 清理磁盘缓存 需要在子线程中执行
 			Glide.get(SampleSingleActivity.this).clearMemory(); // 清理内存缓存  可以在UI主线程中进行*/
-		}
-	}
+        }
+    }
 
-	public static void actionStart(Context context)
-	{
-		context.startActivity(new Intent(context, SampleSingleActivity.class));
-	}
+    public static void actionStart(Context context) {
+        context.startActivity(new Intent(context, SampleSingleActivity.class));
+    }
 }

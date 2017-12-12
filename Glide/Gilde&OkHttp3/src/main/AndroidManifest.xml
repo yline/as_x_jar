@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.glide">
+    package="com.glide">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.yline.application.BaseApplication"
@@ -15,7 +16,7 @@
         <!-- 这个必须在 activity 的前面; debug时, 不需要去混淆 -->
         <meta-data
             android:name="com.glide.config.SingleGlideModule"
-            android:value="GlideModule"/>
+            android:value="GlideModule" />
         <!--
             <meta-data
                 android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
@@ -23,12 +24,11 @@
 
         <activity android:name=".activity.InnerActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SampleSingleActivity">
-        </activity>
+        <activity android:name=".activity.SampleSingleActivity" />
     </application>
 </manifest>

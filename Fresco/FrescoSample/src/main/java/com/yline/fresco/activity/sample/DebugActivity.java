@@ -69,14 +69,14 @@ public class DebugActivity extends BaseAppCompatActivity {
         showFrescoView(imageStr);
     }
 
-    public void onEmptyClick(View view){
+    public void onEmptyClick(View view) {
         clearCache();
 
         String imageStr = "error";
         FrescoManager.setImageUri(frescoView, imageStr);
     }
 
-    public void onPrefetchClick(View view){
+    public void onPrefetchClick(View view) {
         final String httpUrl = UrlConstant.getJpg_640_480();
         LogFileUtil.v("httpUrl = " + httpUrl);
 
@@ -94,6 +94,10 @@ public class DebugActivity extends BaseAppCompatActivity {
                 LogFileUtil.v("onRequestFailure");
             }
         });
+    }
+
+    public void onAvatarClick(View view) {
+        FrescoManager.setImageResource(frescoView, R.drawable.avatar);
     }
 
     private void showFrescoView(String imageUriString) {

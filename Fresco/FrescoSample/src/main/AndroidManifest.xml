@@ -35,6 +35,7 @@
         <activity android:name="com.yline.fresco.activity.sample.DebugActivity" />
         <activity android:name="com.yline.fresco.activity.sample.LocalImageActivity" />
         <activity android:name="com.yline.fresco.activity.sample.SubScaleViewActivity" />
+        <activity android:name="com.yline.fresco.activity.lib.LibOOMActivity" />
     </application>
 
 </manifest>
