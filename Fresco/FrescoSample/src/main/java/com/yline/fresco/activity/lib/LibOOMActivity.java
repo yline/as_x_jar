@@ -42,7 +42,7 @@ public class LibOOMActivity extends BaseActivity {
         setContentView(R.layout.activity_sample_recycler);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         recyclerApdater = new OOMRecyclerApdater();
         recyclerView.setAdapter(recyclerApdater);
 
@@ -55,7 +55,6 @@ public class LibOOMActivity extends BaseActivity {
     }
 
     private class OOMRecyclerApdater extends CommonRecyclerAdapter<String> {
-
         @Override
         public int getItemRes() {
             return R.layout.item_recycler;
@@ -70,7 +69,6 @@ public class LibOOMActivity extends BaseActivity {
 
 //            FrescoManager.setImageUri(frescoView, getItem(position));
         }
-
     }
 
     @Override
