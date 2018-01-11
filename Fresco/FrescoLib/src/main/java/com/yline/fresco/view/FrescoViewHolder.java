@@ -3,6 +3,7 @@ package com.yline.fresco.view;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import com.facebook.common.references.CloseableReference;
@@ -87,7 +88,7 @@ class FrescoViewHolder {
      * 2）动态图，则动画动起来，测试过的支持 gif、webp
      */
     public void buildControllerUri() {
-        if (null == imageUri) {
+        if (null == imageUri || TextUtils.isEmpty(imageUri.getPath())) {
             return;
         }
 
@@ -152,7 +153,7 @@ class FrescoViewHolder {
      * 2）动态图，直接显示第一帧高清图，不会对图片进行处理
      */
     public void buildProcessorUri() {
-        if (null == imageUri) {
+        if (null == imageUri || TextUtils.isEmpty(imageUri.getPath())) {
             return;
         }
 
@@ -202,7 +203,7 @@ class FrescoViewHolder {
     }
 
     public void buildFetchDecodedImage() {
-        if (null == imageUri) {
+        if (null == imageUri || TextUtils.isEmpty(imageUri.getPath())) {
             return;
         }
 
