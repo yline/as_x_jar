@@ -9,6 +9,6 @@
     <com.yline.fresco.view.FrescoView
         android:id="@+id/fresco_view_single"
         android:layout_width="match_parent"
-        fresco:viewAspectRatio="1.0"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        fresco:viewAspectRatio="1.0" />
 </RelativeLayout>

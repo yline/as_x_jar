@@ -16,18 +16,15 @@ import com.yline.log.LogFileUtil;
 
 public class LocalImageActivity extends AppCompatActivity {
 
-    public static void launcher(Context context,String path)
-    {
-    	if (null != context)
-    	{
-    		Intent intent = new Intent(context, LocalImageActivity.class);
+    public static void launcher(Context context, String path) {
+        if (null != context) {
+            Intent intent = new Intent(context, LocalImageActivity.class);
             intent.putExtra("httpUrl", path);
-    		if (!(context instanceof Activity))
-    		{
-    			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    		}
-    		context.startActivity(intent);
-    	}
+            if (!(context instanceof Activity)) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+            context.startActivity(intent);
+        }
     }
 
     private ImageView imageView;

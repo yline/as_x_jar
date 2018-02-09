@@ -14,4 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/sub_scale_view_rl" />
+
+    <ImageView
+        android:id="@+id/sub_scale_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

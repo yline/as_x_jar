@@ -36,6 +36,7 @@
         <activity android:name="com.yline.fresco.activity.sample.LocalImageActivity" />
         <activity android:name="com.yline.fresco.activity.sample.SubScaleViewActivity" />
         <activity android:name="com.yline.fresco.activity.lib.LibOOMActivity" />
+        <activity android:name="com.yline.fresco.activity.lib.LibViewPagerActivity"></activity>
     </application>
 
 </manifest>

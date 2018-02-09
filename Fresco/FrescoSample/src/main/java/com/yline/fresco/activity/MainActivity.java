@@ -11,6 +11,7 @@ import com.yline.fresco.activity.lib.LibProcessorUriActivity;
 import com.yline.fresco.activity.lib.LibResourceActivity;
 import com.yline.fresco.activity.lib.LibUriActivity;
 import com.yline.fresco.activity.lib.LibUriParamActivity;
+import com.yline.fresco.activity.lib.LibViewPagerActivity;
 import com.yline.fresco.activity.sample.DebugActivity;
 import com.yline.fresco.activity.sample.SampleBitmapActivity;
 import com.yline.fresco.activity.sample.SampleCallbackActivity;
@@ -71,6 +72,13 @@ public class MainActivity extends BaseTestActivity {
             @Override
             public void onClick(View v) {
                 LibProcessorUriActivity.launcher(MainActivity.this);
+            }
+        });
+
+        addButton("Lib ViewPager", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LibViewPagerActivity.launcher(MainActivity.this);
             }
         });
 
