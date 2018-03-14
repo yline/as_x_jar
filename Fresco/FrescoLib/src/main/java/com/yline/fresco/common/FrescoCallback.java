@@ -5,10 +5,8 @@ import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.DataSource;
-import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
 
 /**
  * Fresco 图片加载，最简单的回调
@@ -50,6 +48,40 @@ public class FrescoCallback {
     }
 
     /**
+     * 获取bitmap，回调
+     */
+    public interface OnSimpleFetchCallback {
+        /**
+         * Fetch 开始 {UI线程}
+         *
+         * @param request       请求配置
+         * @param callerContext 上下文，很可能为null
+         * @param requestId     任务 唯一标识
+         * @param isPrefetch    是否已经预加载
+         */
+        void onStart(ImageRequest request, Object callerContext, String requestId, boolean isPrefetch);
+
+        /**
+         * Fetch 失败回调 {子线程}
+         *
+         * @param request    请求配置
+         * @param requestId  任务 唯一标识
+         * @param throwable  异常
+         * @param isPrefetch 是否已经预加载
+         */
+        void onFailure(ImageRequest request, String requestId, Throwable throwable, boolean isPrefetch);
+
+        /**
+         * Fetch 成功回调 {子线程}
+         *
+         * @param request    请求配置
+         * @param requestId  任务 唯一标识
+         * @param isPrefetch 是否已经预加载
+         */
+        void onSuccess(ImageRequest request, String requestId, boolean isPrefetch);
+    }
+
+    /**
      * 最简单的，展示图片，bitmap处理，回调
      */
     public interface OnSimpleProcessorCallback {
@@ -59,25 +91,6 @@ public class FrescoCallback {
          * @param bitmap 操作bitmap
          */
         void onProcess(Bitmap bitmap);
-    }
-
-    /**
-     * 获取bitmap，回调
-     */
-    public interface OnSimpleFetchCallback{
-        /**
-         * 加载失败
-         * @param dataSource 提示信息
-         */
-        void onFailure(DataSource<CloseableReference<CloseableImage>> dataSource);
-
-        /**
-         * 1，无法获取动图
-         * 2，该Bitmap会被回收，无法用于显示
-         * 3，可以传给通知栏或Remote View，因为它在共享内存中copy了一份
-         * @param bitmap bitmap
-         */
-        void onSuccess(Bitmap bitmap);
     }
 
     /**

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:aigestudio="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#FFFFFF"
-              android:gravity="center"
-              android:orientation="horizontal">
+    xmlns:aigestudio="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:gravity="center"
+    android:orientation="horizontal">
 
     <com.wheelpicker.WheelPicker
         android:id="@+id/main_wheel_left"
@@ -18,7 +18,7 @@
         aigestudio:wheel_item_align="right"
         aigestudio:wheel_item_text_color="#A7A7DB"
         aigestudio:wheel_item_text_size="24sp"
-        aigestudio:wheel_selected_item_text_color="#536D8A"/>
+        aigestudio:wheel_selected_item_text_color="#536D8A" />
 
     <com.wheelpicker.WheelPicker
         android:id="@+id/main_wheel_center"
@@ -30,7 +30,7 @@
         aigestudio:wheel_cyclic="true"
         aigestudio:wheel_item_text_color="#A7A7DB"
         aigestudio:wheel_item_text_size="24sp"
-        aigestudio:wheel_selected_item_text_color="#536D8A"/>
+        aigestudio:wheel_selected_item_text_color="#536D8A" />
 
     <com.wheelpicker.WheelPicker
         android:id="@+id/main_wheel_right"
@@ -43,5 +43,5 @@
         aigestudio:wheel_item_align="left"
         aigestudio:wheel_item_text_color="#A7A7DB"
         aigestudio:wheel_item_text_size="24sp"
-        aigestudio:wheel_selected_item_text_color="#536D8A"/>
+        aigestudio:wheel_selected_item_text_color="#536D8A" />
 </LinearLayout>

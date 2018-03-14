@@ -2,15 +2,12 @@ package com.yline.fresco;
 
 import android.net.Uri;
 
-import com.facebook.common.executors.UiThreadImmediateExecutorService;
 import com.facebook.common.util.UriUtil;
 import com.facebook.imagepipeline.listener.BaseRequestListener;
 import com.yline.fresco.common.FrescoCallback;
 import com.yline.fresco.common.FrescoUtil;
 import com.yline.fresco.view.FrescoView;
 import com.yline.fresco.view.FrescoViewSafelyHolder;
-
-import java.util.concurrent.Executors;
 
 /**
  * Fresco调用工具类；大部分常用的都放在这里了；
@@ -22,6 +19,19 @@ import java.util.concurrent.Executors;
 public class FrescoManager {
     private FrescoManager() {
     }
+
+    /*******************************************定制的方法  之  webP设置 *******************************************/
+//    public static void setImageUriWithWebpSet(FrescoView frescoView, String imageUri) {
+//        imageUri = BitmapUtils.getWebpUrl(imageUri);
+//        setImageUri(frescoView, imageUri);
+//    }
+//
+//    public static void setImageUriWithWebpSet(FrescoView frescoView, String imageUri, int width, int height) {
+//        imageUri = BitmapUtils.getWebpUrl(imageUri);
+//        setImageUri(frescoView, imageUri, width, height);
+//    }
+
+    /*******************************************常用的方法*******************************************/
 
     /**
      * 1）静态图，测试过的支持 png、jpg、webp
@@ -59,6 +69,20 @@ public class FrescoManager {
 
         safelyHolder.setImageUri(imageUri);
         safelyHolder.setTapToRetryEnable(isRetry);
+        safelyHolder.setOnSimpleLoadCallback(onSimpleLoadCallback);
+        safelyHolder.buildControllerUri();
+    }
+
+    /**
+     * 1）静态图，测试过的支持 png、jpg、webp
+     * 2）动态图，则只显示第一帧，测试过的支持 gif、webp
+     */
+    public static void setImageUri(FrescoView frescoView, String imageUri, boolean isRetry, int bitmapWidth, int bitmapHeight, FrescoCallback.OnSimpleLoadCallback onSimpleLoadCallback) {
+        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
+
+        safelyHolder.setImageUri(imageUri);
+        safelyHolder.setTapToRetryEnable(isRetry);
+        safelyHolder.setResizeOptions(bitmapWidth, bitmapHeight);
         safelyHolder.setOnSimpleLoadCallback(onSimpleLoadCallback);
         safelyHolder.buildControllerUri();
     }
@@ -162,38 +186,23 @@ public class FrescoManager {
     /**
      * 加载图片
      *
-     * @param frescoView 展示的控件
      * @param imageUri   图片链接
      * @param callback   回调，在子线程上，执行
      */
-    public static void fetchDecodedImageThread(FrescoView frescoView, String imageUri, FrescoCallback.OnSimpleFetchCallback callback) {
-        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
+    public static void fetchDecodedImage(String imageUri, FrescoCallback.OnSimpleFetchCallback callback) {
+        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(null);
 
         safelyHolder.setImageUri(imageUri);
         safelyHolder.setOnSimpleFetchCallback(callback);
-        safelyHolder.setFetchExecutor(Executors.newSingleThreadExecutor());
-        safelyHolder.buildFetchDecodedImage();
-    }
-
-    /**
-     * 加载图片
-     *
-     * @param frescoView 展示的控件
-     * @param imageUri   图片链接
-     * @param callback   回调，在UI上执行
-     */
-    public static void fetchDecodedImageUi(FrescoView frescoView, String imageUri, FrescoCallback.OnSimpleFetchCallback callback) {
-        FrescoViewSafelyHolder safelyHolder = new FrescoViewSafelyHolder(frescoView);
-
-        safelyHolder.setImageUri(imageUri);
-        safelyHolder.setOnSimpleFetchCallback(callback);
-        safelyHolder.setFetchExecutor(UiThreadImmediateExecutorService.getInstance());
         safelyHolder.buildFetchDecodedImage();
     }
 
     /*******************************************转接其它工具类*******************************************/
     /**
      * 预加载图片，到磁盘中
+     * BaseRequestListener.onRequestStart  {主线程}
+     * BaseRequestListener.onRequestFailure  {子线程}
+     * BaseRequestListener.onRequestSuccess  {子线程}
      *
      * @param httpUri         图片链接
      * @param requestListener 请求回调

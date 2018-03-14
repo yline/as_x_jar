@@ -15,7 +15,6 @@ import com.yline.fresco.activity.lib.LibViewPagerActivity;
 import com.yline.fresco.activity.sample.DebugActivity;
 import com.yline.fresco.activity.sample.SampleBitmapActivity;
 import com.yline.fresco.activity.sample.SampleCallbackActivity;
-import com.yline.fresco.activity.sample.SamplePrefetchActivity;
 import com.yline.fresco.activity.sample.SampleProgressiveLoadingActivity;
 import com.yline.fresco.activity.sample.SampleRecyclerActivity;
 import com.yline.fresco.activity.sample.SampleSingleActivity;
@@ -79,13 +78,6 @@ public class MainActivity extends BaseTestActivity {
             @Override
             public void onClick(View v) {
                 LibViewPagerActivity.launcher(MainActivity.this);
-            }
-        });
-
-        addButton("Sample 预加载", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SamplePrefetchActivity.launcher(MainActivity.this);
             }
         });
 

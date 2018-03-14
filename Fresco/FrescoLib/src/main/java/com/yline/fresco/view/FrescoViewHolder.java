@@ -6,22 +6,17 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
-import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.imagepipeline.common.ImageDecodeOptions;
 import com.facebook.imagepipeline.common.ResizeOptions;
-import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
-import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.listener.BaseRequestListener;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.yline.fresco.common.FrescoCallback;
-
-import java.util.concurrent.Executor;
 
 /**
  * 特定用来配置 Fresco参数
@@ -37,8 +32,6 @@ class FrescoViewHolder {
     private ViewGroup.LayoutParams layoutParams; // View的大小
     private ResizeOptions resizeOptions; // 内存图片大小
 
-    private Executor fetchExecutor; // 获取图片的线程
-
     private boolean isAutoPlayAnimations; // 自动播放
     private boolean isTapToRetryEnable; // 重试，仅仅4次机会
 
@@ -51,7 +44,6 @@ class FrescoViewHolder {
     }
 
     public FrescoViewHolder(FrescoView view) {
-        assert null != view;
         this.frescoView = view;
     }
 
@@ -88,6 +80,10 @@ class FrescoViewHolder {
      * 2）动态图，则动画动起来，测试过的支持 gif、webp
      */
     public void buildControllerUri() {
+        if (null == frescoView) {
+            return;
+        }
+
         if (null == imageUri || TextUtils.isEmpty(imageUri.getPath())) {
             return;
         }
@@ -143,6 +139,50 @@ class FrescoViewHolder {
         frescoView.setController(controllerBuilder.build());
     }
 
+    public void setOnSimpleFetchCallback(FrescoCallback.OnSimpleFetchCallback onSimpleFetchCallback) {
+        this.onSimpleFetchCallback = onSimpleFetchCallback;
+    }
+
+    public void buildFetchDecodedImage() {
+        if (null == imageUri || TextUtils.isEmpty(imageUri.getPath())) {
+            return;
+        }
+
+        ImageRequestBuilder imageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(imageUri);
+        imageRequestBuilder.setRequestListener(new BaseRequestListener() {
+            @Override
+            public void onRequestStart(ImageRequest request, Object callerContext, String requestId, boolean isPrefetch) {
+                super.onRequestStart(request, callerContext, requestId, isPrefetch);
+                if (null != onSimpleFetchCallback) {
+                    onSimpleFetchCallback.onStart(request, callerContext, requestId, isPrefetch);
+                }
+            }
+
+            @Override
+            public void onRequestFailure(ImageRequest request, String requestId, Throwable throwable, boolean isPrefetch) {
+                super.onRequestFailure(request, requestId, throwable, isPrefetch);
+                if (null != onSimpleFetchCallback) {
+                    onSimpleFetchCallback.onFailure(request, requestId, throwable, isPrefetch);
+                }
+
+                if (null != onBdttErrorCallback) {
+                    onBdttErrorCallback.onFailure(imageUri, "buildFetchDecodedImage");
+                }
+            }
+
+            @Override
+            public void onRequestSuccess(ImageRequest request, String requestId, boolean isPrefetch) {
+                super.onRequestSuccess(request, requestId, isPrefetch);
+
+                if (null != onSimpleFetchCallback) {
+                    onSimpleFetchCallback.onSuccess(request, requestId, isPrefetch);
+                }
+            }
+        });
+
+        Fresco.getImagePipeline().fetchDecodedImage(imageRequestBuilder.build(), null);
+    }
+
     public void setOnSimpleProcessorCallback(FrescoCallback.OnSimpleProcessorCallback onSimpleProcessorCallback) {
         this.onSimpleProcessorCallback = onSimpleProcessorCallback;
     }
@@ -153,6 +193,10 @@ class FrescoViewHolder {
      * 2）动态图，直接显示第一帧高清图，不会对图片进行处理
      */
     public void buildProcessorUri() {
+        if (null == frescoView) {
+            return;
+        }
+
         if (null == imageUri || TextUtils.isEmpty(imageUri.getPath())) {
             return;
         }
@@ -192,45 +236,5 @@ class FrescoViewHolder {
         });
 
         frescoView.setController(controllerBuilder.build());
-    }
-
-    public void setFetchExecutor(Executor fetchExecutor) {
-        this.fetchExecutor = fetchExecutor;
-    }
-
-    public void setOnSimpleFetchCallback(FrescoCallback.OnSimpleFetchCallback onSimpleFetchCallback) {
-        this.onSimpleFetchCallback = onSimpleFetchCallback;
-    }
-
-    public void buildFetchDecodedImage() {
-        if (null == imageUri || TextUtils.isEmpty(imageUri.getPath())) {
-            return;
-        }
-
-        if (null == fetchExecutor) {
-            return;
-        }
-
-        ImageRequest imageRequest = ImageRequest.fromUri(imageUri);
-        DataSource<CloseableReference<CloseableImage>> dataSource = Fresco.getImagePipeline().fetchDecodedImage(imageRequest, null);
-        dataSource.subscribe(new BaseBitmapDataSubscriber() {
-            @Override
-            protected void onNewResultImpl(Bitmap bitmap) {
-                if (null != onSimpleFetchCallback) {
-                    onSimpleFetchCallback.onSuccess(bitmap);
-                }
-            }
-
-            @Override
-            protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
-                if (null != onSimpleFetchCallback) {
-                    onSimpleFetchCallback.onFailure(dataSource);
-                }
-
-                if (null != onBdttErrorCallback) {
-                    onBdttErrorCallback.onFailure(imageUri, "buildFetchDecodedImage");
-                }
-            }
-        }, fetchExecutor);
     }
 }

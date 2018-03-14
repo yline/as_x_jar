@@ -5,6 +5,9 @@ import android.content.Context;
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.common.internal.Supplier;
 import com.facebook.common.logging.FLog;
+import com.facebook.common.memory.MemoryTrimType;
+import com.facebook.common.memory.MemoryTrimmable;
+import com.facebook.common.memory.MemoryTrimmableRegistry;
 import com.facebook.common.util.ByteConstants;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher;
@@ -14,6 +17,7 @@ import com.facebook.imagepipeline.listener.RequestListener;
 import com.facebook.imagepipeline.listener.RequestLoggingListener;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,18 +31,17 @@ import okhttp3.OkHttpClient;
  */
 public class FrescoConfig {
     // bitmap缓存
-    private static final int MAX_BITMAP_CACHE_SIZE = 20 * ByteConstants.MB; // 最大缓存，磁盘大小
-    private static final int MAX_BITMAP_CACHE_ENTRIES = 16; // 最大缓存，图片个数； 按照单张图片512kb计算而来
-    private static final int MAX_BITMAP_CACHE_EVICTION_SIZE = (int) (1.5 * ByteConstants.MB); // 缓存回收的最大,内存大小
-    private static final int MAX_BITMAP_CACHE_EVICTION_ENTRIES = 6; // 缓存回收的最大，缓存个数
+    private static final int MAX_BITMAP_CACHE_SIZE = 10 * ByteConstants.MB; // 最大缓存，内存大小
+    private static final int MAX_BITMAP_CACHE_ENTRIES = 32; // 最大缓存，图片个数； 按照单张图片512kb计算而来
+    private static final int MAX_BITMAP_CACHE_EVICTION_SIZE = 5 * ByteConstants.MB; // 缓存回收的最大,内存大小
+    private static final int MAX_BITMAP_CACHE_EVICTION_ENTRIES = 16; // 缓存回收的最大，缓存个数
     private static final int MAX_BITMAP_CACHE_ENTRY_SINGLE_SIZE = 2 * ByteConstants.MB; // 单个图片，最大内存
 
     // encode缓存
-    private static final int MAX_ENCODED_CACHE_SIZE = 4 * ByteConstants.KB; // 最大缓存，磁盘大小
-    private static final int MAX_ENCODED_CACHE_ENTRIES = 6; // 最大缓存，图片个数； 按照单张图片512kb计算而来
-    private static final int MAX_ENCODED_CACHE_EVICTION_SIZE = 2 * ByteConstants.KB;
-    private static final int MAX_ENCODED_CACHE_EVICTION_ENTRIES = 6;
-    private static final int MAX_ENCODED_CACHE_ENTRY_SINGLE_SIZE = 2 * ByteConstants.KB;
+    private static final int MAX_ENCODED_CACHE_SIZE = 4 * ByteConstants.MB; // 最大缓存，磁盘大小
+    private static final int MAX_ENCODED_CACHE_ENTRIES = 32; // 最大缓存，图片个数； 按照单张图片512kb计算而来
+
+    private static ArrayList<MemoryTrimmable> mMemoryTrimmable = new ArrayList<>();
 
     public static void initConfig(Context context, boolean isDebug) {
         // 日志记录
@@ -72,26 +75,45 @@ public class FrescoConfig {
         Supplier<MemoryCacheParams> encodedMemoryCacheParamsSupplier = new Supplier<MemoryCacheParams>() {
             @Override
             public MemoryCacheParams get() {
-                return new MemoryCacheParams(MAX_ENCODED_CACHE_SIZE, MAX_ENCODED_CACHE_ENTRIES, MAX_ENCODED_CACHE_EVICTION_SIZE, MAX_ENCODED_CACHE_EVICTION_ENTRIES, MAX_ENCODED_CACHE_ENTRY_SINGLE_SIZE);
+                return new MemoryCacheParams(MAX_ENCODED_CACHE_SIZE, MAX_ENCODED_CACHE_ENTRIES, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
             }
         };
 
+        MemoryTrimmableRegistry registry = new MemoryTrimmableRegistry() {
+            @Override
+            public void registerMemoryTrimmable(MemoryTrimmable trimmable) {
+                mMemoryTrimmable.add(trimmable);
+            }
+
+            @Override
+            public void unregisterMemoryTrimmable(MemoryTrimmable trimmable) {
+                mMemoryTrimmable.remove(trimmable);
+            }
+        };
         // 从网络，从本地文件系统，本地资源加载图片和管理
         ImagePipelineConfig imagePipelineConfig = ImagePipelineConfig.newBuilder(context)
                 .setBitmapMemoryCacheParamsSupplier(bitmapMemoryCacheParamsSupplier) // 图片 bitmap内存大小
                 .setEncodedMemoryCacheParamsSupplier(encodedMemoryCacheParamsSupplier) // 图片，encode内存大小
                 .setMainDiskCacheConfig(mainDiskCacheConfig)        // 图片 磁盘大小
-                .setDownsampleEnabled(true) // 默认对图片进行自动缩放特性
+                .setDownsampleEnabled(true)
                 .setRequestListeners(requestListeners)          // 监听器
                 .setNetworkFetcher(new OkHttpNetworkFetcher(new OkHttpClient()))
+                .setDownsampleEnabled(true) // 默认对图片进行自动缩放特性
+                .setMemoryTrimmableRegistry(registry)
                 .build();
 
         Fresco.initialize(context, imagePipelineConfig);  // 初始化
-//
+
         if (isDebug) {
             FLog.setMinimumLoggingLevel(FLog.VERBOSE); // Fresco的日志工具
         } else {
             FLog.setMinimumLoggingLevel(FLog.WARN);
+        }
+    }
+
+    public static void trimMemory() {
+        for (MemoryTrimmable trimmable : mMemoryTrimmable) {
+            trimmable.trim(MemoryTrimType.OnSystemLowMemoryWhileAppInForeground);
         }
     }
 }

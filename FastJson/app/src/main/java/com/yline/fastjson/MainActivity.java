@@ -5,8 +5,8 @@ import android.view.View;
 
 import com.alibaba.fastjson.JSON;
 import com.yline.fastjson.model.Group;
-import com.yline.log.LogFileUtil;
 import com.yline.test.BaseTestActivity;
+import com.yline.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +35,8 @@ public class MainActivity extends BaseTestActivity {
                 userList.add(rootUser);
                 group.setUsers(userList);
 
-
                 String jsonString = JSON.toJSONString(group);
-                LogFileUtil.v("jsonString = " + jsonString);
+                LogUtil.v("jsonString = " + jsonString);
             }
         });
 
@@ -47,7 +46,7 @@ public class MainActivity extends BaseTestActivity {
                 String jsonString = "{\"id\":0,\"name\":\"admin\",\"users\":[{\"id\":2,\"name\":\"guest\"},{\"id\":3,\"name\":\"root\"}]}";
                 Group group = JSON.parseObject(jsonString, Group.class);
 
-                LogFileUtil.v("group = " + group);
+                LogUtil.v("group = " + group);
             }
         });
     }
