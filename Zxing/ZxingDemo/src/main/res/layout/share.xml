@@ -1,54 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <!-- Must wrap the rest in one layout -->
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/share_text_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/standard_padding">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="@dimen/standard_padding"
-            android:text="@string/msg_share_explanation"
-            android:textIsSelectable="false" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/standard_padding"
-            android:scaleType="center"
-            android:src="@drawable/share_via_barcode"
-            tools:ignore="ContentDescription" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/standard_padding">
-
-            <Button
-                android:id="@+id/share_clipboard_button"
-                style="@style/ShareButton"
-                android:layout_weight="1"
-                android:text="@string/button_share_clipboard" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/share_text_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/msg_share_text"
-            android:selectAllOnFocus="true"
-            android:singleLine="true" />
-    </LinearLayout>
-</ScrollView>
+        android:layout_centerInParent="true"
+        android:hint="@string/msg_share_text"
+        android:minLines="3"
+        android:selectAllOnFocus="true" />
+</RelativeLayout>
