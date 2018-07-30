@@ -26,18 +26,15 @@ import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.client.android.clipboard.ClipboardInterface;
 import com.google.zxing.client.android.history.HistoryActivity;
-import com.google.zxing.client.android.history.HistoryItem;
 import com.google.zxing.client.android.history.HistoryManager;
 import com.google.zxing.client.android.result.ResultButtonListener;
 import com.google.zxing.client.android.result.ResultHandler;
 import com.google.zxing.client.android.result.ResultHandlerFactory;
-import com.google.zxing.client.android.result.supplement.SupplementalInfoRetriever;
 import com.google.zxing.client.android.share.ShareActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -583,13 +580,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		contentsTextView.setText(displayContents);
 		int scaledSize = Math.max(22, 32 - displayContents.length() / 4);
 		contentsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledSize);
-		
-		TextView supplementTextView = (TextView) findViewById(R.id.contents_supplement_text_view);
-		supplementTextView.setText("");
-		supplementTextView.setOnClickListener(null);
-		if (DBManager.getInstance().getSupplemental()) {
-			SupplementalInfoRetriever.maybeInvokeRetrieval(supplementTextView, resultHandler.getResult(), historyManager, this);
-		}
 		
 		int buttonCount = resultHandler.getButtonCount();
 		ViewGroup buttonView = (ViewGroup) findViewById(R.id.result_button_view);

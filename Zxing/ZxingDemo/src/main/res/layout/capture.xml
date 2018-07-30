@@ -148,16 +148,6 @@
                         android:textColorLink="@color/result_text"
                         android:textIsSelectable="true"
                         android:textSize="22sp" />
-
-                    <TextView
-                        android:id="@+id/contents_supplement_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:autoLink="web"
-                        android:paddingLeft="12dip"
-                        android:textColor="@color/result_text"
-                        android:textColorLink="@color/result_text"
-                        android:textIsSelectable="true" />
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
