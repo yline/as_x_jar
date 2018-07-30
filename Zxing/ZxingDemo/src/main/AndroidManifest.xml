@@ -119,16 +119,6 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".book.SearchBookContentsActivity"
-                android:label="@string/sbc_name"
-                android:screenOrientation="sensorLandscape"
-                android:stateNotNeeded="true">
-            <intent-filter>
-                <action android:name="com.google.zxing.client.android.SEARCH_BOOK_CONTENTS"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
-        <activity
                 android:name=".share.ShareActivity"
                 android:screenOrientation="user"
                 android:stateNotNeeded="true">
