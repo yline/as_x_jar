@@ -51,9 +51,7 @@ final class BookResultInfoRetriever extends SupplementalInfoRetriever {
 
   @Override
   void retrieveSupplementalInfo() throws IOException {
-
-    CharSequence contents = HttpHelper.downloadViaHttp("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn,
-                                                       HttpHelper.ContentType.JSON);
+    CharSequence contents = HttpHelper.downloadViaHttp("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn, HttpHelper.ContentType.JSON);
 
     if (contents.length() == 0) {
       return;

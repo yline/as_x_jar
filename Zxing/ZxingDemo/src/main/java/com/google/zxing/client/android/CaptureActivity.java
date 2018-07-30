@@ -92,8 +92,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private static final String[] ZXING_URLS = {"http://zxing.appspot.com/scan", "zxing://scan/"};
 	
-	private static final int HISTORY_REQUEST_CODE = 0x0000bacc;
-	
 	private static final Collection<ResultMetadataType> DISPLAYABLE_METADATA_TYPES =
 			EnumSet.of(ResultMetadataType.ISSUE_NUMBER,
 					ResultMetadataType.SUGGESTED_PRICE,
@@ -181,7 +179,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		
 		// historyManager must be initialized here to update the history preference
 		historyManager = new HistoryManager(this);
-		historyManager.trimHistory();
 		
 		// CameraManager must be initialized here, not in onCreate(). This is necessary because we don't
 		// want to open the camera driver and measure the screen size if we're going to show the help on
@@ -393,23 +390,12 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				break;
 			case R.id.menu_history: // 历史记录
 				intent.setClassName(this, HistoryActivity.class.getName());
-				startActivityForResult(intent, HISTORY_REQUEST_CODE);
+				startActivity(intent);
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 		return true;
-	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		if (resultCode == RESULT_OK && requestCode == HISTORY_REQUEST_CODE && historyManager != null) {
-			int itemNumber = intent.getIntExtra(Intents.History.ITEM_NUMBER, -1);
-			if (itemNumber >= 0) {
-				HistoryItem historyItem = historyManager.buildHistoryItem(itemNumber);
-				decodeOrStoreSavedBitmap(null, historyItem.getResult());
-			}
-		}
 	}
 	
 	private void decodeOrStoreSavedBitmap(Bitmap bitmap, Result result) {
@@ -602,10 +588,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		supplementTextView.setText("");
 		supplementTextView.setOnClickListener(null);
 		if (DBManager.getInstance().getSupplemental()) {
-			SupplementalInfoRetriever.maybeInvokeRetrieval(supplementTextView,
-					resultHandler.getResult(),
-					historyManager,
-					this);
+			SupplementalInfoRetriever.maybeInvokeRetrieval(supplementTextView, resultHandler.getResult(), historyManager, this);
 		}
 		
 		int buttonCount = resultHandler.getButtonCount();

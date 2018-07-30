@@ -57,18 +57,6 @@ public final class HistoryManager {
 		enableHistory = DBManager.getInstance().getHistory();
 	}
 	
-	public boolean hasHistoryItems() {
-		SQLiteOpenHelper helper = new DBHelper(activity);
-		try (SQLiteDatabase db = helper.getReadableDatabase();
-		     Cursor cursor = db.query(DBHelper.TABLE_NAME, COUNT_COLUMN, null, null, null, null, null)) {
-			cursor.moveToFirst();
-			return cursor.getInt(0) > 0;
-		} catch (SQLException sqle) {
-			Log.w(TAG, sqle);
-			return false;
-		}
-	}
-	
 	public List<HistoryItem> buildHistoryItems() {
 		SQLiteOpenHelper helper = new DBHelper(activity);
 		List<HistoryItem> items = new ArrayList<>();
@@ -90,38 +78,6 @@ public final class HistoryManager {
 			Log.w(TAG, cioobe);
 		}
 		return items;
-	}
-	
-	public HistoryItem buildHistoryItem(int number) {
-		SQLiteOpenHelper helper = new DBHelper(activity);
-		try (SQLiteDatabase db = helper.getReadableDatabase();
-		     Cursor cursor = db.query(DBHelper.TABLE_NAME,
-				     COLUMNS,
-				     null, null, null, null,
-				     DBHelper.TIMESTAMP_COL + " DESC")) {
-			cursor.move(number + 1);
-			String text = cursor.getString(0);
-			String display = cursor.getString(1);
-			String format = cursor.getString(2);
-			long timestamp = cursor.getLong(3);
-			String details = cursor.getString(4);
-			Result result = new Result(text, null, null, BarcodeFormat.valueOf(format), timestamp);
-			return new HistoryItem(result, display, details);
-		}
-	}
-	
-	public void deleteHistoryItem(int number) {
-		SQLiteOpenHelper helper = new DBHelper(activity);
-		try (SQLiteDatabase db = helper.getWritableDatabase();
-		     Cursor cursor = db.query(DBHelper.TABLE_NAME,
-				     ID_COL_PROJECTION,
-				     null, null, null, null,
-				     DBHelper.TIMESTAMP_COL + " DESC")) {
-			cursor.move(number + 1);
-			db.delete(DBHelper.TABLE_NAME, DBHelper.ID_COL + '=' + cursor.getString(0), null);
-		} catch (SQLException sqle) {
-			Log.w(TAG, sqle);
-		}
 	}
 	
 	public void addHistoryItem(Result result, ResultHandler handler) {
@@ -200,6 +156,7 @@ public final class HistoryManager {
 		}
 	}
 	
+	
 	public void trimHistory() {
 		SQLiteOpenHelper helper = new DBHelper(activity);
 		try (SQLiteDatabase db = helper.getWritableDatabase();
@@ -218,6 +175,85 @@ public final class HistoryManager {
 		}
 	}
 	
+	public HistoryItem buildHistoryItem(int number) {
+		SQLiteOpenHelper helper = new DBHelper(activity);
+		try (SQLiteDatabase db = helper.getReadableDatabase();
+		     Cursor cursor = db.query(DBHelper.TABLE_NAME,
+				     COLUMNS,
+				     null, null, null, null,
+				     DBHelper.TIMESTAMP_COL + " DESC")) {
+			cursor.move(number + 1);
+			String text = cursor.getString(0);
+			String display = cursor.getString(1);
+			String format = cursor.getString(2);
+			long timestamp = cursor.getLong(3);
+			String details = cursor.getString(4);
+			Result result = new Result(text, null, null, BarcodeFormat.valueOf(format), timestamp);
+			return new HistoryItem(result, display, details);
+		}
+	}
+	
+	public boolean hasHistoryItems() {
+		SQLiteOpenHelper helper = new DBHelper(activity);
+		try (SQLiteDatabase db = helper.getReadableDatabase();
+		     Cursor cursor = db.query(DBHelper.TABLE_NAME, COUNT_COLUMN, null, null, null, null, null)) {
+			cursor.moveToFirst();
+			return cursor.getInt(0) > 0;
+		} catch (SQLException sqle) {
+			Log.w(TAG, sqle);
+			return false;
+		}
+	}
+	
+	/**
+	 * 清空历史记录
+	 */
+	void clearHistory() {
+		SQLiteOpenHelper helper = new DBHelper(activity);
+		try (SQLiteDatabase db = helper.getWritableDatabase()) {
+			db.delete(DBHelper.TABLE_NAME, null, null);
+		} catch (SQLException sqle) {
+			Log.w(TAG, sqle);
+		}
+	}
+	
+	/**
+	 * 将文字保存成 本地文件
+	 */
+	static Uri saveHistory(String history) {
+		File bsRoot = new File(Environment.getExternalStorageDirectory(), "BarcodeScanner");
+		File historyRoot = new File(bsRoot, "History");
+		if (!historyRoot.exists() && !historyRoot.mkdirs()) {
+			Log.w(TAG, "Couldn't make dir " + historyRoot);
+			return null;
+		}
+		File historyFile = new File(historyRoot, "history-" + System.currentTimeMillis() + ".csv");
+		try (OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(historyFile), StandardCharsets.UTF_8)) {
+			out.write(history);
+			return Uri.parse("file://" + historyFile.getAbsolutePath());
+		} catch (IOException ioe) {
+			Log.w(TAG, "Couldn't access file " + historyFile + " due to " + ioe);
+			return null;
+		}
+	}
+	
+	public void deleteHistoryItem(int number) {
+		SQLiteOpenHelper helper = new DBHelper(activity);
+		try (SQLiteDatabase db = helper.getWritableDatabase();
+		     Cursor cursor = db.query(DBHelper.TABLE_NAME,
+				     ID_COL_PROJECTION,
+				     null, null, null, null,
+				     DBHelper.TIMESTAMP_COL + " DESC")) {
+			cursor.move(number + 1);
+			db.delete(DBHelper.TABLE_NAME, DBHelper.ID_COL + '=' + cursor.getString(0), null);
+		} catch (SQLException sqle) {
+			Log.w(TAG, sqle);
+		}
+	}
+	
+	/**
+	 * 将历史整理成文字
+	 */
 	CharSequence buildHistory() {
 		StringBuilder historyText = new StringBuilder(1000);
 		SQLiteOpenHelper helper = new DBHelper(activity);
@@ -248,34 +284,7 @@ public final class HistoryManager {
 		return historyText;
 	}
 	
-	void clearHistory() {
-		SQLiteOpenHelper helper = new DBHelper(activity);
-		try (SQLiteDatabase db = helper.getWritableDatabase()) {
-			db.delete(DBHelper.TABLE_NAME, null, null);
-		} catch (SQLException sqle) {
-			Log.w(TAG, sqle);
-		}
-	}
-	
-	static Uri saveHistory(String history) {
-		File bsRoot = new File(Environment.getExternalStorageDirectory(), "BarcodeScanner");
-		File historyRoot = new File(bsRoot, "History");
-		if (!historyRoot.exists() && !historyRoot.mkdirs()) {
-			Log.w(TAG, "Couldn't make dir " + historyRoot);
-			return null;
-		}
-		File historyFile = new File(historyRoot, "history-" + System.currentTimeMillis() + ".csv");
-		try (OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(historyFile), StandardCharsets.UTF_8)) {
-			out.write(history);
-			return Uri.parse("file://" + historyFile.getAbsolutePath());
-		} catch (IOException ioe) {
-			Log.w(TAG, "Couldn't access file " + historyFile + " due to " + ioe);
-			return null;
-		}
-	}
-	
 	private static String massageHistoryField(String value) {
 		return value == null ? "" : DOUBLE_QUOTE.matcher(value).replaceAll("\"\"");
 	}
-	
 }
