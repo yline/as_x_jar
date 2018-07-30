@@ -17,19 +17,17 @@
 package com.google.zxing.client.android.camera;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.hardware.Camera;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
 import com.google.zxing.client.android.CameraConfigurationUtils;
-import com.google.zxing.client.android.PreferencesActivity;
 import com.google.zxing.client.android.camera.open.CameraFacing;
 import com.google.zxing.client.android.camera.open.OpenCamera;
+import com.zxing.demo.DBManager;
 
 /**
  * A class which deals with reading, parsing, and setting the camera parameters which are used to
@@ -94,20 +92,6 @@ final class CameraConfigurationManager {
             Log.i(TAG, "Front camera overriden to: " + cwRotationFromNaturalToCamera);
         }
 
-    /*
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    String overrideRotationString;
-    if (camera.getFacing() == CameraFacing.FRONT) {
-      overrideRotationString = prefs.getString(PreferencesActivity.KEY_FORCE_CAMERA_ORIENTATION_FRONT, null);
-    } else {
-      overrideRotationString = prefs.getString(PreferencesActivity.KEY_FORCE_CAMERA_ORIENTATION, null);
-    }
-    if (overrideRotationString != null && !"-".equals(overrideRotationString)) {
-      Log.i(TAG, "Overriding camera manually to " + overrideRotationString);
-      cwRotationFromNaturalToCamera = Integer.parseInt(overrideRotationString);
-    }
-     */
-
         cwRotationFromDisplayToCamera =
                 (360 + cwRotationFromNaturalToCamera - cwRotationFromNaturalToDisplay) % 360;
         Log.i(TAG, "Final display orientation: " + cwRotationFromDisplayToCamera);
@@ -155,26 +139,24 @@ final class CameraConfigurationManager {
             Log.w(TAG, "In camera config safe mode -- most settings will not be honored");
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        initializeTorch(parameters, prefs, safeMode);
+        initializeTorch(parameters, safeMode);
 
         CameraConfigurationUtils.setFocus(
                 parameters,
-                prefs.getBoolean(PreferencesActivity.KEY_AUTO_FOCUS, true),
-                prefs.getBoolean(PreferencesActivity.KEY_DISABLE_CONTINUOUS_FOCUS, true),
+		        DBManager.getInstance().getAutoFocus(),
+                DBManager.getInstance().getDisableContinuousFocus(),
                 safeMode);
 
         if (!safeMode) {
-            if (prefs.getBoolean(PreferencesActivity.KEY_INVERT_SCAN, false)) {
+            if (DBManager.getInstance().getInvertScan()) {
                 CameraConfigurationUtils.setInvertColor(parameters);
             }
 
-            if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_BARCODE_SCENE_MODE, true)) {
+            if (!DBManager.getInstance().getDisableBarcodeSceneMode()) {
                 CameraConfigurationUtils.setBarcodeSceneMode(parameters);
             }
 
-            if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_METERING, true)) {
+            if (!DBManager.getInstance().getDisableMetering()) {
                 CameraConfigurationUtils.setVideoStabilization(parameters);
                 CameraConfigurationUtils.setFocusArea(parameters);
                 CameraConfigurationUtils.setMetering(parameters);
@@ -241,15 +223,14 @@ final class CameraConfigurationManager {
         camera.setParameters(parameters);
     }
 
-    private void initializeTorch(Camera.Parameters parameters, SharedPreferences prefs, boolean safeMode) {
-        boolean currentSetting = FrontLightMode.readPref(prefs) == FrontLightMode.ON;
+    private void initializeTorch(Camera.Parameters parameters, boolean safeMode) {
+        boolean currentSetting = FrontLightMode.readPref() == FrontLightMode.ON;
         doSetTorch(parameters, currentSetting, safeMode);
     }
 
     private void doSetTorch(Camera.Parameters parameters, boolean newSetting, boolean safeMode) {
         CameraConfigurationUtils.setTorch(parameters, newSetting);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (!safeMode && !prefs.getBoolean(PreferencesActivity.KEY_DISABLE_EXPOSURE, true)) {
+        if (!safeMode && !DBManager.getInstance().getDisableExposure()) {
             CameraConfigurationUtils.setBestExposure(parameters, newSetting);
         }
     }

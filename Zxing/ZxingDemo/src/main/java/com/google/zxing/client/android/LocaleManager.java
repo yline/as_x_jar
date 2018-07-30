@@ -17,8 +17,8 @@
 package com.google.zxing.client.android;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import com.zxing.demo.DBManager;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -176,8 +176,7 @@ public final class LocaleManager {
   }
 
   private static String getCountry(Context context) {
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    String countryOverride = prefs.getString(PreferencesActivity.KEY_SEARCH_COUNTRY, "-");
+    String countryOverride = DBManager.getInstance().getSearchCountry();
     if (countryOverride != null && !countryOverride.isEmpty() && !"-".equals(countryOverride)) {
       return countryOverride;
     }
