@@ -151,31 +151,6 @@
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
-
-        <!-- 分享方式 -->
-        <LinearLayout
-            android:id="@+id/result_button_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                style="@style/ResultButton"
-                android:visibility="gone" />
-
-            <Button
-                style="@style/ResultButton"
-                android:visibility="gone" />
-
-            <Button
-                style="@style/ResultButton"
-                android:visibility="gone" />
-
-            <Button
-                style="@style/ResultButton"
-                android:visibility="gone" />
-        </LinearLayout>
     </LinearLayout>
 
     <TextView

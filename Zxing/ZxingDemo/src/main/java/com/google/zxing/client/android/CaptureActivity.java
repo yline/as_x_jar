@@ -25,11 +25,7 @@ import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.client.android.clipboard.ClipboardInterface;
-import com.google.zxing.client.android.history.HistoryActivity;
-import com.google.zxing.client.android.history.HistoryManager;
-import com.google.zxing.client.android.result.ResultButtonListener;
 import com.google.zxing.client.android.result.ResultHandler;
-import com.google.zxing.client.android.result.ResultHandlerFactory;
 import com.google.zxing.client.android.share.ShareActivity;
 
 import android.app.Activity;
@@ -55,7 +51,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -63,7 +58,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yline.base.BaseActivity;
-import com.zxing.demo.DBManager;
+import com.zxing.demo.manager.DBManager;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -125,8 +120,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private String characterSet;
 	
-	private HistoryManager historyManager;
-	
 	private InactivityTimer inactivityTimer;
 	
 	private BeepManager beepManager;
@@ -173,9 +166,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
-		// historyManager must be initialized here to update the history preference
-		historyManager = new HistoryManager(this);
 		
 		// CameraManager must be initialized here, not in onCreate(). This is necessary because we don't
 		// want to open the camera driver and measure the screen size if we're going to show the help on
@@ -386,8 +376,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				startActivity(intent);
 				break;
 			case R.id.menu_history: // 历史记录
-				intent.setClassName(this, HistoryActivity.class.getName());
-				startActivity(intent);
+				DBManager.getInstance().buildHistoryItems();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -442,11 +431,11 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
 		inactivityTimer.onActivity();
 		lastResult = rawResult;
-		ResultHandler resultHandler = ResultHandlerFactory.makeResultHandler(this, rawResult);
+		ResultHandler resultHandler = ResultHandler.makeResultHandler(rawResult);
 		
 		boolean fromLiveScan = barcode != null;
 		if (fromLiveScan) {
-			historyManager.addHistoryItem(rawResult, resultHandler);
+			DBManager.getInstance().addHistoryItem(rawResult, resultHandler);
 			// Then not from history, so beep/vibrate and we have an image to draw on
 			beepManager.playBeepSoundAndVibrate();
 			drawResultPoints(barcode, scaleFactor, rawResult);
@@ -524,13 +513,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	// Put up our own UI for how to handle the decoded contents.
 	private void handleDecodeInternally(Result rawResult, ResultHandler resultHandler, Bitmap barcode) {
-		
 		maybeSetClipboard(resultHandler);
-		
-		if (resultHandler.getDefaultButtonID() != null && DBManager.getInstance().getAutoOpenWeb()) {
-			resultHandler.handleButtonPress(resultHandler.getDefaultButtonID());
-			return;
-		}
 		
 		statusView.setVisibility(View.GONE);
 		viewfinderView.setVisibility(View.GONE);
@@ -580,21 +563,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		contentsTextView.setText(displayContents);
 		int scaledSize = Math.max(22, 32 - displayContents.length() / 4);
 		contentsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledSize);
-		
-		int buttonCount = resultHandler.getButtonCount();
-		ViewGroup buttonView = (ViewGroup) findViewById(R.id.result_button_view);
-		buttonView.requestFocus();
-		for (int x = 0; x < ResultHandler.MAX_BUTTON_COUNT; x++) {
-			TextView button = (TextView) buttonView.getChildAt(x);
-			if (x < buttonCount) {
-				button.setVisibility(View.VISIBLE);
-				button.setText(resultHandler.getButtonText(x));
-				button.setOnClickListener(new ResultButtonListener(resultHandler, x));
-			} else {
-				button.setVisibility(View.GONE);
-			}
-		}
-		
 	}
 	
 	// Briefly show the contents of the barcode, then handle the result outside Barcode Scanner.
@@ -681,7 +649,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	}
 	
 	private void maybeSetClipboard(ResultHandler resultHandler) {
-		if (copyToClipboard && !resultHandler.areContentsSecure()) {
+		if (copyToClipboard) {
 			ClipboardInterface.setText(resultHandler.getDisplayContents(), this);
 		}
 	}

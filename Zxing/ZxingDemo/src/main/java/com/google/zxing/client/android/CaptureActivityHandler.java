@@ -26,8 +26,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
 import com.google.zxing.client.android.camera.CameraManager;
-import com.google.zxing.client.android.history.HistoryItem;
-import com.yline.utils.LogUtil;
+import com.zxing.demo.manager.LogManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -103,7 +102,7 @@ public final class CaptureActivityHandler extends Handler {
 				}
 				
 				Result rawResult = (Result) message.obj;
-				HistoryItem.printResult(rawResult);
+				LogManager.printResult(rawResult);
 				activity.handleDecode(rawResult, barcode, scaleFactor);
 				break;
 			case R.id.decode_failed:

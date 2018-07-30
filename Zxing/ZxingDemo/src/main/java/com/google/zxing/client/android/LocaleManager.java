@@ -18,7 +18,7 @@ package com.google.zxing.client.android;
 
 import android.content.Context;
 
-import com.zxing.demo.DBManager;
+import com.zxing.demo.manager.DBManager;
 
 import java.util.Arrays;
 import java.util.Collection;

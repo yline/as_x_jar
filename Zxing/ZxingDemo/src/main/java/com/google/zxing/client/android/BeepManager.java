@@ -24,7 +24,7 @@ import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.util.Log;
 
-import com.zxing.demo.DBManager;
+import com.zxing.demo.manager.DBManager;
 
 import java.io.Closeable;
 import java.io.IOException;

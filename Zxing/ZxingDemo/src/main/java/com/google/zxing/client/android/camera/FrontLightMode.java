@@ -1,6 +1,6 @@
 package com.google.zxing.client.android.camera;
 
-import com.zxing.demo.DBManager;
+import com.zxing.demo.manager.DBManager;
 
 /**
  * Enumerates settings of the preference controlling the front light.

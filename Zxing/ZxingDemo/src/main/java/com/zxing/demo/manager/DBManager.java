@@ -1,10 +1,20 @@
-package com.zxing.demo;
+package com.zxing.demo.manager;
 
+import android.text.TextUtils;
+
+import com.google.zxing.Result;
 import com.google.zxing.client.android.camera.FrontLightMode;
+import com.google.zxing.client.android.result.ResultHandler;
 import com.yline.application.SDKManager;
+import com.yline.utils.LogUtil;
 import com.yline.utils.SPUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DBManager {
+	private static final int HISTORY_MAX_NUM = 5;
+	
 	private static DBManager dbManager;
 	
 	private DBManager() {
@@ -65,14 +75,6 @@ public class DBManager {
 		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_REMEMBER_DUPLICATES, false);
 	}
 	
-	public boolean getHistory() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_ENABLE_HISTORY, true);
-	}
-	
-	public boolean getSupplemental() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_SUPPLEMENTAL, true);
-	}
-	
 	public String getFrontLightMode() {
 		return (String) SPUtil.get(SDKManager.getApplication(), Key.KEY_FRONT_LIGHT_MODE, FrontLightMode.OFF.toString());
 	}
@@ -121,14 +123,64 @@ public class DBManager {
 		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_DISABLE_BARCODE_SCENE_MODE, true);
 	}
 	
-	/*
-	    private static final String KEY_DISABLE_CONTINUOUS_FOCUS = "disable_continuous_focus"; // 使用标准对焦模式(不持续对焦)
+	public void addHistoryItem(Result result, ResultHandler resultHandler) {
+		StringBuilder stringBuilder = new StringBuilder();
+		String text = result.getText();
+		stringBuilder.append("text = ");
+		stringBuilder.append(text);
 		
-		private static final String KEY_DISABLE_EXPOSURE = "disable_exposure"; // 不曝光
+		String barcodeFormat = result.getBarcodeFormat().toString();
+		stringBuilder.append('\n');
+		stringBuilder.append("barcodeFormat = ");
+		stringBuilder.append(barcodeFormat);
 		
-		private static final String KEY_DISABLE_METERING = "disable_metering"; // 不使用距离测量
+		String displayContent = resultHandler.getDisplayContents().toString();
+		stringBuilder.append('\n');
+		stringBuilder.append("displayContent = ");
+		stringBuilder.append(displayContent);
 		
-		private static final String KEY_DISABLE_BARCODE_SCENE_MODE = "disable_barcode_scene_mode"; // 不进行条形码场景匹配*/
+		long timestamp = result.getTimestamp();
+		stringBuilder.append('\n');
+		stringBuilder.append("timestamp = ");
+		stringBuilder.append(timestamp);
+		
+		String historyItem = stringBuilder.toString();
+		int historyNum = (int) SPUtil.get(SDKManager.getApplication(), Key.KEY_HISTORY_NUM, 0);
+		historyNum = historyNum % HISTORY_MAX_NUM;
+		
+		SPUtil.put(SDKManager.getApplication(), (Key.KEY_HISTORY_VALUE + historyNum), historyItem);
+		
+		historyNum += 1;
+		SPUtil.put(SDKManager.getApplication(), Key.KEY_HISTORY_NUM, historyNum);
+	}
+	
+	public List<String> buildHistoryItems() {
+		List<String> historyItemList = new ArrayList<>();
+		
+		String historyItem;
+		for (int i = 0; i < HISTORY_MAX_NUM; i++) {
+			historyItem = (String) SPUtil.get(SDKManager.getApplication(), (Key.KEY_HISTORY_VALUE + i), "");
+			if (!TextUtils.isEmpty(historyItem)) {
+				historyItemList.add(historyItem);
+			}
+		}
+		
+		if (historyItemList.isEmpty()) {
+			LogUtil.v("historyItem is null");
+		} else {
+			for (String str : historyItemList) {
+				try {
+					Thread.sleep(1); // 打印太快，可能就混一起了
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				LogUtil.v("historyItem = \n" + str);
+			}
+		}
+		
+		return historyItemList;
+	}
+	
 	
 	private static class Key {
 		// 条码类型
@@ -155,10 +207,6 @@ public class DBManager {
 		
 		private static final String KEY_REMEMBER_DUPLICATES = "remember_duplicates"; // 在历史记录中保存重复的记录
 		
-		private static final String KEY_ENABLE_HISTORY = "history"; // 自动将条码存入历史记录
-		
-		private static final String KEY_SUPPLEMENTAL = "supplemental"; // 尝试检索关于条码内容的更多信息
-		
 		// 扫描设置
 		private static final String KEY_FRONT_LIGHT_MODE = "front_light_mode"; // 设置闪光灯模式  FrontLightMode
 		
@@ -184,5 +232,10 @@ public class DBManager {
 		private static final String KEY_DISABLE_METERING = "disable_metering"; // 不使用距离测量
 		
 		private static final String KEY_DISABLE_BARCODE_SCENE_MODE = "disable_barcode_scene_mode"; // 不进行条形码场景匹配
+		
+		// 保存五条历史记录
+		private static final String KEY_HISTORY_NUM = "history_num"; // 保存储存的数量
+		
+		private static final String KEY_HISTORY_VALUE = ""; // 保存历史数据 的值
 	}
 }

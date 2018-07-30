@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.RejectedExecutionException;
 
-import com.zxing.demo.DBManager;
+import com.zxing.demo.manager.DBManager;
 
 @SuppressWarnings("deprecation") // camera APIs
 final class AutoFocusManager implements Camera.AutoFocusCallback {

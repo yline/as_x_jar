@@ -19,7 +19,7 @@ package com.google.zxing.client.android;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
-import com.zxing.demo.DBManager;
+import com.zxing.demo.manager.DBManager;
 
 import android.os.Handler;
 import android.os.Looper;
