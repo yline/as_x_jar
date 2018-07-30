@@ -3,23 +3,18 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="D:\study_adt_studio\studio\gradle\gradle-2.14.1" />
+        <option name="gradleHome" value="D:/study_androidstudio_sdk/build-tools/27.0.3" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/ZxingDemo" />
             <option value="$PROJECT_DIR$/ZxingLib" />
             <option value="$PROJECT_DIR$/ZxingSample" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ZxingLib" />
-            <option value="$PROJECT_DIR$/ZxingSample" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
