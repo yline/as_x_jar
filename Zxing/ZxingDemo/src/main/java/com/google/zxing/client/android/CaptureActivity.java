@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2008 ZXing authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.google.zxing.client.android;
 
 import android.content.Context;
@@ -24,9 +8,7 @@ import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.camera.CameraManager;
-import com.google.zxing.client.android.clipboard.ClipboardInterface;
 import com.google.zxing.client.android.result.ResultHandler;
-import com.zxing.demo.encode.EncodeInputActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -105,8 +87,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	private Result lastResult;
 	
 	private boolean hasSurface;
-	
-	private boolean copyToClipboard;
 	
 	private IntentSource source;
 	
@@ -196,9 +176,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		inactivityTimer.onResume();
 		
 		Intent intent = getIntent();
-		
-		copyToClipboard = DBManager.getInstance().getCopyToClipboard()
-				&& (intent == null || intent.getBooleanExtra(Intents.Scan.SAVE_HISTORY, true));
 		
 		source = IntentSource.NONE;
 		sourceUrl = null;
@@ -454,7 +431,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 					Toast.makeText(getApplicationContext(),
 							getResources().getString(R.string.msg_bulk_mode_scanned) + " (" + rawResult.getText() + ')',
 							Toast.LENGTH_SHORT).show();
-					maybeSetClipboard(resultHandler);
 					// Wait a moment or else it will scan the same barcode continuously about 3 times
 					restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
 				} else {
@@ -509,8 +485,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	// Put up our own UI for how to handle the decoded contents.
 	private void handleDecodeInternally(Result rawResult, ResultHandler resultHandler, Bitmap barcode) {
-		maybeSetClipboard(resultHandler);
-		
 		statusView.setVisibility(View.GONE);
 		viewfinderView.setVisibility(View.GONE);
 		resultView.setVisibility(View.VISIBLE);
@@ -584,8 +558,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			statusView.setText(getString(resultHandler.getDisplayTitle()) + " : " + rawResultString);
 		}
 		
-		maybeSetClipboard(resultHandler);
-		
 		switch (source) {
 			case NATIVE_APP_INTENT:
 				// Hand back whatever action they requested - this can be changed to Intents.Scan.ACTION when
@@ -641,12 +613,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 					sendReplyMessage(R.id.launch_product_query, linkReplyURL, resultDurationMS);
 				}
 				break;
-		}
-	}
-	
-	private void maybeSetClipboard(ResultHandler resultHandler) {
-		if (copyToClipboard) {
-			ClipboardInterface.setText(resultHandler.getDisplayContents(), this);
 		}
 	}
 	

@@ -63,10 +63,6 @@ public class DBManager {
 		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_VIBRATE, false);
 	}
 	
-	public boolean getCopyToClipboard() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_COPY_TO_CLIPBOARD, true);
-	}
-	
 	public boolean getAutoOpenWeb() {
 		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_AUTO_OPEN_WEB, false);
 	}
@@ -200,8 +196,6 @@ public class DBManager {
 		private static final String KEY_PLAY_BEEP = "play_beep"; // 播放提示音
 		
 		private static final String KEY_VIBRATE = "vibrate"; // 震动
-		
-		private static final String KEY_COPY_TO_CLIPBOARD = "copy_to_clipboard"; // 复制到剪贴板
 		
 		private static final String KEY_AUTO_OPEN_WEB = "auto_open_web"; // 自动打开网页
 		
