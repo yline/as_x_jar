@@ -555,7 +555,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			if (rawResultString.length() > 32) {
 				rawResultString = rawResultString.substring(0, 32) + " ...";
 			}
-			statusView.setText(getString(resultHandler.getDisplayTitle()) + " : " + rawResultString);
+			statusView.setText("找到纯文本 : " + rawResultString);
 		}
 		
 		switch (source) {

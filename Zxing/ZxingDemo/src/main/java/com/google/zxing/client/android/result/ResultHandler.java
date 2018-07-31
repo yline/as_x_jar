@@ -40,15 +40,6 @@ public class ResultHandler {
 	}
 	
 	/**
-	 * A string describing the kind of barcode that was found, e.g. "Found contact info".
-	 *
-	 * @return The resource ID of the string.
-	 */
-	public int getDisplayTitle() {
-		return R.string.result_text;
-	}
-	
-	/**
 	 * A convenience method to get the parsed type. Should not be overridden.
 	 *
 	 * @return The parsed type, e.g. URI or ISBN

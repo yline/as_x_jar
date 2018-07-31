@@ -63,20 +63,8 @@ public class DBManager {
 		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_VIBRATE, false);
 	}
 	
-	public boolean getAutoOpenWeb() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_AUTO_OPEN_WEB, false);
-	}
-	
-	public boolean getRememberDuplicates() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_REMEMBER_DUPLICATES, false);
-	}
-	
 	public String getFrontLightMode() {
 		return (String) SPUtil.get(SDKManager.getApplication(), Key.KEY_FRONT_LIGHT_MODE, FrontLightMode.OFF.toString());
-	}
-	
-	public void setFrontLightMode(FrontLightMode lightMode) {
-		SPUtil.put(SDKManager.getApplication(), Key.KEY_FRONT_LIGHT_MODE, lightMode.toString());
 	}
 	
 	public boolean getAutoFocus() {
@@ -93,14 +81,6 @@ public class DBManager {
 	
 	public boolean getOrientation() {
 		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_DISABLE_AUTO_ORIENTATION, true);
-	}
-	
-	public String getCustomProductSearch() {
-		return (String) SPUtil.get(SDKManager.getApplication(), Key.KEY_CUSTOM_PRODUCT_SEARCH, null);
-	}
-	
-	public String getSearchCountry() {
-		return (String) SPUtil.get(SDKManager.getApplication(), Key.KEY_SEARCH_COUNTRY, "-");
 	}
 	
 	public boolean getDisableContinuousFocus() {
@@ -150,7 +130,7 @@ public class DBManager {
 		SPUtil.put(SDKManager.getApplication(), Key.KEY_HISTORY_NUM, historyNum);
 	}
 	
-	public List<String> buildHistoryItems() {
+	public void buildHistoryItems() {
 		List<String> historyItemList = new ArrayList<>();
 		
 		String historyItem;
@@ -173,8 +153,6 @@ public class DBManager {
 				LogUtil.v("historyItem = \n" + str);
 			}
 		}
-		
-		return historyItemList;
 	}
 	
 	
@@ -197,10 +175,6 @@ public class DBManager {
 		
 		private static final String KEY_VIBRATE = "vibrate"; // 震动
 		
-		private static final String KEY_AUTO_OPEN_WEB = "auto_open_web"; // 自动打开网页
-		
-		private static final String KEY_REMEMBER_DUPLICATES = "remember_duplicates"; // 在历史记录中保存重复的记录
-		
 		// 扫描设置
 		private static final String KEY_FRONT_LIGHT_MODE = "front_light_mode"; // 设置闪光灯模式  FrontLightMode
 		
@@ -211,12 +185,6 @@ public class DBManager {
 		private static final String KEY_BULK_MODE = "bulk_mode"; // 连续扫描并保存多个条码
 		
 		private static final String KEY_DISABLE_AUTO_ORIENTATION = "orientation"; // 不自动旋转
-		
-		// 搜索设置
-		private static final String KEY_CUSTOM_PRODUCT_SEARCH = "custom_product_search"; //  替换：％s=内容，％f=格式，％t=类型 （自定义搜索网址URI）
-		
-		private static final String KEY_SEARCH_COUNTRY = "search_country"; // 搜索引擎国别
-		/* R.array.country_codes */
 		
 		// 设备适配
 		private static final String KEY_DISABLE_CONTINUOUS_FOCUS = "disable_continuous_focus"; // 使用标准对焦模式(不持续对焦)

@@ -56,7 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/half_padding"
-                        android:text="@string/msg_default_format"
+                        android:text="格式"
                         android:textColor="@color/result_minor_text"
                         android:textStyle="bold" />
 
@@ -76,7 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/half_padding"
-                        android:text="@string/msg_default_type"
+                        android:text="类型"
                         android:textColor="@color/result_minor_text"
                         android:textStyle="bold" />
 
@@ -96,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/half_padding"
-                        android:text="@string/msg_default_time"
+                        android:text="时间"
                         android:textColor="@color/result_minor_text"
                         android:textStyle="bold" />
 
@@ -117,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/half_padding"
-                        android:text="@string/msg_default_meta"
+                        android:text="元数据"
                         android:textColor="@color/result_minor_text"
                         android:textStyle="bold" />
 
@@ -159,6 +159,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:background="@color/transparent"
-        android:text="@string/msg_default_status"
+        android:text="请将条码置于取景框内扫描。  "
         android:textColor="@color/status_text" />
 </merge>

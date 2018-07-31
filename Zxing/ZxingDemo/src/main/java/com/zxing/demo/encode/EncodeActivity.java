@@ -58,7 +58,7 @@ public final class EncodeActivity extends BaseActivity {
 		
 		if (bitmap == null) {
 			LogUtil.v("Could not activity_encode barcode");
-			showErrorMessage(R.string.msg_encode_contents_failed);
+			showErrorMessage("无法生成条码。");
 			return;
 		}
 		
@@ -71,10 +71,10 @@ public final class EncodeActivity extends BaseActivity {
 		setTitle("纯文本");
 	}
 	
-	private void showErrorMessage(int message) {
+	private void showErrorMessage(String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(message);
-		builder.setPositiveButton(R.string.button_ok, new FinishListener(this));
+		builder.setPositiveButton("确定", new FinishListener(this));
 		builder.setOnCancelListener(new FinishListener(this));
 		builder.show();
 	}

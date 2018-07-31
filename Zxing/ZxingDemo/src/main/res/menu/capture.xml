@@ -5,5 +5,5 @@
         android:icon="@android:drawable/ic_menu_recent_history"
         android:orderInCategory="2"
         android:showAsAction="withText|ifRoom"
-        android:title="@string/menu_history" />
+        android:title="历史记录" />
 </menu>

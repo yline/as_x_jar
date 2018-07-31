@@ -14,9 +14,4 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowActionModeOverlay">true</item>
     </style>
-
-    <style name="ShareButton" parent="@android:style/Widget.Holo.Button.Borderless.Small">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
 </resources>
