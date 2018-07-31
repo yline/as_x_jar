@@ -99,7 +99,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".encode.EncodeActivity"
+                android:name="com.zxing.demo.encode.EncodeActivity"
                 android:stateNotNeeded="true">
             <intent-filter>
                 <action android:name="com.google.zxing.client.android.ENCODE"/>
@@ -119,7 +119,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".share.ShareActivity"
+                android:name="com.zxing.demo.encode.EncodeInputActivity"
                 android:screenOrientation="user"
                 android:stateNotNeeded="true">
             <intent-filter>

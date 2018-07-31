@@ -26,7 +26,7 @@ import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.client.android.clipboard.ClipboardInterface;
 import com.google.zxing.client.android.result.ResultHandler;
-import com.google.zxing.client.android.share.ShareActivity;
+import com.zxing.demo.encode.EncodeInputActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -371,10 +371,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.addFlags(Intents.FLAG_NEW_DOC);
 		switch (item.getItemId()) {
-			case R.id.menu_share: // 创建二维码
-				intent.setClassName(this, ShareActivity.class.getName());
-				startActivity(intent);
-				break;
 			case R.id.menu_history: // 历史记录
 				DBManager.getInstance().buildHistoryItems();
 				break;
