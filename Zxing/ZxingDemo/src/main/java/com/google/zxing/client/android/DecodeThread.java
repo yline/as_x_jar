@@ -21,7 +21,6 @@ import java.util.concurrent.CountDownLatch;
  * @author dswitkin@google.com (Daniel Switkin)
  */
 final class DecodeThread extends Thread {
-	
 	public static final String BARCODE_BITMAP = "barcode_bitmap";
 	
 	public static final String BARCODE_SCALED_FACTOR = "barcode_scaled_factor";
@@ -34,23 +33,10 @@ final class DecodeThread extends Thread {
 	
 	private final CountDownLatch handlerInitLatch;
 	
-	DecodeThread(CaptureActivity activity, Map<DecodeHintType, ?> baseHints, String characterSet, ResultPointCallback resultPointCallback) {
-		
+	DecodeThread(CaptureActivity activity, ResultPointCallback resultPointCallback) {
 		this.activity = activity;
 		handlerInitLatch = new CountDownLatch(1);
-		
-		hints = new EnumMap<>(DecodeHintType.class);
-		if (baseHints != null) {
-			hints.putAll(baseHints);
-		}
-		
-		attachBarcodeFormat(hints);
-		
-		if (characterSet != null) {
-			hints.put(DecodeHintType.CHARACTER_SET, characterSet);
-		}
-		hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
-		Log.i("DecodeThread", "Hints: " + hints);
+		hints = buildDecodeHintMap(resultPointCallback);
 	}
 	
 	Handler getHandler() {
@@ -68,6 +54,21 @@ final class DecodeThread extends Thread {
 		handler = new DecodeHandler(activity, hints);
 		handlerInitLatch.countDown();
 		Looper.loop();
+	}
+	
+	/**
+	 * 管理 支持的 设置
+	 *
+	 * @param resultPointCallback 扫描过程中，识别中回调
+	 * @return 设置内容
+	 */
+	private static Map<DecodeHintType, Object> buildDecodeHintMap(ResultPointCallback resultPointCallback) {
+		Map<DecodeHintType, Object> hintMap = new EnumMap<>(DecodeHintType.class);
+		attachBarcodeFormat(hintMap);
+		
+		hintMap.put(DecodeHintType.CHARACTER_SET, "UTF-8");
+		hintMap.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
+		return hintMap;
 	}
 	
 	/**

@@ -23,64 +23,11 @@ public final class Intents {
 		public static final String ACTION = "com.google.zxing.client.android.SCAN";
 		
 		/**
-		 * By default, sending this will decode all barcodes that we understand. However it
-		 * may be useful to limit scanning to certain formats. Use
-		 * {@link Intent#putExtra(String, String)} with one of the values below.
-		 * <p>
-		 * Setting this is effectively shorthand for setting explicit formats with {@link #FORMATS}.
-		 * It is overridden by that setting.
-		 */
-		public static final String MODE = "SCAN_MODE";
-		
-		/**
-		 * Decode only UPC and EAN barcodes. This is the right choice for shopping apps which get
-		 * prices, reviews, etc. for products.
-		 */
-		public static final String PRODUCT_MODE = "PRODUCT_MODE";
-		
-		/**
-		 * Decode only 1D barcodes.
-		 */
-		public static final String ONE_D_MODE = "ONE_D_MODE";
-		
-		/**
-		 * Decode only QR codes.
-		 */
-		public static final String QR_CODE_MODE = "QR_CODE_MODE";
-		
-		/**
-		 * Decode only Data Matrix codes.
-		 */
-		public static final String DATA_MATRIX_MODE = "DATA_MATRIX_MODE";
-		
-		/**
-		 * Decode only Aztec.
-		 */
-		public static final String AZTEC_MODE = "AZTEC_MODE";
-		
-		/**
-		 * Decode only PDF417.
-		 */
-		public static final String PDF417_MODE = "PDF417_MODE";
-		
-		/**
-		 * Comma-separated list of formats to scan for. The values must match the names of
-		 * {@link com.google.zxing.BarcodeFormat}s, e.g. {@link com.google.zxing.BarcodeFormat#EAN_13}.
-		 * Example: "EAN_13,EAN_8,QR_CODE". This overrides {@link #MODE}.
-		 */
-		public static final String FORMATS = "SCAN_FORMATS";
-		
-		/**
 		 * Optional parameter to specify the id of the camera from which to recognize barcodes.
 		 * Overrides the default camera that would otherwise would have been selected.
 		 * If provided, should be an int.
 		 */
 		public static final String CAMERA_ID = "SCAN_CAMERA_ID";
-		
-		/**
-		 * @see com.google.zxing.DecodeHintType#CHARACTER_SET
-		 */
-		public static final String CHARACTER_SET = "CHARACTER_SET";
 		
 		/**
 		 * Optional parameters to specify the width and height of the scanning rectangle in pixels.
@@ -154,11 +101,6 @@ public final class Intents {
 		 * Call {@link Intent#getByteArrayExtra(String)} with these keys.
 		 */
 		public static final String RESULT_BYTE_SEGMENTS_PREFIX = "SCAN_RESULT_BYTE_SEGMENTS_";
-		
-		/**
-		 * Setting this to false will not save scanned codes in the history. Specified as a {@code boolean}.
-		 */
-		public static final String SAVE_HISTORY = "SAVE_HISTORY";
 		
 		private Scan() {
 		}
