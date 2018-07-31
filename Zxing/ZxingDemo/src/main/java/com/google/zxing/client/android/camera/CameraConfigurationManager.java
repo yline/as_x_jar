@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import com.google.zxing.client.android.CameraConfigurationUtils;
 import com.google.zxing.client.android.camera.open.CameraFacing;
 import com.google.zxing.client.android.camera.open.OpenCamera;
+import com.zxing.demo.capture.AmbientLightHelper;
 import com.zxing.demo.manager.DBManager;
 
 /**
@@ -208,7 +209,7 @@ final class CameraConfigurationManager {
     }
 
     private void initializeTorch(Camera.Parameters parameters, boolean safeMode) {
-        boolean currentSetting = FrontLightMode.readPref() == FrontLightMode.ON;
+        boolean currentSetting = (AmbientLightHelper.getLightMode() == AmbientLightHelper.LightMode.ON);
         doSetTorch(parameters, currentSetting, safeMode);
     }
 

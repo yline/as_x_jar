@@ -3,7 +3,6 @@ package com.zxing.demo.manager;
 import android.text.TextUtils;
 
 import com.google.zxing.Result;
-import com.google.zxing.client.android.camera.FrontLightMode;
 import com.google.zxing.client.android.result.ResultHandler;
 import com.yline.application.SDKManager;
 import com.yline.utils.LogUtil;
@@ -29,10 +28,6 @@ public class DBManager {
 			}
 		}
 		return dbManager;
-	}
-	
-	public String getFrontLightMode() {
-		return (String) SPUtil.get(SDKManager.getApplication(), Key.KEY_FRONT_LIGHT_MODE, FrontLightMode.OFF.toString());
 	}
 	
 	public boolean getAutoFocus() {
@@ -125,8 +120,6 @@ public class DBManager {
 	
 	private static class Key {
 		// 扫描设置
-		private static final String KEY_FRONT_LIGHT_MODE = "front_light_mode"; // 设置闪光灯模式  FrontLightMode
-		
 		private static final String KEY_AUTO_FOCUS = "auto_focus"; // 自动对焦
 		
 		private static final String KEY_INVERT_SCAN = "invert_scan"; // 扫描黑色背景上的白色条码。仅适用于部分设备。

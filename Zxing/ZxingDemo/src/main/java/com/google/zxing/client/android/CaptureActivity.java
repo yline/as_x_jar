@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.google.zxing.client.result.ParsedResultType;
 import com.yline.base.BaseActivity;
+import com.zxing.demo.capture.AmbientLightHelper;
 import com.zxing.demo.capture.BeepHelper;
 import com.zxing.demo.capture.CaptureResultView;
 import com.zxing.demo.manager.DBManager;
@@ -69,6 +70,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	private TextView mStatusView;
 	
 	private BeepHelper mBeepHelper;
+	private AmbientLightHelper mAmbientLightHelper;
 	
 	private CameraManager cameraManager;
 	
@@ -77,8 +79,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	private Result lastResult;
 	
 	private boolean hasSurface;
-	
-	private AmbientLightManager ambientLightManager;
 	
 	ViewfinderView getViewfinderView() {
 		return mViewfinderView;
@@ -102,7 +102,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		
 		hasSurface = false;
 		mBeepHelper = new BeepHelper(this);
-		ambientLightManager = new AmbientLightManager(this);
+		mAmbientLightHelper = new AmbientLightHelper(this);
 		
 		mSurfaceView = findViewById(R.id.capture_surface);
 		mViewfinderView = findViewById(R.id.capture_viewfinder_view);
@@ -133,7 +133,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		resetStatusView();
 		
 		mBeepHelper.updatePrefs();
-		ambientLightManager.start(cameraManager);
+		mAmbientLightHelper.start(cameraManager);
 		
 		SurfaceHolder surfaceHolder = mSurfaceView.getHolder();
 		if (hasSurface) {
@@ -173,7 +173,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			handler.quitSynchronously();
 			handler = null;
 		}
-		ambientLightManager.stop();
+		mAmbientLightHelper.stop();
 		mBeepHelper.close();
 		cameraManager.closeDriver();
 		if (!hasSurface) {
@@ -181,6 +181,11 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			surfaceHolder.removeCallback(this);
 		}
 		super.onPause();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 	
 	@Override
