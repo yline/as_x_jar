@@ -57,6 +57,16 @@ import java.util.Map;
  * @author Sean Owen
  */
 public final class CaptureActivity extends BaseActivity implements SurfaceHolder.Callback {
+	public static void launch(Context context) {
+		if (null != context) {
+			Intent intent = new Intent();
+			intent.setClass(context, CaptureActivity.class);
+			if (!(context instanceof Activity)) {
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			}
+			context.startActivity(intent);
+		}
+	}
 	
 	private static final String TAG = CaptureActivity.class.getSimpleName();
 	
@@ -94,8 +104,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private ScanFromWebPageManager scanFromWebPageManager;
 	
-	private Collection<BarcodeFormat> decodeFormats;
-	
 	private Map<DecodeHintType, ?> decodeHints;
 	
 	private String characterSet;
@@ -118,24 +126,13 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		return cameraManager;
 	}
 	
-	public static void launch(Context context) {
-		if (null != context) {
-			Intent intent = new Intent();
-			intent.setClass(context, CaptureActivity.class);
-			if (!(context instanceof Activity)) {
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			}
-			context.startActivity(intent);
-		}
-	}
-	
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		
 		Window window = getWindow();
 		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		setContentView(R.layout.capture);
+		setContentView(R.layout.activity_capture);
 		
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
@@ -180,7 +177,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		source = IntentSource.NONE;
 		sourceUrl = null;
 		scanFromWebPageManager = null;
-		decodeFormats = null;
 		characterSet = null;
 		
 		if (intent != null) {
@@ -191,7 +187,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				
 				// Scan the formats the intent requested, and return the result to the calling activity.
 				source = IntentSource.NATIVE_APP_INTENT;
-				decodeFormats = DecodeFormatManager.parseDecodeFormats(intent);
 				decodeHints = DecodeHintManager.parseDecodeHints(intent);
 				
 				if (intent.hasExtra(Intents.Scan.WIDTH) && intent.hasExtra(Intents.Scan.HEIGHT)) {
@@ -213,15 +208,10 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				if (customPromptMessage != null) {
 					statusView.setText(customPromptMessage);
 				}
-				
-			} else if (dataString != null &&
-					dataString.contains("http://www.google") &&
-					dataString.contains("/m/products/scan")) {
-				
+			} else if (dataString != null && dataString.contains("http://www.google") && dataString.contains("/m/products/scan")) {
 				// Scan only products and send the result to mobile Product Search.
 				source = IntentSource.PRODUCT_SEARCH_LINK;
 				sourceUrl = dataString;
-				decodeFormats = DecodeFormatManager.PRODUCT_FORMATS;
 			} else if (isZXingURL(dataString)) {
 				// Scan formats requested in query string (all formats if none specified).
 				// If a return URL is specified, send the results there. Otherwise, handle it ourselves.
@@ -229,7 +219,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				sourceUrl = dataString;
 				Uri inputUri = Uri.parse(dataString);
 				scanFromWebPageManager = new ScanFromWebPageManager(inputUri);
-				decodeFormats = DecodeFormatManager.parseDecodeFormats(inputUri);
 				// Allow a sub-set of the hints to be specified by the caller.
 				decodeHints = DecodeHintManager.parseDecodeHints(inputUri);
 			}
@@ -639,7 +628,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			cameraManager.openDriver(surfaceHolder);
 			// Creating the handler starts the preview, which can also throw a RuntimeException.
 			if (handler == null) {
-				handler = new CaptureActivityHandler(this, decodeFormats, decodeHints, characterSet, cameraManager);
+				handler = new CaptureActivityHandler(this, decodeHints, characterSet, cameraManager);
 			}
 			decodeOrStoreSavedBitmap(null, null);
 		} catch (IOException ioe) {

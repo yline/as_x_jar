@@ -31,30 +31,6 @@ public class DBManager {
 		return dbManager;
 	}
 	
-	public boolean getDecode1DProduct() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_DECODE_1D_PRODUCT, true);
-	}
-	
-	public boolean getDecode1DIndustrial() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_DECODE_1D_INDUSTRIAL, true);
-	}
-	
-	public boolean getDecodeQR() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_DECODE_QR, true);
-	}
-	
-	public boolean getDecodeDataMatrix() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_DECODE_DATA_MATRIX, true);
-	}
-	
-	public boolean getDecodeAztec() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_DECODE_AZTEC, false);
-	}
-	
-	public boolean getDecodePdf417() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_DECODE_PDF417, false);
-	}
-	
 	public boolean getPlayBeep() {
 		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_PLAY_BEEP, true);
 	}
@@ -157,19 +133,6 @@ public class DBManager {
 	
 	
 	private static class Key {
-		// 条码类型
-		private static final String KEY_DECODE_1D_PRODUCT = "decode_1D_product"; // 一维码：商品
-		
-		private static final String KEY_DECODE_1D_INDUSTRIAL = "decode_1D_industrial"; // 一维码：工业
-		
-		private static final String KEY_DECODE_QR = "decode_QR"; // 二维码
-		
-		private static final String KEY_DECODE_DATA_MATRIX = "decode_Data_Matrix"; // Data Matrix
-		
-		private static final String KEY_DECODE_AZTEC = "decode_Aztec"; // Aztec
-		
-		private static final String KEY_DECODE_PDF417 = "decode_PDF417"; // PDF417 测试
-		
 		// 扫描成功
 		private static final String KEY_PLAY_BEEP = "play_beep"; // 播放提示音
 		

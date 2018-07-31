@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * This class handles all the messaging which comprises the state machine for capture.
+ * This class handles all the messaging which comprises the state machine for activity_capture.
  *
  * @author dswitkin@google.com (Daniel Switkin)
  */
@@ -47,13 +47,10 @@ public final class CaptureActivityHandler extends Handler {
 		DONE
 	}
 	
-	CaptureActivityHandler(CaptureActivity activity,
-	                       Collection<BarcodeFormat> decodeFormats,
-	                       Map<DecodeHintType, ?> baseHints,
-	                       String characterSet,
-	                       CameraManager cameraManager) {
+	CaptureActivityHandler(CaptureActivity activity, Map<DecodeHintType, ?> baseHints,
+	                       String characterSet, CameraManager cameraManager) {
 		this.activity = activity;
-		decodeThread = new DecodeThread(activity, decodeFormats, baseHints, characterSet,
+		decodeThread = new DecodeThread(activity, baseHints, characterSet,
 				new ViewfinderResultPointCallback(activity.getViewfinderView()));
 		decodeThread.start();
 		state = State.SUCCESS;

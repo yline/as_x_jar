@@ -34,11 +34,7 @@ final class DecodeThread extends Thread {
 	
 	private final CountDownLatch handlerInitLatch;
 	
-	DecodeThread(CaptureActivity activity,
-	             Collection<BarcodeFormat> decodeFormats,
-	             Map<DecodeHintType, ?> baseHints,
-	             String characterSet,
-	             ResultPointCallback resultPointCallback) {
+	DecodeThread(CaptureActivity activity, Map<DecodeHintType, ?> baseHints, String characterSet, ResultPointCallback resultPointCallback) {
 		
 		this.activity = activity;
 		handlerInitLatch = new CountDownLatch(1);
@@ -48,35 +44,7 @@ final class DecodeThread extends Thread {
 			hints.putAll(baseHints);
 		}
 		
-		// The prefs can't change while the thread is running, so pick them up once here.
-		if (decodeFormats == null || decodeFormats.isEmpty()) {
-			decodeFormats = EnumSet.noneOf(BarcodeFormat.class);
-			// 一维码：商品
-			if (DBManager.getInstance().getDecode1DProduct()) {
-				decodeFormats.addAll(DecodeFormatManager.PRODUCT_FORMATS);
-			}
-			// 一维码：工业
-			if (DBManager.getInstance().getDecode1DIndustrial()) {
-				decodeFormats.addAll(DecodeFormatManager.INDUSTRIAL_FORMATS);
-			}
-			// 二维码
-			if (DBManager.getInstance().getDecodeQR()) {
-				decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
-			}
-			// Data Matrix
-			if (DBManager.getInstance().getDecodeDataMatrix()) {
-				decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
-			}
-			// Aztec
-			if (DBManager.getInstance().getDecodeAztec()) {
-				decodeFormats.addAll(DecodeFormatManager.AZTEC_FORMATS);
-			}
-			// PDF417 测试
-			if (DBManager.getInstance().getDecodePdf417()) {
-				decodeFormats.addAll(DecodeFormatManager.PDF417_FORMATS);
-			}
-		}
-		hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
+		attachBarcodeFormat(hints);
 		
 		if (characterSet != null) {
 			hints.put(DecodeHintType.CHARACTER_SET, characterSet);
@@ -102,4 +70,37 @@ final class DecodeThread extends Thread {
 		Looper.loop();
 	}
 	
+	/**
+	 * 管理支持的扫码功能
+	 * 对应文件：com.google.zxing.MultiFormatReader
+	 *
+	 * @param decodeHintMap 将要 设置入 MultiFormatReader 的hints内容
+	 */
+	private static void attachBarcodeFormat(Map<DecodeHintType, Object> decodeHintMap) {
+		Collection<BarcodeFormat> barcodeFormats = EnumSet.noneOf(BarcodeFormat.class);
+		
+		/*
+		 * 一维码  对应  MultiFormatOneDReader
+		 * {UPC_A、UPC_E、EAN_13、EAN_8、CODABAR、CODE_39、CODE_93、CODE_128、ITF、RSS_14、RSS_EXPANDED}
+		 * 以上满足一条，即可支持一维码解码
+		 */
+		barcodeFormats.add(BarcodeFormat.UPC_A);
+		
+		/* 二维码  对应 QRCodeReader */
+		barcodeFormats.add(BarcodeFormat.QR_CODE);
+		
+		/* 矩阵式二维码  对应  DataMatrixReader */
+		barcodeFormats.add(BarcodeFormat.DATA_MATRIX);
+		
+		/* 高容量二维码  对应  AztecReader */
+		// barcodeFormats.add(BarcodeFormat.AZTEC);
+		
+		/* 堆叠式二维码  对应  PDF417Reader */
+		// barcodeFormats.add(BarcodeFormat.PDF_417);
+		
+		/* 多功能条码  对应  MaxiCodeReader */
+		// barcodeFormats.add(BarcodeFormat.MAXICODE);
+		
+		decodeHintMap.put(DecodeHintType.POSSIBLE_FORMATS, barcodeFormats);
+	}
 }
