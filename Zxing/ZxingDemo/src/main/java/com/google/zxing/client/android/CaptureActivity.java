@@ -24,9 +24,6 @@ import android.os.Message;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -68,8 +65,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private static final String TAG = CaptureActivity.class.getSimpleName();
 	
-	private static final long DEFAULT_INTENT_RESULT_DURATION_MS = 1500L;
-	
 	private static final long BULK_MODE_SCAN_DELAY_MS = 1000L;
 	
 	private static final Collection<ResultMetadataType> DISPLAYABLE_METADATA_TYPES =
@@ -93,12 +88,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	private Result lastResult;
 	
 	private boolean hasSurface;
-	
-	private IntentSource source;
-	
-	private String sourceUrl;
-	
-	private InactivityTimer inactivityTimer;
 	
 	private BeepManager beepManager;
 	
@@ -125,7 +114,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		setContentView(R.layout.activity_capture);
 		
 		hasSurface = false;
-		inactivityTimer = new InactivityTimer(this);
 		beepManager = new BeepManager(this);
 		ambientLightManager = new AmbientLightManager(this);
 	}
@@ -159,39 +147,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		
 		beepManager.updatePrefs();
 		ambientLightManager.start(cameraManager);
-		
-		inactivityTimer.onResume();
-		
-		Intent intent = getIntent();
-		
-		source = IntentSource.NONE;
-		sourceUrl = null;
-		if (intent != null) {
-			String action = intent.getAction();
-			if (Intents.Scan.ACTION.equals(action)) {
-				// Scan the formats the intent requested, and return the result to the calling activity.
-				source = IntentSource.NATIVE_APP_INTENT;
-				if (intent.hasExtra(Intents.Scan.WIDTH) && intent.hasExtra(Intents.Scan.HEIGHT)) {
-					int width = intent.getIntExtra(Intents.Scan.WIDTH, 0);
-					int height = intent.getIntExtra(Intents.Scan.HEIGHT, 0);
-					if (width > 0 && height > 0) {
-						cameraManager.setManualFramingRect(width, height);
-					}
-				}
-				
-				if (intent.hasExtra(Intents.Scan.CAMERA_ID)) {
-					int cameraId = intent.getIntExtra(Intents.Scan.CAMERA_ID, -1);
-					if (cameraId >= 0) {
-						cameraManager.setManualCameraId(cameraId);
-					}
-				}
-				
-				String customPromptMessage = intent.getStringExtra(Intents.Scan.PROMPT_MESSAGE);
-				if (customPromptMessage != null) {
-					statusView.setText(customPromptMessage);
-				}
-			}
-		}
 		
 		SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
 		SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -232,11 +187,9 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			handler.quitSynchronously();
 			handler = null;
 		}
-		inactivityTimer.onPause();
 		ambientLightManager.stop();
 		beepManager.close();
 		cameraManager.closeDriver();
-		//historyManager = null; // Keep for onActivityResult
 		if (!hasSurface) {
 			SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
 			SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -246,21 +199,10 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	}
 	
 	@Override
-	protected void onDestroy() {
-		inactivityTimer.shutdown();
-		super.onDestroy();
-	}
-	
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
-				if (source == IntentSource.NATIVE_APP_INTENT) {
-					setResult(RESULT_CANCELED);
-					finish();
-					return true;
-				}
-				if ((source == IntentSource.NONE) && lastResult != null) {
+				if (lastResult != null) {
 					restartPreviewAfterDelay(0L);
 					return true;
 				}
@@ -278,27 +220,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.menu.capture, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.addFlags(Intents.FLAG_NEW_DOC);
-		switch (item.getItemId()) {
-			case R.id.menu_history: // 历史记录
-				DBManager.getInstance().buildHistoryItems();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-		return true;
 	}
 	
 	private void decodeOrStoreSavedBitmap(Bitmap bitmap, Result result) {
@@ -346,7 +267,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	 * @param barcode     A greyscale bitmap of the camera data which was decoded.
 	 */
 	public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
-		inactivityTimer.onActivity();
 		lastResult = rawResult;
 		ResultHandler resultHandler = ResultHandler.makeResultHandler(rawResult);
 		
@@ -358,22 +278,14 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			drawResultPoints(barcode, scaleFactor, rawResult);
 		}
 		
-		switch (source) {
-			case NATIVE_APP_INTENT:
-			case PRODUCT_SEARCH_LINK:
-				handleDecodeExternally(rawResult, resultHandler, barcode);
-				break;
-			case NONE:
-				if (fromLiveScan && DBManager.getInstance().getBulkMode()) {
-					Toast.makeText(getApplicationContext(),
-							getResources().getString(R.string.msg_bulk_mode_scanned) + " (" + rawResult.getText() + ')',
-							Toast.LENGTH_SHORT).show();
-					// Wait a moment or else it will scan the same barcode continuously about 3 times
-					restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
-				} else {
-					handleDecodeInternally(rawResult, resultHandler, barcode);
-				}
-				break;
+		if (fromLiveScan && DBManager.getInstance().getBulkMode()) {
+			Toast.makeText(getApplicationContext(),
+					getResources().getString(R.string.msg_bulk_mode_scanned) + " (" + rawResult.getText() + ')',
+					Toast.LENGTH_SHORT).show();
+			// Wait a moment or else it will scan the same barcode continuously about 3 times
+			restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
+		} else {
+			handleDecodeInternally(rawResult, resultHandler, barcode);
 		}
 	}
 	
@@ -470,90 +382,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		contentsTextView.setText(displayContents);
 		int scaledSize = Math.max(22, 32 - displayContents.length() / 4);
 		contentsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledSize);
-	}
-	
-	// Briefly show the contents of the barcode, then handle the result outside Barcode Scanner.
-	private void handleDecodeExternally(Result rawResult, ResultHandler resultHandler, Bitmap barcode) {
-		
-		if (barcode != null) {
-			viewfinderView.drawResultBitmap(barcode);
-		}
-		
-		long resultDurationMS;
-		if (getIntent() == null) {
-			resultDurationMS = DEFAULT_INTENT_RESULT_DURATION_MS;
-		} else {
-			resultDurationMS = getIntent().getLongExtra(Intents.Scan.RESULT_DISPLAY_DURATION_MS,
-					DEFAULT_INTENT_RESULT_DURATION_MS);
-		}
-		
-		if (resultDurationMS > 0) {
-			String rawResultString = String.valueOf(rawResult);
-			if (rawResultString.length() > 32) {
-				rawResultString = rawResultString.substring(0, 32) + " ...";
-			}
-			statusView.setText("找到纯文本 : " + rawResultString);
-		}
-		
-		switch (source) {
-			case NATIVE_APP_INTENT:
-				// Hand back whatever action they requested - this can be changed to Intents.Scan.ACTION when
-				// the deprecated intent is retired.
-				Intent intent = new Intent(getIntent().getAction());
-				intent.addFlags(Intents.FLAG_NEW_DOC);
-				intent.putExtra(Intents.Scan.RESULT, rawResult.toString());
-				intent.putExtra(Intents.Scan.RESULT_FORMAT, rawResult.getBarcodeFormat().toString());
-				byte[] rawBytes = rawResult.getRawBytes();
-				if (rawBytes != null && rawBytes.length > 0) {
-					intent.putExtra(Intents.Scan.RESULT_BYTES, rawBytes);
-				}
-				Map<ResultMetadataType, ?> metadata = rawResult.getResultMetadata();
-				if (metadata != null) {
-					if (metadata.containsKey(ResultMetadataType.UPC_EAN_EXTENSION)) {
-						intent.putExtra(Intents.Scan.RESULT_UPC_EAN_EXTENSION,
-								metadata.get(ResultMetadataType.UPC_EAN_EXTENSION).toString());
-					}
-					Number orientation = (Number) metadata.get(ResultMetadataType.ORIENTATION);
-					if (orientation != null) {
-						intent.putExtra(Intents.Scan.RESULT_ORIENTATION, orientation.intValue());
-					}
-					String ecLevel = (String) metadata.get(ResultMetadataType.ERROR_CORRECTION_LEVEL);
-					if (ecLevel != null) {
-						intent.putExtra(Intents.Scan.RESULT_ERROR_CORRECTION_LEVEL, ecLevel);
-					}
-					@SuppressWarnings("unchecked")
-					Iterable<byte[]> byteSegments = (Iterable<byte[]>) metadata.get(ResultMetadataType.BYTE_SEGMENTS);
-					if (byteSegments != null) {
-						int i = 0;
-						for (byte[] byteSegment : byteSegments) {
-							intent.putExtra(Intents.Scan.RESULT_BYTE_SEGMENTS_PREFIX + i, byteSegment);
-							i++;
-						}
-					}
-				}
-				sendReplyMessage(R.id.return_scan_result, intent, resultDurationMS);
-				break;
-			
-			case PRODUCT_SEARCH_LINK:
-				// Reformulate the URL which triggered us into a query, so that the request goes to the same
-				// TLD as the scan URL.
-				int end = sourceUrl.lastIndexOf("/scan");
-				String productReplyURL = sourceUrl.substring(0, end) + "?q=" +
-						resultHandler.getDisplayContents() + "&source=zxing";
-				sendReplyMessage(R.id.launch_product_query, productReplyURL, resultDurationMS);
-				break;
-		}
-	}
-	
-	private void sendReplyMessage(int id, Object arg, long delayMS) {
-		if (handler != null) {
-			Message message = Message.obtain(handler, id, arg);
-			if (delayMS > 0L) {
-				handler.sendMessageDelayed(message, delayMS);
-			} else {
-				handler.sendMessage(message);
-			}
-		}
 	}
 	
 	private void initCamera(SurfaceHolder surfaceHolder) {

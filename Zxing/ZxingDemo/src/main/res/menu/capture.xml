@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/menu_history"
-        android:icon="@android:drawable/ic_menu_recent_history"
-        android:orderInCategory="2"
-        android:showAsAction="withText|ifRoom"
-        android:title="历史记录" />
-</menu>

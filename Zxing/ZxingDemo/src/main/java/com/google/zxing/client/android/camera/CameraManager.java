@@ -272,6 +272,7 @@ public final class CameraManager {
 	
 	
 	/**
+	 * 设置拍照的摄像头id，默认 OpenCameraInterface.NO_REQUESTED_CAMERA
 	 * Allows third party apps to specify the camera ID, rather than determine
 	 * it automatically based on available cameras and their orientation.
 	 *
@@ -282,6 +283,7 @@ public final class CameraManager {
 	}
 	
 	/**
+	 * 手动设置  扫描时的方框范围
 	 * Allows third party apps to specify the scanning rectangle dimensions, rather than determine
 	 * them automatically based on screen resolution.
 	 *
