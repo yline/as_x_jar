@@ -1,11 +1,18 @@
 package com.zxing.demo.manager;
 
+import android.text.TextUtils;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
+import com.google.zxing.client.android.result.ResultHandler;
+import com.yline.application.SDKManager;
 import com.yline.utils.LogUtil;
+import com.yline.utils.SPUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class LogManager {
@@ -69,5 +76,54 @@ public class LogManager {
 		stringBuilder.append(timestamp);
 		
 		LogUtil.v(stringBuilder.toString());
+	}
+	
+	public static String buildHistoryItem(Result result, ResultHandler resultHandler){
+		StringBuilder stringBuilder = new StringBuilder();
+		String text = result.getText();
+		stringBuilder.append("text = ");
+		stringBuilder.append(text);
+		
+		String barcodeFormat = result.getBarcodeFormat().toString();
+		stringBuilder.append('\n');
+		stringBuilder.append("barcodeFormat = ");
+		stringBuilder.append(barcodeFormat);
+		
+		String displayContent = resultHandler.getDisplayContents();
+		stringBuilder.append('\n');
+		stringBuilder.append("displayContent = ");
+		stringBuilder.append(displayContent);
+		
+		long timestamp = result.getTimestamp();
+		stringBuilder.append('\n');
+		stringBuilder.append("timestamp = ");
+		stringBuilder.append(timestamp);
+		
+		return stringBuilder.toString();
+	}
+	
+	public static void printHistoryItems(){
+		List<String> historyItemList = new ArrayList<>();
+		
+		String historyItem;
+		for (int i = 0; i < DBManager.HISTORY_MAX_NUM; i++) {
+			historyItem = DBManager.getInstance().getHistoryItem(i);
+			if (!TextUtils.isEmpty(historyItem)) {
+				historyItemList.add(historyItem);
+			}
+		}
+		
+		if (historyItemList.isEmpty()) {
+			LogUtil.v("historyItem is null");
+		} else {
+			for (String str : historyItemList) {
+				try {
+					Thread.sleep(1); // 打印太快，可能就混一起了
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				LogUtil.v("historyItem = \n" + str);
+			}
+		}
 	}
 }

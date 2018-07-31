@@ -1,6 +1,5 @@
 package com.google.zxing.client.android.camera;
 
-import android.content.Context;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -35,7 +34,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
 	
 	private AsyncTask<?, ?, ?> outstandingTask;
 	
-	AutoFocusManager(Context context, Camera camera) {
+	AutoFocusManager(Camera camera) {
 		this.camera = camera;
 		String currentFocusMode = camera.getParameters().getFocusMode();
 		useAutoFocus =

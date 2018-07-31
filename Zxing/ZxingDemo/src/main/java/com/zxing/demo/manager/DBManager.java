@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBManager {
-	private static final int HISTORY_MAX_NUM = 5;
+	public static final int HISTORY_MAX_NUM = 5;
 	
 	private static DBManager dbManager;
 	
@@ -63,27 +63,7 @@ public class DBManager {
 	}
 	
 	public void addHistoryItem(Result result, ResultHandler resultHandler) {
-		StringBuilder stringBuilder = new StringBuilder();
-		String text = result.getText();
-		stringBuilder.append("text = ");
-		stringBuilder.append(text);
-		
-		String barcodeFormat = result.getBarcodeFormat().toString();
-		stringBuilder.append('\n');
-		stringBuilder.append("barcodeFormat = ");
-		stringBuilder.append(barcodeFormat);
-		
-		String displayContent = resultHandler.getDisplayContents();
-		stringBuilder.append('\n');
-		stringBuilder.append("displayContent = ");
-		stringBuilder.append(displayContent);
-		
-		long timestamp = result.getTimestamp();
-		stringBuilder.append('\n');
-		stringBuilder.append("timestamp = ");
-		stringBuilder.append(timestamp);
-		
-		String historyItem = stringBuilder.toString();
+		String historyItem = LogManager.buildHistoryItem(result, resultHandler);
 		int historyNum = (int) SPUtil.get(SDKManager.getApplication(), Key.KEY_HISTORY_NUM, 0);
 		historyNum = historyNum % HISTORY_MAX_NUM;
 		
@@ -93,29 +73,8 @@ public class DBManager {
 		SPUtil.put(SDKManager.getApplication(), Key.KEY_HISTORY_NUM, historyNum);
 	}
 	
-	public void buildHistoryItems() {
-		List<String> historyItemList = new ArrayList<>();
-		
-		String historyItem;
-		for (int i = 0; i < HISTORY_MAX_NUM; i++) {
-			historyItem = (String) SPUtil.get(SDKManager.getApplication(), (Key.KEY_HISTORY_VALUE + i), "");
-			if (!TextUtils.isEmpty(historyItem)) {
-				historyItemList.add(historyItem);
-			}
-		}
-		
-		if (historyItemList.isEmpty()) {
-			LogUtil.v("historyItem is null");
-		} else {
-			for (String str : historyItemList) {
-				try {
-					Thread.sleep(1); // 打印太快，可能就混一起了
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				LogUtil.v("historyItem = \n" + str);
-			}
-		}
+	public String getHistoryItem(int index) {
+		return (String) SPUtil.get(SDKManager.getApplication(), (Key.KEY_HISTORY_VALUE + index), "");
 	}
 	
 	private static class Key {

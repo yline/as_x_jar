@@ -11,6 +11,7 @@ import com.google.zxing.client.android.result.ResultHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -118,7 +119,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		// want to open the camera driver and measure the screen size if we're going to show the help on
 		// first launch. That led to bugs where the scanning rectangle was the wrong size and partially
 		// off screen.
-		cameraManager = new CameraManager(getApplication());
+		cameraManager = new CameraManager();
 		mViewfinderView.setCameraManager(cameraManager);
 		
 		handler = null;
@@ -342,8 +343,18 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.app_name));
 		builder.setMessage(getString(R.string.msg_camera_framework_bug));
-		builder.setPositiveButton(R.string.button_ok, new FinishListener(this));
-		builder.setOnCancelListener(new FinishListener(this));
+		builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				finish();
+			}
+		});
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				finish();
+			}
+		});
 		builder.show();
 	}
 	

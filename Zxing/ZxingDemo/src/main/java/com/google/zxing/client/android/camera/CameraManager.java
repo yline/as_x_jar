@@ -34,8 +34,6 @@ public final class CameraManager {
 	
 	private static final int MAX_FRAME_HEIGHT = 675; // = 5/8 * 1080
 	
-	private final Context context;
-	
 	private final CameraConfigurationManager configManager;
 	
 	private OpenCamera camera;
@@ -62,9 +60,8 @@ public final class CameraManager {
 	 */
 	private final PreviewCallback previewCallback;
 	
-	public CameraManager(Context context) {
-		this.context = context;
-		this.configManager = new CameraConfigurationManager(context);
+	public CameraManager() {
+		this.configManager = new CameraConfigurationManager();
 		previewCallback = new PreviewCallback(configManager);
 	}
 	
@@ -146,7 +143,7 @@ public final class CameraManager {
 		if (theCamera != null && !previewing) {
 			theCamera.getCamera().startPreview();
 			previewing = true;
-			autoFocusManager = new AutoFocusManager(context, theCamera.getCamera());
+			autoFocusManager = new AutoFocusManager(theCamera.getCamera());
 		}
 	}
 	
@@ -180,7 +177,7 @@ public final class CameraManager {
 			}
 			configManager.setTorch(theCamera.getCamera(), newSetting);
 			if (wasAutoFocusManager) {
-				autoFocusManager = new AutoFocusManager(context, theCamera.getCamera());
+				autoFocusManager = new AutoFocusManager(theCamera.getCamera());
 				autoFocusManager.start();
 			}
 		}
@@ -325,8 +322,7 @@ public final class CameraManager {
 			return null;
 		}
 		// Go ahead and assume it's YUV rather than die.
-		return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top,
-				rect.width(), rect.height(), false);
+		return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height(), false);
 	}
 	
 }

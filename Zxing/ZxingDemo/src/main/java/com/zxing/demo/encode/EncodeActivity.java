@@ -3,10 +3,10 @@ package com.zxing.demo.encode;
 import android.app.Activity;
 import android.content.Context;
 
-import com.google.zxing.client.android.FinishListener;
 import com.google.zxing.client.android.R;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -74,8 +74,18 @@ public final class EncodeActivity extends BaseActivity {
 	private void showErrorMessage(String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(message);
-		builder.setPositiveButton("确定", new FinishListener(this));
-		builder.setOnCancelListener(new FinishListener(this));
+		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				finish();
+			}
+		});
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				finish();
+			}
+		});
 		builder.show();
 	}
 }
