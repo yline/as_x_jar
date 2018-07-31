@@ -34,9 +34,8 @@ public class ResultHandler {
 	 *
 	 * @return The text to be displayed.
 	 */
-	public CharSequence getDisplayContents() {
-		String contents = result.getDisplayResult();
-		return contents.replace("\r", "");
+	public String getDisplayContents() {
+		return result.getDisplayResult();
 	}
 	
 	/**

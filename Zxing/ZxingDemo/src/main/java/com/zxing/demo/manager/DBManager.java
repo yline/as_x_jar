@@ -131,7 +131,6 @@ public class DBManager {
 		}
 	}
 	
-	
 	private static class Key {
 		// 扫描成功
 		private static final String KEY_PLAY_BEEP = "play_beep"; // 播放提示音

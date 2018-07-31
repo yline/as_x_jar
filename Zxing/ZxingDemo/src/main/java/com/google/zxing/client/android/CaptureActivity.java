@@ -34,7 +34,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.client.result.ParsedResultType;
 import com.yline.base.BaseActivity;
+import com.zxing.demo.capture.CaptureResultView;
 import com.zxing.demo.manager.DBManager;
 
 import java.io.IOException;
@@ -67,12 +69,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private static final long BULK_MODE_SCAN_DELAY_MS = 1000L;
 	
-	private static final Collection<ResultMetadataType> DISPLAYABLE_METADATA_TYPES =
-			EnumSet.of(ResultMetadataType.ISSUE_NUMBER,
-					ResultMetadataType.SUGGESTED_PRICE,
-					ResultMetadataType.ERROR_CORRECTION_LEVEL,
-					ResultMetadataType.POSSIBLE_COUNTRY);
-	
 	private CameraManager cameraManager;
 	
 	private CaptureActivityHandler handler;
@@ -83,13 +79,13 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private TextView statusView;
 	
-	private View resultView;
-	
 	private Result lastResult;
 	
 	private boolean hasSurface;
 	
 	private BeepManager beepManager;
+	
+	private CaptureResultView mCaptureResultView;
 	
 	private AmbientLightManager ambientLightManager;
 	
@@ -116,6 +112,8 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		hasSurface = false;
 		beepManager = new BeepManager(this);
 		ambientLightManager = new AmbientLightManager(this);
+		
+		mCaptureResultView = findViewById(R.id.capture_result_view);
 	}
 	
 	@Override
@@ -131,7 +129,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
 		viewfinderView.setCameraManager(cameraManager);
 		
-		resultView = findViewById(R.id.result_view);
 		statusView = (TextView) findViewById(R.id.status_view);
 		
 		handler = null;
@@ -336,52 +333,15 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	private void handleDecodeInternally(Result rawResult, ResultHandler resultHandler, Bitmap barcode) {
 		statusView.setVisibility(View.GONE);
 		viewfinderView.setVisibility(View.GONE);
-		resultView.setVisibility(View.VISIBLE);
 		
-		ImageView barcodeImageView = (ImageView) findViewById(R.id.barcode_image_view);
-		if (barcode == null) {
-			barcodeImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-					R.drawable.launcher_icon));
-		} else {
-			barcodeImageView.setImageBitmap(barcode);
-		}
-		
-		TextView formatTextView = (TextView) findViewById(R.id.format_text_view);
-		formatTextView.setText(rawResult.getBarcodeFormat().toString());
-		
-		TextView typeTextView = (TextView) findViewById(R.id.type_text_view);
-		typeTextView.setText(resultHandler.getType().toString());
-		
-		DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-		TextView timeTextView = (TextView) findViewById(R.id.time_text_view);
-		timeTextView.setText(formatter.format(rawResult.getTimestamp()));
-		
-		
-		TextView metaTextView = (TextView) findViewById(R.id.meta_text_view);
-		View metaTextViewLabel = findViewById(R.id.meta_text_view_label);
-		metaTextView.setVisibility(View.GONE);
-		metaTextViewLabel.setVisibility(View.GONE);
+		BarcodeFormat format = rawResult.getBarcodeFormat();
+		ParsedResultType resultType = resultHandler.getType();
 		Map<ResultMetadataType, Object> metadata = rawResult.getResultMetadata();
-		if (metadata != null) {
-			StringBuilder metadataText = new StringBuilder(20);
-			for (Map.Entry<ResultMetadataType, Object> entry : metadata.entrySet()) {
-				if (DISPLAYABLE_METADATA_TYPES.contains(entry.getKey())) {
-					metadataText.append(entry.getValue()).append('\n');
-				}
-			}
-			if (metadataText.length() > 0) {
-				metadataText.setLength(metadataText.length() - 1);
-				metaTextView.setText(metadataText);
-				metaTextView.setVisibility(View.VISIBLE);
-				metaTextViewLabel.setVisibility(View.VISIBLE);
-			}
-		}
 		
-		CharSequence displayContents = resultHandler.getDisplayContents();
-		TextView contentsTextView = (TextView) findViewById(R.id.contents_text_view);
-		contentsTextView.setText(displayContents);
-		int scaledSize = Math.max(22, 32 - displayContents.length() / 4);
-		contentsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledSize);
+		String encodeContent = resultHandler.getDisplayContents();
+		
+		mCaptureResultView.setVisibility(View.VISIBLE);
+		mCaptureResultView.setData(barcode, format, resultType, rawResult.getTimestamp(), metadata, encodeContent);
 	}
 	
 	private void initCamera(SurfaceHolder surfaceHolder) {
@@ -427,7 +387,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	}
 	
 	private void resetStatusView() {
-		resultView.setVisibility(View.GONE);
+		mCaptureResultView.setVisibility(View.GONE);
 		statusView.setText(R.string.msg_default_status);
 		statusView.setVisibility(View.VISIBLE);
 		viewfinderView.setVisibility(View.VISIBLE);
