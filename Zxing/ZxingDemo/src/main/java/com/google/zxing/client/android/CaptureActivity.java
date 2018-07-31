@@ -15,14 +15,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -30,19 +27,16 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.client.result.ParsedResultType;
 import com.yline.base.BaseActivity;
+import com.zxing.demo.capture.BeepHelper;
 import com.zxing.demo.capture.CaptureResultView;
 import com.zxing.demo.manager.DBManager;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Map;
 
 /**
@@ -69,28 +63,25 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private static final long BULK_MODE_SCAN_DELAY_MS = 1000L;
 	
+	private SurfaceView mSurfaceView;
+	private ViewfinderView mViewfinderView;
+	private CaptureResultView mCaptureResultView;
+	private TextView mStatusView;
+	
+	private BeepHelper mBeepHelper;
+	
 	private CameraManager cameraManager;
 	
 	private CaptureActivityHandler handler;
-	
-	private Result savedResultToShow;
-	
-	private ViewfinderView viewfinderView;
-	
-	private TextView statusView;
 	
 	private Result lastResult;
 	
 	private boolean hasSurface;
 	
-	private BeepManager beepManager;
-	
-	private CaptureResultView mCaptureResultView;
-	
 	private AmbientLightManager ambientLightManager;
 	
 	ViewfinderView getViewfinderView() {
-		return viewfinderView;
+		return mViewfinderView;
 	}
 	
 	public Handler getHandler() {
@@ -110,10 +101,13 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		setContentView(R.layout.activity_capture);
 		
 		hasSurface = false;
-		beepManager = new BeepManager(this);
+		mBeepHelper = new BeepHelper(this);
 		ambientLightManager = new AmbientLightManager(this);
 		
+		mSurfaceView = findViewById(R.id.capture_surface);
+		mViewfinderView = findViewById(R.id.capture_viewfinder_view);
 		mCaptureResultView = findViewById(R.id.capture_result_view);
+		mStatusView = findViewById(R.id.capture_status_view);
 	}
 	
 	@Override
@@ -125,11 +119,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		// first launch. That led to bugs where the scanning rectangle was the wrong size and partially
 		// off screen.
 		cameraManager = new CameraManager(getApplication());
-		
-		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-		viewfinderView.setCameraManager(cameraManager);
-		
-		statusView = (TextView) findViewById(R.id.status_view);
+		mViewfinderView.setCameraManager(cameraManager);
 		
 		handler = null;
 		lastResult = null;
@@ -142,11 +132,10 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		
 		resetStatusView();
 		
-		beepManager.updatePrefs();
+		mBeepHelper.updatePrefs();
 		ambientLightManager.start(cameraManager);
 		
-		SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
-		SurfaceHolder surfaceHolder = surfaceView.getHolder();
+		SurfaceHolder surfaceHolder = mSurfaceView.getHolder();
 		if (hasSurface) {
 			// The activity was paused but not stopped, so the surface still exists. Therefore
 			// surfaceCreated() won't be called, so init the camera here.
@@ -185,11 +174,10 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			handler = null;
 		}
 		ambientLightManager.stop();
-		beepManager.close();
+		mBeepHelper.close();
 		cameraManager.closeDriver();
 		if (!hasSurface) {
-			SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
-			SurfaceHolder surfaceHolder = surfaceView.getHolder();
+			SurfaceHolder surfaceHolder = mSurfaceView.getHolder();
 			surfaceHolder.removeCallback(this);
 		}
 		super.onPause();
@@ -217,22 +205,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-	
-	private void decodeOrStoreSavedBitmap(Bitmap bitmap, Result result) {
-		// Bitmap isn't used yet -- will be used soon
-		if (handler == null) {
-			savedResultToShow = result;
-		} else {
-			if (result != null) {
-				savedResultToShow = result;
-			}
-			if (savedResultToShow != null) {
-				Message message = Message.obtain(handler, R.id.decode_succeeded, savedResultToShow);
-				handler.sendMessage(message);
-			}
-			savedResultToShow = null;
-		}
 	}
 	
 	@Override
@@ -267,18 +239,16 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		lastResult = rawResult;
 		ResultHandler resultHandler = ResultHandler.makeResultHandler(rawResult);
 		
-		boolean fromLiveScan = barcode != null;
+		boolean fromLiveScan = (barcode != null);
 		if (fromLiveScan) {
 			DBManager.getInstance().addHistoryItem(rawResult, resultHandler);
 			// Then not from history, so beep/vibrate and we have an image to draw on
-			beepManager.playBeepSoundAndVibrate();
+			mBeepHelper.playBeepSoundAndVibrate();
 			drawResultPoints(barcode, scaleFactor, rawResult);
 		}
 		
 		if (fromLiveScan && DBManager.getInstance().getBulkMode()) {
-			Toast.makeText(getApplicationContext(),
-					getResources().getString(R.string.msg_bulk_mode_scanned) + " (" + rawResult.getText() + ')',
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), getResources().getString(R.string.msg_bulk_mode_scanned) + " (" + rawResult.getText() + ')', Toast.LENGTH_SHORT).show();
 			// Wait a moment or else it will scan the same barcode continuously about 3 times
 			restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
 		} else {
@@ -302,9 +272,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			if (points.length == 2) {
 				paint.setStrokeWidth(4.0f);
 				drawLine(canvas, paint, points[0], points[1], scaleFactor);
-			} else if (points.length == 4 &&
-					(rawResult.getBarcodeFormat() == BarcodeFormat.UPC_A ||
-							rawResult.getBarcodeFormat() == BarcodeFormat.EAN_13)) {
+			} else if (points.length == 4 && (rawResult.getBarcodeFormat() == BarcodeFormat.UPC_A || rawResult.getBarcodeFormat() == BarcodeFormat.EAN_13)) {
 				// Hacky special case -- draw two lines, for the barcode and metadata
 				drawLine(canvas, paint, points[0], points[1], scaleFactor);
 				drawLine(canvas, paint, points[2], points[3], scaleFactor);
@@ -321,18 +289,14 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private static void drawLine(Canvas canvas, Paint paint, ResultPoint a, ResultPoint b, float scaleFactor) {
 		if (a != null && b != null) {
-			canvas.drawLine(scaleFactor * a.getX(),
-					scaleFactor * a.getY(),
-					scaleFactor * b.getX(),
-					scaleFactor * b.getY(),
-					paint);
+			canvas.drawLine(scaleFactor * a.getX(), scaleFactor * a.getY(), scaleFactor * b.getX(), scaleFactor * b.getY(), paint);
 		}
 	}
 	
 	// Put up our own UI for how to handle the decoded contents.
 	private void handleDecodeInternally(Result rawResult, ResultHandler resultHandler, Bitmap barcode) {
-		statusView.setVisibility(View.GONE);
-		viewfinderView.setVisibility(View.GONE);
+		mStatusView.setVisibility(View.GONE);
+		mViewfinderView.setVisibility(View.GONE);
 		
 		BarcodeFormat format = rawResult.getBarcodeFormat();
 		ParsedResultType resultType = resultHandler.getType();
@@ -358,7 +322,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			if (handler == null) {
 				handler = new CaptureActivityHandler(this, cameraManager);
 			}
-			decodeOrStoreSavedBitmap(null, null);
 		} catch (IOException ioe) {
 			Log.w(TAG, ioe);
 			displayFrameworkBugMessageAndExit();
@@ -388,13 +351,13 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private void resetStatusView() {
 		mCaptureResultView.setVisibility(View.GONE);
-		statusView.setText(R.string.msg_default_status);
-		statusView.setVisibility(View.VISIBLE);
-		viewfinderView.setVisibility(View.VISIBLE);
+		mStatusView.setText(R.string.msg_default_status);
+		mStatusView.setVisibility(View.VISIBLE);
+		mViewfinderView.setVisibility(View.VISIBLE);
 		lastResult = null;
 	}
 	
 	public void drawViewfinder() {
-		viewfinderView.drawViewfinder();
+		mViewfinderView.drawViewfinder();
 	}
 }

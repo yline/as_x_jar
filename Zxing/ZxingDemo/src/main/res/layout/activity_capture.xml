@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SurfaceView
-        android:id="@+id/preview_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:id="@+id/capture_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.google.zxing.client.android.ViewfinderView
-        android:id="@+id/viewfinder_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:id="@+id/capture_viewfinder_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.zxing.demo.capture.CaptureResultView
         android:id="@+id/capture_result_view"
@@ -19,7 +18,7 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/status_view"
+        android:id="@+id/capture_status_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"

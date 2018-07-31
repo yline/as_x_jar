@@ -31,14 +31,6 @@ public class DBManager {
 		return dbManager;
 	}
 	
-	public boolean getPlayBeep() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_PLAY_BEEP, true);
-	}
-	
-	public boolean getVibrate() {
-		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_VIBRATE, false);
-	}
-	
 	public String getFrontLightMode() {
 		return (String) SPUtil.get(SDKManager.getApplication(), Key.KEY_FRONT_LIGHT_MODE, FrontLightMode.OFF.toString());
 	}
@@ -86,7 +78,7 @@ public class DBManager {
 		stringBuilder.append("barcodeFormat = ");
 		stringBuilder.append(barcodeFormat);
 		
-		String displayContent = resultHandler.getDisplayContents().toString();
+		String displayContent = resultHandler.getDisplayContents();
 		stringBuilder.append('\n');
 		stringBuilder.append("displayContent = ");
 		stringBuilder.append(displayContent);
@@ -132,11 +124,6 @@ public class DBManager {
 	}
 	
 	private static class Key {
-		// 扫描成功
-		private static final String KEY_PLAY_BEEP = "play_beep"; // 播放提示音
-		
-		private static final String KEY_VIBRATE = "vibrate"; // 震动
-		
 		// 扫描设置
 		private static final String KEY_FRONT_LIGHT_MODE = "front_light_mode"; // 设置闪光灯模式  FrontLightMode
 		
