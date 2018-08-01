@@ -8,6 +8,7 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
+import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.common.HybridBinarizer;
 
 import android.os.Bundle;
@@ -22,16 +23,19 @@ import java.util.Map;
 final class DecodeHandler extends Handler {
 	private static final String TAG = DecodeHandler.class.getSimpleName();
 	
-	private final CaptureActivity activity;
+	private final Handler mMainHandler;
+	
+	private final CameraManager mCameraManager;
 	
 	private final MultiFormatReader multiFormatReader;
 	
 	private boolean running = true;
 	
-	DecodeHandler(CaptureActivity activity, Map<DecodeHintType, Object> hints) {
+	DecodeHandler(CameraManager cameraManager, Map<DecodeHintType, Object> hints, Handler mainHandler) {
 		multiFormatReader = new MultiFormatReader();
 		multiFormatReader.setHints(hints);
-		this.activity = activity;
+		this.mMainHandler = mainHandler;
+		this.mCameraManager = cameraManager;
 	}
 	
 	@Override
@@ -61,7 +65,7 @@ final class DecodeHandler extends Handler {
 	private void decode(byte[] data, int width, int height) {
 		long start = System.currentTimeMillis();
 		Result rawResult = null;
-		PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
+		PlanarYUVLuminanceSource source = mCameraManager.buildLuminanceSource(data, width, height);
 		if (source != null) {
 			BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 			try {
@@ -73,7 +77,7 @@ final class DecodeHandler extends Handler {
 			}
 		}
 		
-		Handler handler = activity.getHandler();
+		Handler handler = mMainHandler;
 		if (rawResult != null) {
 			// Don't log the barcode contents for security.
 			long end = System.currentTimeMillis();

@@ -3,6 +3,7 @@ package com.google.zxing.client.android;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
+import com.google.zxing.client.android.camera.CameraManager;
 import com.zxing.demo.manager.DBManager;
 
 import android.os.Handler;
@@ -25,16 +26,19 @@ final class DecodeThread extends Thread {
 	
 	public static final String BARCODE_SCALED_FACTOR = "barcode_scaled_factor";
 	
-	private final CaptureActivity activity;
+	private final CameraManager mCameraManager;
 	
 	private final Map<DecodeHintType, Object> hints;
 	
 	private Handler handler;
 	
+	private final Handler mMainHandler;
 	private final CountDownLatch handlerInitLatch;
 	
-	DecodeThread(CaptureActivity activity, ResultPointCallback resultPointCallback) {
-		this.activity = activity;
+	DecodeThread(CameraManager cameraManager, ResultPointCallback resultPointCallback, Handler mainHandler) {
+		this.mCameraManager = cameraManager;
+		this.mMainHandler = mainHandler;
+		
 		handlerInitLatch = new CountDownLatch(1);
 		hints = buildDecodeHintMap(resultPointCallback);
 	}
@@ -51,7 +55,7 @@ final class DecodeThread extends Thread {
 	@Override
 	public void run() {
 		Looper.prepare();
-		handler = new DecodeHandler(activity, hints);
+		handler = new DecodeHandler(mCameraManager, hints, mMainHandler);
 		handlerInitLatch.countDown();
 		Looper.loop();
 	}

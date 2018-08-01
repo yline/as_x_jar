@@ -26,14 +26,12 @@ public final class CaptureActivityHandler extends Handler {
 	private final CameraManager cameraManager;
 	
 	private enum State {
-		PREVIEW,
-		SUCCESS,
-		DONE
+		PREVIEW, SUCCESS, DONE
 	}
 	
-	CaptureActivityHandler(CaptureActivity activity, CameraManager cameraManager) {
+	CaptureActivityHandler(CaptureActivity activity, CameraManager cameraManager, ViewfinderView viewfinderView) {
 		this.activity = activity;
-		decodeThread = new DecodeThread(activity, new ViewfinderResultPointCallback(activity.getViewfinderView()));
+		decodeThread = new DecodeThread(cameraManager, new ViewfinderResultPointCallback(viewfinderView), this);
 		decodeThread.start();
 		state = State.SUCCESS;
 		

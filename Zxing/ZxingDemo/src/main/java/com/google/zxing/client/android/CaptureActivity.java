@@ -81,18 +81,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	private boolean hasSurface;
 	
-	ViewfinderView getViewfinderView() {
-		return mViewfinderView;
-	}
-	
-	public Handler getHandler() {
-		return handler;
-	}
-	
-	CameraManager getCameraManager() {
-		return cameraManager;
-	}
-	
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
@@ -101,14 +89,14 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.activity_capture);
 		
-		hasSurface = false;
-		mBeepHelper = new BeepHelper(this);
-		mAmbientLightHelper = new AmbientLightHelper(this);
-		
 		mSurfaceView = findViewById(R.id.capture_surface);
 		mViewfinderView = findViewById(R.id.capture_viewfinder_view);
 		mCaptureResultView = findViewById(R.id.capture_result_view);
 		mStatusView = findViewById(R.id.capture_status_view);
+		
+		hasSurface = false;
+		mBeepHelper = new BeepHelper(this);
+		mAmbientLightHelper = new AmbientLightHelper(this);
 	}
 	
 	@Override
@@ -326,7 +314,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			cameraManager.openDriver(surfaceHolder);
 			// Creating the handler starts the preview, which can also throw a RuntimeException.
 			if (handler == null) {
-				handler = new CaptureActivityHandler(this, cameraManager);
+				handler = new CaptureActivityHandler(this, cameraManager, mViewfinderView);
 			}
 		} catch (IOException ioe) {
 			Log.w(TAG, ioe);
