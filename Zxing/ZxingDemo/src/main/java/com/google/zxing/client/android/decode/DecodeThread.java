@@ -3,6 +3,7 @@ package com.google.zxing.client.android.decode;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
+import com.google.zxing.client.android.helper.CodeManager;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -63,44 +64,10 @@ final class DecodeThread extends Thread {
 	 */
 	private static Map<DecodeHintType, Object> buildDecodeHintMap(ResultPointCallback resultPointCallback) {
 		Map<DecodeHintType, Object> hintMap = new EnumMap<>(DecodeHintType.class);
-		attachBarcodeFormat(hintMap);
+		CodeManager.attachBarcodeFormat(hintMap);
 		
 		hintMap.put(DecodeHintType.CHARACTER_SET, "UTF-8");
 		hintMap.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
 		return hintMap;
-	}
-	
-	/**
-	 * 管理支持的扫码功能
-	 * 对应文件：com.google.zxing.MultiFormatReader
-	 *
-	 * @param decodeHintMap 将要 设置入 MultiFormatReader 的hints内容
-	 */
-	private static void attachBarcodeFormat(Map<DecodeHintType, Object> decodeHintMap) {
-		Collection<BarcodeFormat> barcodeFormats = EnumSet.noneOf(BarcodeFormat.class);
-		
-		/*
-		 * 一维码  对应  MultiFormatOneDReader
-		 * {UPC_A、UPC_E、EAN_13、EAN_8、CODABAR、CODE_39、CODE_93、CODE_128、ITF、RSS_14、RSS_EXPANDED}
-		 * 以上满足一条，即可支持一维码解码
-		 */
-		barcodeFormats.add(BarcodeFormat.UPC_A);
-		
-		/* 二维码  对应 QRCodeReader */
-		barcodeFormats.add(BarcodeFormat.QR_CODE);
-		
-		/* 矩阵式二维码  对应  DataMatrixReader */
-		barcodeFormats.add(BarcodeFormat.DATA_MATRIX);
-		
-		/* 高容量二维码  对应  AztecReader */
-		// barcodeFormats.add(BarcodeFormat.AZTEC);
-		
-		/* 堆叠式二维码  对应  PDF417Reader */
-		// barcodeFormats.add(BarcodeFormat.PDF_417);
-		
-		/* 多功能条码  对应  MaxiCodeReader */
-		// barcodeFormats.add(BarcodeFormat.MAXICODE);
-		
-		decodeHintMap.put(DecodeHintType.POSSIBLE_FORMATS, barcodeFormats);
 	}
 }

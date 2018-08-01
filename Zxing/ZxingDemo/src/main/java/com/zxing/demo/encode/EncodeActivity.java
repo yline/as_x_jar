@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.zxing.client.android.encode.EncoderManager;
+import com.google.zxing.client.android.helper.CodeManager;
 import com.yline.application.SDKManager;
 import com.yline.base.BaseActivity;
 import com.yline.utils.LogUtil;
@@ -54,7 +54,7 @@ public final class EncodeActivity extends BaseActivity {
 		int screenWidth = UIScreenUtil.getScreenWidth(SDKManager.getApplication());
 		int smallerDimension = screenWidth * 7 / 8;
 		
-		Bitmap bitmap = EncoderManager.encodeAsQRCodeBitmap(encodeData, smallerDimension);
+		Bitmap bitmap = CodeManager.encodeAsQRCodeBitmap(encodeData, smallerDimension);
 		
 		if (bitmap == null) {
 			LogUtil.v("Could not activity_encode barcode");
@@ -62,10 +62,10 @@ public final class EncodeActivity extends BaseActivity {
 			return;
 		}
 		
-		ImageView view = (ImageView) findViewById(R.id.encode_image_view);
+		ImageView view = findViewById(R.id.encode_image_view);
 		view.setImageBitmap(bitmap);
 		
-		TextView contents = (TextView) findViewById(R.id.encode_contents_text_view);
+		TextView contents = findViewById(R.id.encode_contents_text_view);
 		contents.setText(encodeData);
 		
 		setTitle("纯文本");
