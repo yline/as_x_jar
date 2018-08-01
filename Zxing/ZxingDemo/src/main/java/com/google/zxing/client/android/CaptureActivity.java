@@ -19,7 +19,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Surface;
@@ -31,8 +30,10 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.client.android.view.ViewfinderView;
 import com.google.zxing.client.result.ParsedResultType;
 import com.yline.base.BaseActivity;
+import com.yline.utils.LogUtil;
 import com.zxing.demo.capture.AmbientLightHelper;
 import com.zxing.demo.capture.BeepHelper;
 import com.zxing.demo.capture.CaptureResultView;
@@ -97,11 +98,13 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		hasSurface = false;
 		mBeepHelper = new BeepHelper(this);
 		mAmbientLightHelper = new AmbientLightHelper(this);
+		LogUtil.v("");
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
+		LogUtil.v("");
 		
 		// CameraManager must be initialized here, not in onCreate(). This is necessary because we don't
 		// want to open the camera driver and measure the screen size if we're going to show the help on
@@ -114,7 +117,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		lastResult = null;
 		
 		if (DBManager.getInstance().getOrientation()) {
-			setRequestedOrientation(getCurrentOrientation());
+			setRequestedOrientation(getCurrentOrientation(this));
 		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 		}
@@ -133,31 +136,37 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			// Install the callback and wait for surfaceCreated() to init the camera.
 			surfaceHolder.addCallback(this);
 		}
+		
+		LogUtil.v("hasSurface = " + hasSurface);
 	}
 	
-	private int getCurrentOrientation() {
-		int rotation = getWindowManager().getDefaultDisplay().getRotation();
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			switch (rotation) {
-				case Surface.ROTATION_0:
-				case Surface.ROTATION_90:
-					return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-				default:
-					return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
-			}
-		} else {
-			switch (rotation) {
-				case Surface.ROTATION_0:
-				case Surface.ROTATION_270:
-					return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-				default:
-					return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
-			}
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		if (holder == null) {
+			Log.e(TAG, "*** WARNING *** surfaceCreated() gave us a null surface!");
+		}
+		
+		LogUtil.v("");
+		if (!hasSurface) {
+			hasSurface = true;
+			initCamera(holder);
 		}
 	}
 	
 	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		hasSurface = false;
+	}
+	
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		// do nothing
+	}
+	
+	@Override
 	protected void onPause() {
+		LogUtil.v("");
+		
 		if (handler != null) {
 			handler.quitSynchronously();
 			handler = null;
@@ -170,11 +179,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			surfaceHolder.removeCallback(this);
 		}
 		super.onPause();
-	}
-	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
 	}
 	
 	@Override
@@ -199,27 +203,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-	
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		if (holder == null) {
-			Log.e(TAG, "*** WARNING *** surfaceCreated() gave us a null surface!");
-		}
-		if (!hasSurface) {
-			hasSurface = true;
-			initCamera(holder);
-		}
-	}
-	
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		hasSurface = false;
-	}
-	
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		// do nothing
 	}
 	
 	/**
@@ -363,5 +346,26 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	public void drawViewfinder() {
 		mViewfinderView.drawViewfinder();
+	}
+	
+	private static int getCurrentOrientation(Activity activity) {
+		int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			switch (rotation) {
+				case Surface.ROTATION_0:
+				case Surface.ROTATION_90:
+					return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+				default:
+					return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+			}
+		} else {
+			switch (rotation) {
+				case Surface.ROTATION_0:
+				case Surface.ROTATION_270:
+					return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+				default:
+					return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+			}
+		}
 	}
 }

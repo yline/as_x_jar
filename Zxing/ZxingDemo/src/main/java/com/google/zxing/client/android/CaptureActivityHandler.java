@@ -4,6 +4,8 @@ import android.graphics.BitmapFactory;
 
 import com.google.zxing.Result;
 import com.google.zxing.client.android.camera.CameraManager;
+import com.google.zxing.client.android.view.ViewfinderResultPointCallback;
+import com.google.zxing.client.android.view.ViewfinderView;
 import com.zxing.demo.manager.LogManager;
 
 import android.graphics.Bitmap;

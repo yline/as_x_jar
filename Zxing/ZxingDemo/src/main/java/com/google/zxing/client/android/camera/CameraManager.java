@@ -1,6 +1,5 @@
 package com.google.zxing.client.android.camera;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
@@ -23,15 +22,11 @@ import java.io.IOException;
  */
 @SuppressWarnings("deprecation") // camera APIs
 public final class CameraManager {
-	
 	private static final String TAG = CameraManager.class.getSimpleName();
 	
 	private static final int MIN_FRAME_WIDTH = 240;
-	
 	private static final int MIN_FRAME_HEIGHT = 240;
-	
 	private static final int MAX_FRAME_WIDTH = 1200; // = 5/8 * 1920
-	
 	private static final int MAX_FRAME_HEIGHT = 675; // = 5/8 * 1080
 	
 	private final CameraConfigurationManager configManager;
@@ -324,5 +319,4 @@ public final class CameraManager {
 		// Go ahead and assume it's YUV rather than die.
 		return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height(), false);
 	}
-	
 }

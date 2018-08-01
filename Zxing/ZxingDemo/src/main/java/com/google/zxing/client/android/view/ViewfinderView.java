@@ -1,6 +1,7 @@
-package com.google.zxing.client.android;
+package com.google.zxing.client.android.view;
 
 import com.google.zxing.ResultPoint;
+import com.google.zxing.client.android.R;
 import com.google.zxing.client.android.camera.CameraManager;
 
 import android.annotation.SuppressLint;
@@ -124,9 +125,7 @@ public final class ViewfinderView extends View {
 				paint.setColor(resultPointColor);
 				synchronized (currentPossible) {
 					for (ResultPoint point : currentPossible) {
-						canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX),
-								frameTop + (int) (point.getY() * scaleY),
-								POINT_SIZE, paint);
+						canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX), frameTop + (int) (point.getY() * scaleY), POINT_SIZE, paint);
 					}
 				}
 			}
@@ -136,20 +135,14 @@ public final class ViewfinderView extends View {
 				synchronized (currentLast) {
 					float radius = POINT_SIZE / 2.0f;
 					for (ResultPoint point : currentLast) {
-						canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX),
-								frameTop + (int) (point.getY() * scaleY),
-								radius, paint);
+						canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX), frameTop + (int) (point.getY() * scaleY), radius, paint);
 					}
 				}
 			}
 			
 			// Request another update at the animation interval, but only repaint the laser line,
 			// not the entire viewfinder mask.
-			postInvalidateDelayed(ANIMATION_DELAY,
-					frame.left - POINT_SIZE,
-					frame.top - POINT_SIZE,
-					frame.right + POINT_SIZE,
-					frame.bottom + POINT_SIZE);
+			postInvalidateDelayed(ANIMATION_DELAY, frame.left - POINT_SIZE, frame.top - POINT_SIZE, frame.right + POINT_SIZE, frame.bottom + POINT_SIZE);
 		}
 	}
 	
