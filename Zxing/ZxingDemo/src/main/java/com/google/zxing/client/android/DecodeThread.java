@@ -26,8 +26,6 @@ final class DecodeThread extends Thread {
 	
 	public static final String BARCODE_SCALED_FACTOR = "barcode_scaled_factor";
 	
-	private final CameraManager mCameraManager;
-	
 	private final Map<DecodeHintType, Object> hints;
 	
 	private Handler handler;
@@ -35,8 +33,7 @@ final class DecodeThread extends Thread {
 	private final Handler mMainHandler;
 	private final CountDownLatch handlerInitLatch;
 	
-	DecodeThread(CameraManager cameraManager, ResultPointCallback resultPointCallback, Handler mainHandler) {
-		this.mCameraManager = cameraManager;
+	DecodeThread(ResultPointCallback resultPointCallback, Handler mainHandler) {
 		this.mMainHandler = mainHandler;
 		
 		handlerInitLatch = new CountDownLatch(1);
@@ -55,7 +52,7 @@ final class DecodeThread extends Thread {
 	@Override
 	public void run() {
 		Looper.prepare();
-		handler = new DecodeHandler(mCameraManager, hints, mMainHandler);
+		handler = new DecodeHandler(hints, mMainHandler);
 		handlerInitLatch.countDown();
 		Looper.loop();
 	}

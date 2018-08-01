@@ -55,7 +55,20 @@ public final class CameraManager {
 	 */
 	private final PreviewCallback previewCallback;
 	
-	public CameraManager() {
+	private static CameraManager cameraManager;
+	
+	public static CameraManager getInstance() {
+		if (null == cameraManager) {
+			synchronized (CameraManager.class) {
+				if (null == cameraManager) {
+					cameraManager = new CameraManager();
+				}
+			}
+		}
+		return cameraManager;
+	}
+	
+	private CameraManager() {
 		this.configManager = new CameraConfigurationManager();
 		previewCallback = new PreviewCallback(configManager);
 	}
@@ -127,6 +140,8 @@ public final class CameraManager {
 			// requested by intent is forgotten.
 			framingRect = null;
 			framingRectInPreview = null;
+			
+			cameraManager = null; // 释放当前单例
 		}
 	}
 	

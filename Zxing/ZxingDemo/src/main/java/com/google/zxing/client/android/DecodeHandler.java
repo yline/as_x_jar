@@ -25,17 +25,14 @@ final class DecodeHandler extends Handler {
 	
 	private final Handler mMainHandler;
 	
-	private final CameraManager mCameraManager;
-	
 	private final MultiFormatReader multiFormatReader;
 	
 	private boolean running = true;
 	
-	DecodeHandler(CameraManager cameraManager, Map<DecodeHintType, Object> hints, Handler mainHandler) {
+	DecodeHandler(Map<DecodeHintType, Object> hints, Handler mainHandler) {
 		multiFormatReader = new MultiFormatReader();
 		multiFormatReader.setHints(hints);
 		this.mMainHandler = mainHandler;
-		this.mCameraManager = cameraManager;
 	}
 	
 	@Override
@@ -65,7 +62,7 @@ final class DecodeHandler extends Handler {
 	private void decode(byte[] data, int width, int height) {
 		long start = System.currentTimeMillis();
 		Result rawResult = null;
-		PlanarYUVLuminanceSource source = mCameraManager.buildLuminanceSource(data, width, height);
+		PlanarYUVLuminanceSource source = CameraManager.getInstance().buildLuminanceSource(data, width, height);
 		if (source != null) {
 			BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 			try {

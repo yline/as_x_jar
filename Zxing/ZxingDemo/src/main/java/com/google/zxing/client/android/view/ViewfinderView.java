@@ -35,8 +35,6 @@ public final class ViewfinderView extends View {
 	
 	private static final int POINT_SIZE = 6;
 	
-	private CameraManager cameraManager;
-	
 	private final Paint paint;
 	
 	private Bitmap resultBitmap;
@@ -71,16 +69,10 @@ public final class ViewfinderView extends View {
 		lastPossibleResultPoints = null;
 	}
 	
-	public void setCameraManager(CameraManager cameraManager) {
-		this.cameraManager = cameraManager;
-	}
-	
 	@SuppressLint("DrawAllocation")
 	@Override
 	public void onDraw(Canvas canvas) {
-		if (cameraManager == null) {
-			return; // not ready yet, early draw before done configuring
-		}
+		CameraManager cameraManager = CameraManager.getInstance();
 		Rect frame = cameraManager.getFramingRect();
 		Rect previewFrame = cameraManager.getFramingRectInPreview();
 		if (frame == null || previewFrame == null) {

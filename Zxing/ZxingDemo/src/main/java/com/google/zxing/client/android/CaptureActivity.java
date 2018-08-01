@@ -74,8 +74,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	private BeepHelper mBeepHelper;
 	private AmbientLightHelper mAmbientLightHelper;
 	
-	private CameraManager cameraManager;
-	
 	private CaptureActivityHandler handler;
 	
 	private Result lastResult;
@@ -97,21 +95,12 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		
 		hasSurface = false;
 		mBeepHelper = new BeepHelper(this);
-		mAmbientLightHelper = new AmbientLightHelper(this);
-		LogUtil.v("");
+		mAmbientLightHelper = new AmbientLightHelper();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		LogUtil.v("");
-		
-		// CameraManager must be initialized here, not in onCreate(). This is necessary because we don't
-		// want to open the camera driver and measure the screen size if we're going to show the help on
-		// first launch. That led to bugs where the scanning rectangle was the wrong size and partially
-		// off screen.
-		cameraManager = new CameraManager();
-		mViewfinderView.setCameraManager(cameraManager);
 		
 		handler = null;
 		lastResult = null;
@@ -125,7 +114,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		resetStatusView();
 		
 		mBeepHelper.updatePrefs();
-		mAmbientLightHelper.start(cameraManager);
+		mAmbientLightHelper.start();
 		
 		SurfaceHolder surfaceHolder = mSurfaceView.getHolder();
 		if (hasSurface) {
@@ -136,8 +125,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			// Install the callback and wait for surfaceCreated() to init the camera.
 			surfaceHolder.addCallback(this);
 		}
-		
-		LogUtil.v("hasSurface = " + hasSurface);
 	}
 	
 	@Override
@@ -146,7 +133,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			Log.e(TAG, "*** WARNING *** surfaceCreated() gave us a null surface!");
 		}
 		
-		LogUtil.v("");
 		if (!hasSurface) {
 			hasSurface = true;
 			initCamera(holder);
@@ -165,15 +151,13 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	
 	@Override
 	protected void onPause() {
-		LogUtil.v("");
-		
 		if (handler != null) {
 			handler.quitSynchronously();
 			handler = null;
 		}
 		mAmbientLightHelper.stop();
 		mBeepHelper.close();
-		cameraManager.closeDriver();
+		CameraManager.getInstance().closeDriver();
 		if (!hasSurface) {
 			SurfaceHolder surfaceHolder = mSurfaceView.getHolder();
 			surfaceHolder.removeCallback(this);
@@ -196,10 +180,10 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				return true;
 			// Use volume up/down to turn on light
 			case KeyEvent.KEYCODE_VOLUME_DOWN:
-				cameraManager.setTorch(false);
+				CameraManager.getInstance().setTorch(false);
 				return true;
 			case KeyEvent.KEYCODE_VOLUME_UP:
-				cameraManager.setTorch(true);
+				CameraManager.getInstance().setTorch(true);
 				return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -289,15 +273,15 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		if (surfaceHolder == null) {
 			throw new IllegalStateException("No SurfaceHolder provided");
 		}
-		if (cameraManager.isOpen()) {
+		if (CameraManager.getInstance().isOpen()) {
 			Log.w(TAG, "initCamera() while already open -- late SurfaceView callback?");
 			return;
 		}
 		try {
-			cameraManager.openDriver(surfaceHolder);
+			CameraManager.getInstance().openDriver(surfaceHolder);
 			// Creating the handler starts the preview, which can also throw a RuntimeException.
 			if (handler == null) {
-				handler = new CaptureActivityHandler(this, cameraManager, mViewfinderView);
+				handler = new CaptureActivityHandler(this, mViewfinderView);
 			}
 		} catch (IOException ioe) {
 			Log.w(TAG, ioe);

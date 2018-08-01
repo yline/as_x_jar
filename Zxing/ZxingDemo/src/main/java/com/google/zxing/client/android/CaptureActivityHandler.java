@@ -25,21 +25,18 @@ public final class CaptureActivityHandler extends Handler {
 	
 	private State state;
 	
-	private final CameraManager cameraManager;
-	
 	private enum State {
 		PREVIEW, SUCCESS, DONE
 	}
 	
-	CaptureActivityHandler(CaptureActivity activity, CameraManager cameraManager, ViewfinderView viewfinderView) {
+	CaptureActivityHandler(CaptureActivity activity, ViewfinderView viewfinderView) {
 		this.activity = activity;
-		decodeThread = new DecodeThread(cameraManager, new ViewfinderResultPointCallback(viewfinderView), this);
+		decodeThread = new DecodeThread(new ViewfinderResultPointCallback(viewfinderView), this);
 		decodeThread.start();
 		state = State.SUCCESS;
 		
 		// Start ourselves capturing previews and decoding.
-		this.cameraManager = cameraManager;
-		cameraManager.startPreview();
+		CameraManager.getInstance().startPreview();
 		restartPreviewAndDecode();
 	}
 	
@@ -71,14 +68,14 @@ public final class CaptureActivityHandler extends Handler {
 			case R.id.decode_failed:
 				// We're decoding as fast as possible, so when one decode fails, start another.
 				state = State.PREVIEW;
-				cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
+				CameraManager.getInstance().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
 				break;
 		}
 	}
 	
 	public void quitSynchronously() {
 		state = State.DONE;
-		cameraManager.stopPreview();
+		CameraManager.getInstance().stopPreview();
 		Message quit = Message.obtain(decodeThread.getHandler(), R.id.quit);
 		quit.sendToTarget();
 		try {
@@ -96,7 +93,7 @@ public final class CaptureActivityHandler extends Handler {
 	private void restartPreviewAndDecode() {
 		if (state == State.SUCCESS) {
 			state = State.PREVIEW;
-			cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
+			CameraManager.getInstance().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
 			activity.drawViewfinder();
 		}
 	}

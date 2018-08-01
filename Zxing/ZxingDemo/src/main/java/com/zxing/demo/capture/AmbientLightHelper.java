@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.google.zxing.client.android.camera.CameraManager;
+import com.zxing.demo.MainApplication;
 
 /**
  * 使用：
@@ -24,20 +25,14 @@ public final class AmbientLightHelper implements SensorEventListener {
 	
 	private static final float BRIGHT_ENOUGH_LUX = 450.0f; // 亮的程度
 	
-	private final Context context;
-	
-	private CameraManager cameraManager;
-	
 	private Sensor lightSensor;
 	
-	public AmbientLightHelper(Context context) {
-		this.context = context;
-	}
+	private boolean isRunning = false;
 	
-	public void start(CameraManager cameraManager) {
-		this.cameraManager = cameraManager;
+	public void start() {
+		isRunning = true;
 		if (getLightMode() == LightMode.AUTO) {
-			SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+			SensorManager sensorManager = (SensorManager) MainApplication.getApplication().getSystemService(Context.SENSOR_SERVICE);
 			if (null != sensorManager) {
 				lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 				if (null != lightSensor) {
@@ -49,11 +44,11 @@ public final class AmbientLightHelper implements SensorEventListener {
 	
 	public void stop() {
 		if (null != lightSensor) {
-			SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+			SensorManager sensorManager = (SensorManager) MainApplication.getApplication().getSystemService(Context.SENSOR_SERVICE);
 			if (null != sensorManager) {
 				sensorManager.unregisterListener(this);
 			}
-			cameraManager = null; // 关闭引用
+			isRunning = false;
 			lightSensor = null;
 		}
 	}
@@ -61,11 +56,11 @@ public final class AmbientLightHelper implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent sensorEvent) {
 		float ambientLightLux = sensorEvent.values[0];
-		if (cameraManager != null) {
+		if (isRunning) {
 			if (ambientLightLux <= TOO_DARK_LUX) {
-				cameraManager.setTorch(true);
+				CameraManager.getInstance().setTorch(true);
 			} else if (ambientLightLux >= BRIGHT_ENOUGH_LUX) {
-				cameraManager.setTorch(false);
+				CameraManager.getInstance().setTorch(false);
 			}
 		}
 	}

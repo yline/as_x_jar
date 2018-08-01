@@ -6,7 +6,6 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
-import android.support.v4.content.ContextCompat;
 
 import com.google.zxing.client.android.R;
 import com.zxing.demo.MainApplication;
@@ -20,7 +19,7 @@ import java.io.IOException;
  * onResume --> updatePrefs();
  * onPause --> close();
  * 调用：playBeepSoundAndVibrate()
- *
+ * <p>
  * 播放 扫描成功 的声音和震动
  *
  * @author yline
@@ -50,9 +49,7 @@ public final class BeepHelper implements MediaPlayer.OnErrorListener, Closeable 
 	public synchronized void updatePrefs() {
 		playBeep = shouldBeep();
 		if (playBeep && mediaPlayer == null) {
-			// The volume on STREAM_SYSTEM is not adjustable, and users found it too loud,
-			// so we now play on the music stream.
-			//			activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+			//	activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 			mediaPlayer = buildMediaPlayer();
 		}
 	}
