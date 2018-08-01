@@ -1,4 +1,4 @@
-package com.google.zxing.client.android;
+package com.google.zxing.client.android.camera.helper;
 
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * @author Sean Owen
  */
 @SuppressWarnings("deprecation") // camera APIs
-public final class CameraConfigurationUtils {
+final class CameraConfigurationUtils {
 	
 	private static final String TAG = "CameraConfiguration";
 	

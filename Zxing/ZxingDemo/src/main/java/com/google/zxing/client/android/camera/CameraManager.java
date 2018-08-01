@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
+import com.google.zxing.client.android.camera.helper.AutoFocusManager;
+import com.google.zxing.client.android.camera.helper.CameraConfigurationManager;
+import com.google.zxing.client.android.camera.helper.PreviewCallback;
 import com.google.zxing.client.android.camera.open.OpenCamera;
 import com.google.zxing.client.android.camera.open.OpenCameraInterface;
 

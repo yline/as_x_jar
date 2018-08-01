@@ -1,4 +1,4 @@
-package com.google.zxing.client.android.camera;
+package com.google.zxing.client.android.camera.helper;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -8,7 +8,6 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import com.google.zxing.client.android.CameraConfigurationUtils;
 import com.google.zxing.client.android.camera.open.CameraFacing;
 import com.google.zxing.client.android.camera.open.OpenCamera;
 import com.zxing.demo.MainApplication;
@@ -20,7 +19,7 @@ import com.zxing.demo.manager.DBManager;
  * configure the camera hardware.
  */
 @SuppressWarnings("deprecation") // camera APIs
-final class CameraConfigurationManager {
+public final class CameraConfigurationManager {
 	
 	private static final String TAG = "CameraConfiguration";
 	
@@ -31,13 +30,13 @@ final class CameraConfigurationManager {
 	private Point bestPreviewSize;
 	private Point previewSizeOnScreen;
 	
-	CameraConfigurationManager() {
+	public CameraConfigurationManager() {
 	}
 	
 	/**
 	 * Reads, one time, values from the camera that are needed by the app.
 	 */
-	void initFromCameraParameters(OpenCamera camera) {
+	public void initFromCameraParameters(OpenCamera camera) {
 		Camera.Parameters parameters = camera.getCamera().getParameters();
 		WindowManager manager = (WindowManager) MainApplication.getApplication().getSystemService(Context.WINDOW_SERVICE);
 		Display display = manager.getDefaultDisplay();
@@ -106,7 +105,7 @@ final class CameraConfigurationManager {
 		Log.i(TAG, "Preview size on screen: " + previewSizeOnScreen);
 	}
 	
-	void setDesiredCameraParameters(OpenCamera camera, boolean safeMode) {
+	public void setDesiredCameraParameters(OpenCamera camera, boolean safeMode) {
 		
 		Camera theCamera = camera.getCamera();
 		Camera.Parameters parameters = theCamera.getParameters();
@@ -170,11 +169,11 @@ final class CameraConfigurationManager {
 		return previewSizeOnScreen;
 	}
 	
-	Point getCameraResolution() {
+	public Point getCameraResolution() {
 		return cameraResolution;
 	}
 	
-	Point getScreenResolution() {
+	public Point getScreenResolution() {
 		return screenResolution;
 	}
 	
@@ -182,7 +181,7 @@ final class CameraConfigurationManager {
 		return cwNeededRotation;
 	}
 	
-	boolean getTorchState(Camera camera) {
+	public boolean getTorchState(Camera camera) {
 		if (camera != null) {
 			Camera.Parameters parameters = camera.getParameters();
 			if (parameters != null) {
@@ -193,7 +192,7 @@ final class CameraConfigurationManager {
 		return false;
 	}
 	
-	void setTorch(Camera camera, boolean newSetting) {
+	public void setTorch(Camera camera, boolean newSetting) {
 		Camera.Parameters parameters = camera.getParameters();
 		doSetTorch(parameters, newSetting, false);
 		camera.setParameters(parameters);

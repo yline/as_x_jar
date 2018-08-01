@@ -1,4 +1,4 @@
-package com.google.zxing.client.android.camera;
+package com.google.zxing.client.android.camera.helper;
 
 import android.hardware.Camera;
 import android.os.AsyncTask;
@@ -11,7 +11,7 @@ import java.util.concurrent.RejectedExecutionException;
 import com.zxing.demo.manager.DBManager;
 
 @SuppressWarnings("deprecation") // camera APIs
-final class AutoFocusManager implements Camera.AutoFocusCallback {
+public final class AutoFocusManager implements Camera.AutoFocusCallback {
 	
 	private static final String TAG = AutoFocusManager.class.getSimpleName();
 	
@@ -34,7 +34,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
 	
 	private AsyncTask<?, ?, ?> outstandingTask;
 	
-	AutoFocusManager(Camera camera) {
+	public AutoFocusManager(Camera camera) {
 		this.camera = camera;
 		String currentFocusMode = camera.getParameters().getFocusMode();
 		useAutoFocus =
@@ -62,7 +62,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
 		}
 	}
 	
-	synchronized void start() {
+	public synchronized void start() {
 		if (useAutoFocus) {
 			outstandingTask = null;
 			if (!stopped && !focusing) {
@@ -88,7 +88,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
 		}
 	}
 	
-	synchronized void stop() {
+	public synchronized void stop() {
 		stopped = true;
 		if (useAutoFocus) {
 			cancelOutstandingTask();
