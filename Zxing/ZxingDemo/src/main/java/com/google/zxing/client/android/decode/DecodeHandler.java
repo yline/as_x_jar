@@ -1,4 +1,4 @@
-package com.google.zxing.client.android;
+package com.google.zxing.client.android.decode;
 
 import android.graphics.Bitmap;
 
@@ -8,6 +8,7 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
+import com.google.zxing.client.android.R;
 import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.common.HybridBinarizer;
 
@@ -20,12 +21,18 @@ import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
+/**
+ * 属于子线程，专门用于执行，解析操作和回调UI
+ *
+ * @author yline
+ * @times 2018/8/1 -- 14:40
+ */
 final class DecodeHandler extends Handler {
-	private static final String TAG = DecodeHandler.class.getSimpleName();
+	private static final String TAG = "DecodeHandler";
 	
-	private final Handler mMainHandler;
+	private final Handler mMainHandler; // UI线程，回调使用
 	
-	private final MultiFormatReader multiFormatReader;
+	private final MultiFormatReader multiFormatReader; // decode帮助类
 	
 	private boolean running = true;
 	
@@ -104,5 +111,4 @@ final class DecodeHandler extends Handler {
 		bundle.putByteArray(DecodeThread.BARCODE_BITMAP, out.toByteArray());
 		bundle.putFloat(DecodeThread.BARCODE_SCALED_FACTOR, (float) width / source.getWidth());
 	}
-	
 }

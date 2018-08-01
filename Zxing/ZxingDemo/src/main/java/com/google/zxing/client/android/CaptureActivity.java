@@ -7,6 +7,8 @@ import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.camera.CameraManager;
+import com.google.zxing.client.android.decode.CaptureActivityHandler;
+import com.google.zxing.client.android.decode.OnDecodeCallback;
 import com.google.zxing.client.android.result.ResultHandler;
 
 import android.app.Activity;
@@ -30,14 +32,15 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.client.android.view.ViewfinderResultPointCallback;
 import com.google.zxing.client.android.view.ViewfinderView;
 import com.google.zxing.client.result.ParsedResultType;
 import com.yline.base.BaseActivity;
-import com.yline.utils.LogUtil;
 import com.zxing.demo.capture.AmbientLightHelper;
 import com.zxing.demo.capture.BeepHelper;
 import com.zxing.demo.capture.CaptureResultView;
 import com.zxing.demo.manager.DBManager;
+import com.zxing.demo.manager.LogManager;
 
 import java.io.IOException;
 import java.util.Map;
@@ -50,7 +53,7 @@ import java.util.Map;
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
-public final class CaptureActivity extends BaseActivity implements SurfaceHolder.Callback {
+public final class CaptureActivity extends BaseActivity implements SurfaceHolder.Callback, OnDecodeCallback {
 	public static void launch(Context context) {
 		if (null != context) {
 			Intent intent = new Intent();
@@ -189,14 +192,15 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		return super.onKeyDown(keyCode, event);
 	}
 	
-	/**
-	 * A valid barcode has been found, so give an indication of success and show the results.
-	 *
-	 * @param rawResult   The contents of the barcode.
-	 * @param scaleFactor amount by which thumbnail was scaled
-	 * @param barcode     A greyscale bitmap of the camera data which was decoded.
-	 */
-	public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
+	@Override
+	public void onRestartPreview() {
+		mViewfinderView.drawViewfinder();
+	}
+	
+	@Override
+	public void onHandleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
+		LogManager.printResult(rawResult);
+		
 		lastResult = rawResult;
 		ResultHandler resultHandler = ResultHandler.makeResultHandler(rawResult);
 		
@@ -281,7 +285,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			CameraManager.getInstance().openDriver(surfaceHolder);
 			// Creating the handler starts the preview, which can also throw a RuntimeException.
 			if (handler == null) {
-				handler = new CaptureActivityHandler(this, mViewfinderView);
+				handler = new CaptureActivityHandler(this, new ViewfinderResultPointCallback(mViewfinderView));
 			}
 		} catch (IOException ioe) {
 			Log.w(TAG, ioe);
@@ -326,10 +330,6 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		mStatusView.setVisibility(View.VISIBLE);
 		mViewfinderView.setVisibility(View.VISIBLE);
 		lastResult = null;
-	}
-	
-	public void drawViewfinder() {
-		mViewfinderView.drawViewfinder();
 	}
 	
 	private static int getCurrentOrientation(Activity activity) {

@@ -1,12 +1,11 @@
-package com.google.zxing.client.android;
+package com.google.zxing.client.android.decode;
 
 import android.graphics.BitmapFactory;
 
 import com.google.zxing.Result;
+import com.google.zxing.ResultPointCallback;
+import com.google.zxing.client.android.R;
 import com.google.zxing.client.android.camera.CameraManager;
-import com.google.zxing.client.android.view.ViewfinderResultPointCallback;
-import com.google.zxing.client.android.view.ViewfinderView;
-import com.zxing.demo.manager.LogManager;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,24 +13,21 @@ import android.os.Handler;
 import android.os.Message;
 
 /**
- * This class handles all the messaging which comprises the state machine for activity_capture.
+ * decode 和 camera 的协调工作；辅助activity的存在
  *
- * @author dswitkin@google.com (Daniel Switkin)
+ * @author yline
+ * @times 2018/8/1 -- 15:02
  */
 public final class CaptureActivityHandler extends Handler {
-	private final CaptureActivity activity;
+	private final OnDecodeCallback decodeCallback;
 	
 	private final DecodeThread decodeThread;
 	
 	private State state;
 	
-	private enum State {
-		PREVIEW, SUCCESS, DONE
-	}
-	
-	CaptureActivityHandler(CaptureActivity activity, ViewfinderView viewfinderView) {
-		this.activity = activity;
-		decodeThread = new DecodeThread(new ViewfinderResultPointCallback(viewfinderView), this);
+	public CaptureActivityHandler(OnDecodeCallback decodeCallback, ResultPointCallback resultPointCallback) {
+		this.decodeCallback = decodeCallback;
+		decodeThread = new DecodeThread(this, resultPointCallback);
 		decodeThread.start();
 		state = State.SUCCESS;
 		
@@ -62,13 +58,12 @@ public final class CaptureActivityHandler extends Handler {
 				}
 				
 				Result rawResult = (Result) message.obj;
-				LogManager.printResult(rawResult);
-				activity.handleDecode(rawResult, barcode, scaleFactor);
+				decodeCallback.onHandleDecode(rawResult, barcode, scaleFactor);
 				break;
 			case R.id.decode_failed:
 				// We're decoding as fast as possible, so when one decode fails, start another.
 				state = State.PREVIEW;
-				CameraManager.getInstance().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
+				CameraManager.getInstance().requestPreviewFrame(decodeThread.getmDecodeHandler(), R.id.decode);
 				break;
 		}
 	}
@@ -76,7 +71,7 @@ public final class CaptureActivityHandler extends Handler {
 	public void quitSynchronously() {
 		state = State.DONE;
 		CameraManager.getInstance().stopPreview();
-		Message quit = Message.obtain(decodeThread.getHandler(), R.id.quit);
+		Message quit = Message.obtain(decodeThread.getmDecodeHandler(), R.id.quit);
 		quit.sendToTarget();
 		try {
 			// Wait at most half a second; should be enough time, and onPause() will timeout quickly
@@ -93,9 +88,12 @@ public final class CaptureActivityHandler extends Handler {
 	private void restartPreviewAndDecode() {
 		if (state == State.SUCCESS) {
 			state = State.PREVIEW;
-			CameraManager.getInstance().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
-			activity.drawViewfinder();
+			CameraManager.getInstance().requestPreviewFrame(decodeThread.getmDecodeHandler(), R.id.decode);
+			decodeCallback.onRestartPreview();
 		}
 	}
 	
+	private enum State {
+		PREVIEW, SUCCESS, DONE
+	}
 }

@@ -1,14 +1,11 @@
-package com.google.zxing.client.android;
+package com.google.zxing.client.android.decode;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
-import com.google.zxing.client.android.camera.CameraManager;
-import com.zxing.demo.manager.DBManager;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import java.util.Collection;
 import java.util.EnumMap;
@@ -17,42 +14,43 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * This thread does all the heavy lifting of decoding the images.
+ * 负责设置解析配置，和，实现具体解析的Handler
  *
- * @author dswitkin@google.com (Daniel Switkin)
+ * @author yline
+ * @times 2018/8/1 -- 14:35
  */
 final class DecodeThread extends Thread {
 	public static final String BARCODE_BITMAP = "barcode_bitmap";
 	
 	public static final String BARCODE_SCALED_FACTOR = "barcode_scaled_factor";
 	
-	private final Map<DecodeHintType, Object> hints;
+	private final Map<DecodeHintType, Object> hints; // 配置信息
 	
-	private Handler handler;
+	private Handler mDecodeHandler; // 属于子线程的，具体解析的Handler
 	
-	private final Handler mMainHandler;
-	private final CountDownLatch handlerInitLatch;
+	private final Handler mMainHandler; // 属于UI线程，回调信息
+	private final CountDownLatch handlerInitLatch; // 计数器达到0，锁wait方法释放
 	
-	DecodeThread(ResultPointCallback resultPointCallback, Handler mainHandler) {
+	DecodeThread(Handler mainHandler, ResultPointCallback resultPointCallback) {
 		this.mMainHandler = mainHandler;
 		
 		handlerInitLatch = new CountDownLatch(1);
 		hints = buildDecodeHintMap(resultPointCallback);
 	}
 	
-	Handler getHandler() {
+	Handler getmDecodeHandler() {
 		try {
 			handlerInitLatch.await();
 		} catch (InterruptedException ie) {
 			// continue?
 		}
-		return handler;
+		return mDecodeHandler;
 	}
 	
 	@Override
 	public void run() {
 		Looper.prepare();
-		handler = new DecodeHandler(hints, mMainHandler);
+		mDecodeHandler = new DecodeHandler(hints, mMainHandler);
 		handlerInitLatch.countDown();
 		Looper.loop();
 	}
