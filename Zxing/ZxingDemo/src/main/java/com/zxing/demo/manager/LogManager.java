@@ -6,10 +6,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
-import com.google.zxing.client.android.result.ResultHandler;
-import com.yline.application.SDKManager;
+import com.google.zxing.client.result.ParsedResult;
 import com.yline.utils.LogUtil;
-import com.yline.utils.SPUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +76,7 @@ public class LogManager {
 		LogUtil.v(stringBuilder.toString());
 	}
 	
-	public static String buildHistoryItem(Result result, ResultHandler resultHandler){
+	public static String buildHistoryItem(Result result, ParsedResult parsedResult) {
 		StringBuilder stringBuilder = new StringBuilder();
 		String text = result.getText();
 		stringBuilder.append("text = ");
@@ -89,7 +87,7 @@ public class LogManager {
 		stringBuilder.append("barcodeFormat = ");
 		stringBuilder.append(barcodeFormat);
 		
-		String displayContent = resultHandler.getDisplayContents();
+		String displayContent = parsedResult.getDisplayResult();
 		stringBuilder.append('\n');
 		stringBuilder.append("displayContent = ");
 		stringBuilder.append(displayContent);
@@ -102,7 +100,7 @@ public class LogManager {
 		return stringBuilder.toString();
 	}
 	
-	public static void printHistoryItems(){
+	public static void printHistoryItems() {
 		List<String> historyItemList = new ArrayList<>();
 		
 		String historyItem;

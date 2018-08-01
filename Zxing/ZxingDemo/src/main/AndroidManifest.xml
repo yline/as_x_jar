@@ -39,11 +39,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--android:clearTaskOnLaunch="true"
+android:screenOrientation="sensorLandscape"
+            android:stateNotNeeded="true"-->
         <activity
             android:name=".CaptureActivity"
-            android:clearTaskOnLaunch="true"
-            android:screenOrientation="sensorLandscape"
-            android:stateNotNeeded="true"
+            android:screenOrientation="landscape"
             android:theme="@style/CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity

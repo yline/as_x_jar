@@ -1,15 +1,9 @@
 package com.zxing.demo.manager;
 
-import android.text.TextUtils;
-
 import com.google.zxing.Result;
-import com.google.zxing.client.android.result.ResultHandler;
+import com.google.zxing.client.result.ParsedResult;
 import com.yline.application.SDKManager;
-import com.yline.utils.LogUtil;
 import com.yline.utils.SPUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DBManager {
 	public static final int HISTORY_MAX_NUM = 5;
@@ -62,8 +56,8 @@ public class DBManager {
 		return (boolean) SPUtil.get(SDKManager.getApplication(), Key.KEY_DISABLE_BARCODE_SCENE_MODE, true);
 	}
 	
-	public void addHistoryItem(Result result, ResultHandler resultHandler) {
-		String historyItem = LogManager.buildHistoryItem(result, resultHandler);
+	public void addHistoryItem(Result result, ParsedResult parsedResult) {
+		String historyItem = LogManager.buildHistoryItem(result, parsedResult);
 		int historyNum = (int) SPUtil.get(SDKManager.getApplication(), Key.KEY_HISTORY_NUM, 0);
 		historyNum = historyNum % HISTORY_MAX_NUM;
 		

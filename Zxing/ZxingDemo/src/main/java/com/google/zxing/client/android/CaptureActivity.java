@@ -9,7 +9,6 @@ import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.client.android.decode.CaptureActivityHandler;
 import com.google.zxing.client.android.decode.OnDecodeCallback;
-import com.google.zxing.client.android.result.ResultHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,7 +33,9 @@ import android.widget.Toast;
 
 import com.google.zxing.client.android.view.ViewfinderResultPointCallback;
 import com.google.zxing.client.android.view.ViewfinderView;
+import com.google.zxing.client.result.ParsedResult;
 import com.google.zxing.client.result.ParsedResultType;
+import com.google.zxing.client.result.ResultParser;
 import com.yline.base.BaseActivity;
 import com.zxing.demo.capture.AmbientLightHelper;
 import com.zxing.demo.capture.BeepHelper;
@@ -202,11 +203,11 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 		LogManager.printResult(rawResult);
 		
 		lastResult = rawResult;
-		ResultHandler resultHandler = ResultHandler.makeResultHandler(rawResult);
 		
+		ParsedResult parsedResult = ResultParser.parseResult(rawResult);
 		boolean fromLiveScan = (barcode != null);
 		if (fromLiveScan) {
-			DBManager.getInstance().addHistoryItem(rawResult, resultHandler);
+			DBManager.getInstance().addHistoryItem(rawResult, parsedResult);
 			// Then not from history, so beep/vibrate and we have an image to draw on
 			mBeepHelper.playBeepSoundAndVibrate();
 			drawResultPoints(barcode, scaleFactor, rawResult);
@@ -217,7 +218,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			// Wait a moment or else it will scan the same barcode continuously about 3 times
 			restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
 		} else {
-			handleDecodeInternally(rawResult, resultHandler, barcode);
+			handleDecodeInternally(rawResult, parsedResult, barcode);
 		}
 	}
 	
@@ -259,15 +260,15 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	}
 	
 	// Put up our own UI for how to handle the decoded contents.
-	private void handleDecodeInternally(Result rawResult, ResultHandler resultHandler, Bitmap barcode) {
+	private void handleDecodeInternally(Result rawResult, ParsedResult parsedResult, Bitmap barcode) {
 		mStatusView.setVisibility(View.GONE);
 		mViewfinderView.setVisibility(View.GONE);
 		
 		BarcodeFormat format = rawResult.getBarcodeFormat();
-		ParsedResultType resultType = resultHandler.getType();
+		ParsedResultType resultType = parsedResult.getType();
 		Map<ResultMetadataType, Object> metadata = rawResult.getResultMetadata();
 		
-		String encodeContent = resultHandler.getDisplayContents();
+		String encodeContent = parsedResult.getDisplayResult();
 		
 		mCaptureResultView.setVisibility(View.VISIBLE);
 		mCaptureResultView.setData(barcode, format, resultType, rawResult.getTimestamp(), metadata, encodeContent);
