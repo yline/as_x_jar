@@ -1,4 +1,4 @@
-package com.zxing.demo.capture;
+package com.google.zxing.client.android.helper;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.zxing.demo.capture;
+package com.google.zxing.client.android.helper;
 
 import android.content.Context;
 import android.hardware.Sensor;

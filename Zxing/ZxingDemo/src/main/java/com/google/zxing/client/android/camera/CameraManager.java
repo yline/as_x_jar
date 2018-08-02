@@ -176,6 +176,7 @@ public final class CameraManager {
 	}
 	
 	/**
+	 * 是否打开灯光，true(打开)
 	 * Convenience method for {@link com.google.zxing.client.android.CaptureActivity}
 	 *
 	 * @param newSetting if {@code true}, light should be turned on if currently off. And vice versa.

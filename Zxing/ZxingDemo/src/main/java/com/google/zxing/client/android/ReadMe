@@ -1,8 +1,13 @@
+使用：
+1，扫描部分，Fragment已经封装完毕，具体参考CaptureActivity使用
+2，解析图片，具体参考DecodeActivity使用
+3，生成图片，具体参考EncodeActivity使用
+
 模块：
 camera: 调用摄像头预览，并找到byte[]
 decode: 将byte[]解析出来，并回调到UI层
 view: 预览界面
-helper: 实现附加功能：生成二维码、解析图片二维码、日志统一管理
+helper: 实现附加功能：生成二维码、解析图片二维码、日志统一管理、闪光灯和声音管理
 
 配置：
 1，解析支持的Reader: DecodeThread.attachBarcodeFormat()

@@ -11,7 +11,7 @@ import com.google.zxing.client.android.camera.open.CameraFacing;
 import com.google.zxing.client.android.camera.open.OpenCamera;
 import com.google.zxing.client.android.helper.CodeManager;
 import com.zxing.demo.MainApplication;
-import com.zxing.demo.capture.AmbientLightHelper;
+import com.google.zxing.client.android.helper.AmbientLightHelper;
 import com.zxing.demo.manager.DBManager;
 
 /**
