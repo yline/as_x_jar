@@ -38,9 +38,9 @@ public final class CameraManager {
 	
 	private AutoFocusManager autoFocusManager;
 	
-	private Rect framingRect;
+	private Rect framingRect; // 屏幕展示的Rect
 	
-	private Rect framingRectInPreview;
+	private Rect framingRectInPreview; // Camera预览的Rect
 	
 	private boolean initialized;
 	
@@ -236,7 +236,7 @@ public final class CameraManager {
 			int leftOffset = (screenResolution.x - width) / 2;
 			int topOffset = (screenResolution.y - height) / 2;
 			framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
-			CodeManager.v(TAG, "Calculated framing rect: " + framingRect);
+			CodeManager.v(TAG, "screen display rect: " + framingRect);
 		}
 		return framingRect;
 	}
@@ -276,6 +276,8 @@ public final class CameraManager {
 			rect.top = rect.top * cameraResolution.y / screenResolution.y;
 			rect.bottom = rect.bottom * cameraResolution.y / screenResolution.y;
 			framingRectInPreview = rect;
+			
+			CodeManager.v(TAG, "source preview rect: " + framingRectInPreview);
 		}
 		return framingRectInPreview;
 	}
@@ -302,7 +304,7 @@ public final class CameraManager {
 	 * @param width  The width in pixels to scan.
 	 * @param height The height in pixels to scan.
 	 */
-	public synchronized void setManualFramingRect(int width, int height) {
+	private synchronized void setManualFramingRect(int width, int height) {
 		if (initialized) {
 			Point screenResolution = configManager.getScreenResolution();
 			if (width > screenResolution.x) {

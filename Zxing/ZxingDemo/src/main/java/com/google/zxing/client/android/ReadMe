@@ -1,0 +1,20 @@
+模块：
+camera: 调用摄像头预览，并找到byte[]
+decode: 将byte[]解析出来，并回调到UI层
+view: 预览界面
+helper: 实现附加功能：生成二维码、解析图片二维码、日志统一管理
+
+配置：
+1，解析支持的Reader: DecodeThread.attachBarcodeFormat()
+2，日志开关: CodeManager.DEBUG
+3，扫描成功声音和震动: BeepHelper.IS_PLAY_BEEP 和 BeepHelper.IS_VIBRATE
+4，闪光灯模式: AmbientLightHelper.getLightMode()
+
+调试：
+1，Camera和Display的横竖方向:
+日志，CameraConfigurationManager.initFromCameraParameters()，中打印了相关信息
+
+2，Camera和Display的窗口大小:
+UI展示Rect: CameraManager.getFramingRect()
+预览解析Rect: CameraManager.getFramingRectInPreview()
+
