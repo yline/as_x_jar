@@ -4,7 +4,8 @@ import android.graphics.Point;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+
+import com.google.zxing.client.android.helper.CodeManager;
 
 @SuppressWarnings("deprecation") // camera APIs
 public final class PreviewCallback implements Camera.PreviewCallback {
@@ -36,7 +37,7 @@ public final class PreviewCallback implements Camera.PreviewCallback {
 			message.sendToTarget();
 			previewHandler = null;
 		} else {
-			Log.d(TAG, "Got preview callback, but no handler or resolution available");
+			CodeManager.v(TAG, "Got preview callback, but no handler or resolution available");
 		}
 	}
 	

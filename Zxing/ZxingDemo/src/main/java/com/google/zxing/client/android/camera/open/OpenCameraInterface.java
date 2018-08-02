@@ -1,7 +1,8 @@
 package com.google.zxing.client.android.camera.open;
 
 import android.hardware.Camera;
-import android.util.Log;
+
+import com.google.zxing.client.android.helper.CodeManager;
 
 /**
  * Abstraction over the {@link Camera} API that helps open them and return their metadata.
@@ -30,11 +31,11 @@ public final class OpenCameraInterface {
 	public static OpenCamera open(int cameraId) {
 		int numCameras = Camera.getNumberOfCameras();
 		if (numCameras == 0) {
-			Log.w(TAG, "No cameras!");
+			CodeManager.v(TAG, "No cameras!");
 			return null;
 		}
 		if (cameraId >= numCameras) {
-			Log.w(TAG, "Requested camera does not exist: " + cameraId);
+			CodeManager.v(TAG, "Requested camera does not exist: " + cameraId);
 			return null;
 		}
 		
@@ -49,22 +50,19 @@ public final class OpenCameraInterface {
 				cameraId++;
 			}
 			if (cameraId == numCameras) {
-				Log.i(TAG, "No camera facing " + CameraFacing.BACK + "; returning camera #0");
+				CodeManager.v(TAG, "No camera facing " + CameraFacing.BACK + "; returning camera #0");
 				cameraId = 0;
 			}
 		}
 		
-		Log.i(TAG, "Opening camera #" + cameraId);
+		CodeManager.v(TAG, "Opening camera #" + cameraId);
 		Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
 		Camera.getCameraInfo(cameraId, cameraInfo);
 		Camera camera = Camera.open(cameraId);
 		if (camera == null) {
 			return null;
 		}
-		return new OpenCamera(cameraId,
-				camera,
-				CameraFacing.values()[cameraInfo.facing],
-				cameraInfo.orientation);
+		return new OpenCamera(cameraId, camera, CameraFacing.values()[cameraInfo.facing], cameraInfo.orientation);
 	}
 	
 }

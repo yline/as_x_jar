@@ -2,12 +2,12 @@ package com.google.zxing.client.android.camera.helper;
 
 import android.hardware.Camera;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.RejectedExecutionException;
 
+import com.google.zxing.client.android.helper.CodeManager;
 import com.zxing.demo.manager.DBManager;
 
 @SuppressWarnings("deprecation") // camera APIs
@@ -40,7 +40,7 @@ public final class AutoFocusManager implements Camera.AutoFocusCallback {
 		useAutoFocus =
 				DBManager.getInstance().getAutoFocus() &&
 						FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
-		Log.i(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
+		CodeManager.v(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
 		start();
 	}
 	
@@ -57,7 +57,7 @@ public final class AutoFocusManager implements Camera.AutoFocusCallback {
 				newTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 				outstandingTask = newTask;
 			} catch (RejectedExecutionException ree) {
-				Log.w(TAG, "Could not request auto focus", ree);
+				CodeManager.v(TAG, "Could not request auto focus");
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public final class AutoFocusManager implements Camera.AutoFocusCallback {
 					focusing = true;
 				} catch (RuntimeException re) {
 					// Have heard RuntimeException reported in Android 4.0.x+; continue?
-					Log.w(TAG, "Unexpected exception while focusing", re);
+					CodeManager.v(TAG, "Unexpected exception while focusing");
 					// Try again later to keep cycle going
 					autoFocusAgainLater();
 				}
@@ -97,7 +97,7 @@ public final class AutoFocusManager implements Camera.AutoFocusCallback {
 				camera.cancelAutoFocus();
 			} catch (RuntimeException re) {
 				// Have heard RuntimeException reported in Android 4.0.x+; continue?
-				Log.w(TAG, "Unexpected exception while cancelling focusing", re);
+				CodeManager.v(TAG, "Unexpected exception while cancelling focusing");
 			}
 		}
 	}

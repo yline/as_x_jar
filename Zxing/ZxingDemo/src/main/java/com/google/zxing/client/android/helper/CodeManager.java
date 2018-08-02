@@ -7,13 +7,14 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.NotFoundException;
-import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
+import com.yline.utils.LogUtil;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import java.util.Collection;
@@ -22,10 +23,25 @@ import java.util.EnumSet;
 import java.util.Map;
 
 public final class CodeManager {
+	private static final boolean DEBUG = true;
 	private static final String CHARACTER = "UTF-8";
 	private static final int WHITE = 0xFFFFFFFF;
 	
 	private static final int BLACK = 0xFF000000;
+	
+	public static void v(String tag, String content) {
+		if (DEBUG) {
+			LogUtil.v(tag + ":" + content, LogUtil.LOG_LOCATION_PARENT);
+		}
+	}
+	
+	public static Result decodeQRCodeBitmap(String pathName) {
+		return decodeQRCodeBitmap(BitmapFactory.decodeFile(pathName));
+	}
+	
+	public static Bitmap encodeAsQRCodeBitmap(String encodeData, int dimension) {
+		return encodeAsQRCodeBitmap(encodeData, dimension, 0);
+	}
 	
 	private static Result decodeQRCodeBitmap(Bitmap barcode) {
 		if (null == barcode) {
@@ -49,10 +65,6 @@ public final class CodeManager {
 		} finally {
 			multiFormatReader.reset();
 		}
-	}
-	
-	public static Bitmap encodeAsQRCodeBitmap(String encodeData, int dimension) {
-		return encodeAsQRCodeBitmap(encodeData, dimension, 0);
 	}
 	
 	/**

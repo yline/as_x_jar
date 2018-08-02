@@ -20,7 +20,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -31,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.client.android.helper.CodeManager;
 import com.google.zxing.client.android.view.ViewfinderResultPointCallback;
 import com.google.zxing.client.android.view.ViewfinderView;
 import com.google.zxing.client.result.ParsedResult;
@@ -134,7 +134,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		if (holder == null) {
-			Log.e(TAG, "*** WARNING *** surfaceCreated() gave us a null surface!");
+			CodeManager.v(TAG, "*** WARNING *** surfaceCreated() gave us a null surface!");
 		}
 		
 		if (!hasSurface) {
@@ -279,7 +279,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 			throw new IllegalStateException("No SurfaceHolder provided");
 		}
 		if (CameraManager.getInstance().isOpen()) {
-			Log.w(TAG, "initCamera() while already open -- late SurfaceView callback?");
+			CodeManager.v(TAG, "initCamera() while already open -- late SurfaceView callback?");
 			return;
 		}
 		try {
@@ -289,12 +289,12 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
 				handler = new CaptureActivityHandler(this, new ViewfinderResultPointCallback(mViewfinderView));
 			}
 		} catch (IOException ioe) {
-			Log.w(TAG, ioe);
+			CodeManager.v(TAG, "");
 			displayFrameworkBugMessageAndExit();
 		} catch (RuntimeException e) {
 			// Barcode Scanner has seen crashes in the wild of this variety:
 			// java.?lang.?RuntimeException: Fail to connect to camera service
-			Log.w(TAG, "Unexpected error initializing camera", e);
+			CodeManager.v(TAG, "Unexpected error initializing camera");
 			displayFrameworkBugMessageAndExit();
 		}
 	}
