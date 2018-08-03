@@ -20,6 +20,9 @@ CameraConfigurationManager.INVERT_SCAN      扫描黑色背景上的白色条码
 CameraConfigurationManager.DISABLE_CONTINUOUS_FOCUS     使用标准对焦模式(不持续对焦)
 CameraConfigurationManager.DISABLE_EXPOSURE     不曝光
 CameraConfigurationManager.DISABLE_METERING     不使用距离测量
+6，
+界面大小: ViewfinderView.getFramingRect
+屏幕真实大小: CameraManager.getFramingRect
 
 调试：
 1，Camera和Display的横竖方向:
@@ -30,4 +33,6 @@ ps: 方向上，在CameraConfigurationManager.setDesiredCameraParameters中，se
 2，Camera和Display的窗口大小:
 UI展示Rect: CameraManager.getFramingRect()
 预览解析Rect: CameraManager.getFramingRectInPreview()
-
+ps: 已经进行横屏和竖屏的适配
+测试: 1)，较为复杂度图，识别速度较快
+2)，CameraManager.getFramingRect 和 CamaraManager.getFramingRectInPreview两个方法答应的Rect相同

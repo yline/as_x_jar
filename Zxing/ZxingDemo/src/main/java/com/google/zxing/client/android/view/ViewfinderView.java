@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This view is overlaid on top of the camera preview. It adds the viewfinder rectangle and partial
- * transparency outside it, as well as the laser scanner animation and result points.
+ * 替换成自定义的样子
  *
- * @author dswitkin@google.com (Daniel Switkin)
+ * @author yline
+ * @times 2018/8/3 -- 14:00
  */
 public final class ViewfinderView extends View {
 	
@@ -73,7 +73,7 @@ public final class ViewfinderView extends View {
 	@Override
 	public void onDraw(Canvas canvas) {
 		CameraManager cameraManager = CameraManager.getInstance();
-		Rect frame = cameraManager.getFramingRect();
+		Rect frame = getFramingRect(cameraManager);
 		Rect previewFrame = cameraManager.getFramingRectInPreview();
 		if (frame == null || previewFrame == null) {
 			return;
@@ -136,6 +136,22 @@ public final class ViewfinderView extends View {
 			// not the entire viewfinder mask.
 			postInvalidateDelayed(ANIMATION_DELAY, frame.left - POINT_SIZE, frame.top - POINT_SIZE, frame.right + POINT_SIZE, frame.bottom + POINT_SIZE);
 		}
+	}
+	
+	private Rect drawFrame; // 绘制的方框大小
+	
+	private Rect getFramingRect(CameraManager cameraManager) {
+		Rect frame = cameraManager.getFramingRect();
+		if (null != frame) {
+			if (null == drawFrame) {
+				int widthOffset = frame.width() * 3 / 16;
+				int heightOffset = frame.height() * 3 / 16;
+				drawFrame = new Rect(frame.left + widthOffset, frame.top + heightOffset, frame.right - widthOffset, frame.bottom - heightOffset);
+			}
+			return drawFrame;
+		}
+		
+		return null;
 	}
 	
 	public void drawViewfinder() {

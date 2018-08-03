@@ -214,6 +214,7 @@ public final class CameraManager {
 	}
 	
 	/**
+	 * 计算UI上，放置二维码的大小
 	 * Calculates the framing rect which the UI should draw to show the user where to place the
 	 * barcode. This target helps with alignment as well as forces the user to hold the device
 	 * far enough away to ensure the image will be in focus.
@@ -231,12 +232,19 @@ public final class CameraManager {
 				return null;
 			}
 			
-			int width = findDesiredDimensionInRange(screenResolution.x, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
-			int height = findDesiredDimensionInRange(screenResolution.y, MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
+			// 取 屏幕较小值，和，默认教大值
+			int shortSide = Math.min(screenResolution.x, screenResolution.y);
+			shortSide = Math.max(shortSide, MAX_FRAME_HEIGHT);
 			
-			int leftOffset = (screenResolution.x - width) / 2;
-			int topOffset = (screenResolution.y - height) / 2;
-			framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+			int leftOffset = 0;
+			int topOffset = (screenResolution.y - shortSide) / 2;
+			framingRect = new Rect(leftOffset, topOffset, leftOffset + shortSide, topOffset + shortSide);
+			//	int width = findDesiredDimensionInRange(screenResolution.x, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
+			//	int height = findDesiredDimensionInRange(screenResolution.y, MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
+			//
+			//	int leftOffset = (screenResolution.x - width) / 2;
+			//	int topOffset = (screenResolution.y - height) / 2;
+			//  framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
 			CodeManager.v(TAG, "screen display rect: " + framingRect);
 		}
 		return framingRect;
