@@ -53,6 +53,7 @@ android:screenOrientation="sensorLandscape"
         <activity
             android:name="com.zxing.demo.encode.EncodeInputActivity"
             android:screenOrientation="portrait" />
+        <activity android:name="com.zxing.demo.decode.DecodeActivity" />
     </application>
 
 </manifest>

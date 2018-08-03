@@ -63,8 +63,8 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 	private CaptureFragment mCaptureFragment;
 	
 	@Override
-	public void onCreate(Bundle icicle) {
-		super.onCreate(icicle);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		
 		Window window = getWindow();
 		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.google.zxing.client.android.CaptureActivity;
 import com.yline.test.BaseTestActivity;
+import com.zxing.demo.decode.DecodeActivity;
 import com.zxing.demo.encode.EncodeInputActivity;
 import com.zxing.demo.manager.DBManager;
 import com.zxing.demo.manager.LogManager;
@@ -25,6 +26,13 @@ public class MainActivity extends BaseTestActivity {
 			@Override
 			public void onClick(View v) {
 				EncodeInputActivity.launch(MainActivity.this);
+			}
+		});
+		
+		addButton("解析 - 图片二维码", new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				DecodeActivity.launch(MainActivity.this);
 			}
 		});
 		
