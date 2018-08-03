@@ -86,7 +86,7 @@ public final class CameraConfigurationManager {
 		}
 		
 		cwRotationFromDisplayToCamera = (360 + cwRotationFromNaturalToCamera - cwRotationFromNaturalToDisplay) % 360;
-		CodeManager.v(TAG, "Final display orientation: " + cwRotationFromDisplayToCamera);
+		CodeManager.v(TAG, "rotation from display orientation: " + cwRotationFromDisplayToCamera);
 		if (camera.getFacing() == CameraFacing.FRONT) {
 			CodeManager.v(TAG, "Compensating rotation for front camera");
 			cwNeededRotation = (360 - cwRotationFromDisplayToCamera) % 360;

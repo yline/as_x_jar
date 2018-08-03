@@ -244,7 +244,12 @@ final class CameraConfigurationUtils {
 		
 		// 打印支持的预览分辨率
 		CodeManager.v(TAG, "Supported preview sizes: " + rawSupportedSizes.size());
-		double screenAspectRatio = screenResolution.x / (double) screenResolution.y;
+		double screenAspectRatio;
+		if (screenResolution.x < screenResolution.y) { // 竖屏
+			screenAspectRatio = screenResolution.y / (double) screenResolution.x;
+		} else { // 横屏
+			screenAspectRatio = screenResolution.x / (double) screenResolution.y;
+		}
 		
 		// Find a suitable size, with max resolution
 		int maxResolution = 0;

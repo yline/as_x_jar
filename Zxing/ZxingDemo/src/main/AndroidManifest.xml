@@ -44,7 +44,7 @@ android:screenOrientation="sensorLandscape"
             android:stateNotNeeded="true"-->
         <activity
             android:name=".CaptureActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@style/CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity

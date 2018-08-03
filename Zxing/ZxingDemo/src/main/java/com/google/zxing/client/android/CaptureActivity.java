@@ -84,11 +84,9 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 		super.onResume();
 		
 		lastResult = null;
-		if (getOrientation()) {
-			setRequestedOrientation(getCurrentOrientation(this));
-		} else {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-		}
+//		if (getOrientation()) {
+//			setRequestedOrientation(getCurrentOrientation(this));
+//		}
 		
 		resetStatusView();
 	}
@@ -139,7 +137,7 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 		}
 	}
 	
-	private boolean isBulkMode(){
+	private boolean isBulkMode() {
 		return false;
 	}
 	

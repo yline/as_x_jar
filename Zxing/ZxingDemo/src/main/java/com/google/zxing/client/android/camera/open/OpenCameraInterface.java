@@ -57,6 +57,7 @@ public final class OpenCameraInterface {
 		
 		CodeManager.v(TAG, "Opening camera #" + cameraId);
 		Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+		
 		Camera.getCameraInfo(cameraId, cameraInfo);
 		Camera camera = Camera.open(cameraId);
 		if (camera == null) {

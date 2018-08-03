@@ -24,6 +24,8 @@ CameraConfigurationManager.DISABLE_METERING     不使用距离测量
 调试：
 1，Camera和Display的横竖方向:
 日志，CameraConfigurationManager.initFromCameraParameters()，中打印了相关信息
+ps: 方向上，在CameraConfigurationManager.setDesiredCameraParameters中，setDisplayOrientation已经做了适配
+测试: 只要预览窗口正常，即没问题
 
 2，Camera和Display的窗口大小:
 UI展示Rect: CameraManager.getFramingRect()

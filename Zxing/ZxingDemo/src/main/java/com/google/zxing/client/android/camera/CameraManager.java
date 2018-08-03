@@ -272,10 +272,18 @@ public final class CameraManager {
 				// Called early, before init even finished
 				return null;
 			}
-			rect.left = rect.left * cameraResolution.x / screenResolution.x;
-			rect.right = rect.right * cameraResolution.x / screenResolution.x;
-			rect.top = rect.top * cameraResolution.y / screenResolution.y;
-			rect.bottom = rect.bottom * cameraResolution.y / screenResolution.y;
+			
+			if (screenResolution.x < screenResolution.y) { // 竖屏模式
+				rect.left = rect.left * cameraResolution.y / screenResolution.x;
+				rect.right = rect.right * cameraResolution.y / screenResolution.x;
+				rect.top = rect.top * cameraResolution.x / screenResolution.y;
+				rect.bottom = rect.bottom * cameraResolution.x / screenResolution.y;
+			} else { // 横屏模式
+				rect.left = rect.left * cameraResolution.x / screenResolution.x;
+				rect.right = rect.right * cameraResolution.x / screenResolution.x;
+				rect.top = rect.top * cameraResolution.y / screenResolution.y;
+				rect.bottom = rect.bottom * cameraResolution.y / screenResolution.y;
+			}
 			framingRectInPreview = rect;
 			
 			CodeManager.v(TAG, "source preview rect: " + framingRectInPreview);
@@ -339,7 +347,21 @@ public final class CameraManager {
 		if (rect == null) {
 			return null;
 		}
-		// Go ahead and assume it's YUV rather than die.
-		return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height(), false);
+		
+		// 横屏和竖屏适配
+		Point screenResolution = configManager.getScreenResolution();
+		if (screenResolution.x < screenResolution.y) { // 竖屏模式
+			byte[] rotatedData = new byte[data.length];
+			int newWidth = height;
+			int newHeight = width;
+			for (int y = 0; y < newWidth; y++) {
+				for (int x = 0; x < newHeight; x++)
+					rotatedData[x * newWidth + newWidth - 1 - y] = data[x + y * newHeight];
+			}
+			return new PlanarYUVLuminanceSource(rotatedData, newWidth, newHeight, rect.left, rect.top, rect.width(), rect.height(), false);
+		} else { // 横屏模式
+			// Go ahead and assume it's YUV rather than die.
+			return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height(), false);
+		}
 	}
 }
