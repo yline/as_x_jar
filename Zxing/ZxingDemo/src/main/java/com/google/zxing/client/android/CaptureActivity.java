@@ -84,9 +84,9 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 		super.onResume();
 		
 		lastResult = null;
-//		if (getOrientation()) {
-//			setRequestedOrientation(getCurrentOrientation(this));
-//		}
+		//		if (getOrientation()) {
+		//			setRequestedOrientation(getCurrentOrientation(this));
+		//		}
 		
 		resetStatusView();
 	}
@@ -174,27 +174,6 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 		lastResult = null;
 	}
 	
-	private static int getCurrentOrientation(Activity activity) {
-		int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			switch (rotation) {
-				case Surface.ROTATION_0:
-				case Surface.ROTATION_90:
-					return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-				default:
-					return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
-			}
-		} else {
-			switch (rotation) {
-				case Surface.ROTATION_0:
-				case Surface.ROTATION_270:
-					return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-				default:
-					return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
-			}
-		}
-	}
-	
 	/**
 	 * 绘制二维码的 四个点 或一维码的两个点
 	 * Superimpose a line for 1D or dots for 2D to highlight the key features of the barcode.
@@ -230,6 +209,27 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 	private static void drawLine(Canvas canvas, Paint paint, ResultPoint a, ResultPoint b, float scaleFactor) {
 		if (a != null && b != null) {
 			canvas.drawLine(scaleFactor * a.getX(), scaleFactor * a.getY(), scaleFactor * b.getX(), scaleFactor * b.getY(), paint);
+		}
+	}
+	
+	private static int getCurrentOrientation(Activity activity) {
+		int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			switch (rotation) {
+				case Surface.ROTATION_0:
+				case Surface.ROTATION_90:
+					return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+				default:
+					return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+			}
+		} else {
+			switch (rotation) {
+				case Surface.ROTATION_0:
+				case Surface.ROTATION_270:
+					return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+				default:
+					return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+			}
 		}
 	}
 }

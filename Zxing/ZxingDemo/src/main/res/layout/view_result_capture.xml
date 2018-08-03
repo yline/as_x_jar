@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/result_view"
+    android:background="@color/viewfinder_result"
     android:baselineAligned="false"
     android:orientation="vertical">
 
@@ -130,8 +130,8 @@
                     android:layout_height="wrap_content"
                     android:autoLink="web"
                     android:paddingLeft="12dp"
-                    android:textColor="@color/result_text"
-                    android:textColorLink="@color/result_text"
+                    android:textColor="@android:color/white"
+                    android:textColorLink="@android:color/white"
                     android:textIsSelectable="true"
                     android:textSize="22sp" />
             </LinearLayout>
