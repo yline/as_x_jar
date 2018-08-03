@@ -14,6 +14,12 @@ helper: 实现附加功能：生成二维码、解析图片二维码、日志统
 2，日志开关: CodeManager.DEBUG
 3，扫描成功声音和震动: BeepHelper.IS_PLAY_BEEP 和 BeepHelper.IS_VIBRATE
 4，闪光灯模式: AmbientLightHelper.getLightMode()
+5，拍照时设置
+CameraConfigurationManager.AUTO_FOCUS       自动对焦
+CameraConfigurationManager.INVERT_SCAN      扫描黑色背景上的白色条码。仅适用于部分设备。
+CameraConfigurationManager.DISABLE_CONTINUOUS_FOCUS     使用标准对焦模式(不持续对焦)
+CameraConfigurationManager.DISABLE_EXPOSURE     不曝光
+CameraConfigurationManager.DISABLE_METERING     不使用距离测量
 
 调试：
 1，Camera和Display的横竖方向:

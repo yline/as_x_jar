@@ -27,7 +27,9 @@ import android.widget.Toast;
 import com.google.zxing.client.result.ParsedResult;
 import com.google.zxing.client.result.ParsedResultType;
 import com.google.zxing.client.result.ResultParser;
+import com.yline.application.SDKManager;
 import com.yline.base.BaseActivity;
+import com.yline.utils.SPUtil;
 import com.zxing.demo.capture.CaptureResultView;
 import com.zxing.demo.manager.DBManager;
 import com.zxing.demo.manager.LogManager;
@@ -82,7 +84,7 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 		super.onResume();
 		
 		lastResult = null;
-		if (DBManager.getInstance().getOrientation()) {
+		if (getOrientation()) {
 			setRequestedOrientation(getCurrentOrientation(this));
 		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
@@ -128,13 +130,21 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 			drawResultPoints(barcode, scaleFactor, rawResult);
 		}
 		
-		if (fromLiveScan && DBManager.getInstance().getBulkMode()) {
+		if (fromLiveScan && isBulkMode()) {
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.msg_bulk_mode_scanned) + " (" + rawResult.getText() + ')', Toast.LENGTH_SHORT).show();
 			// Wait a moment or else it will scan the same barcode continuously about 3 times
 			restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
 		} else {
 			handleDecodeInternally(rawResult, parsedResult, barcode);
 		}
+	}
+	
+	private boolean isBulkMode(){
+		return false;
+	}
+	
+	public boolean getOrientation() {
+		return true;
 	}
 	
 	// Put up our own UI for how to handle the decoded contents.

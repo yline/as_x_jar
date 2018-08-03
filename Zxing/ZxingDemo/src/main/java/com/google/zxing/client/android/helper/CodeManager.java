@@ -33,7 +33,7 @@ import java.util.Map;
 public final class CodeManager {
 	private static final boolean DEBUG = true; // 是否debug
 	
-	private static final int DECODE_DIMENSION = 300;
+	private static final int DECODE_DIMENSION = 400; // 默认缩放的较小边大小
 	
 	private static final String CHARACTER = "UTF-8";
 	

@@ -12,7 +12,6 @@ import com.google.zxing.client.android.camera.open.OpenCamera;
 import com.google.zxing.client.android.helper.CodeManager;
 import com.zxing.demo.MainApplication;
 import com.google.zxing.client.android.helper.AmbientLightHelper;
-import com.zxing.demo.manager.DBManager;
 
 /**
  * A class which deals with reading, parsing, and setting the camera parameters which are used to
@@ -20,6 +19,18 @@ import com.zxing.demo.manager.DBManager;
  */
 @SuppressWarnings("deprecation") // camera APIs
 public final class CameraConfigurationManager {
+	static final boolean AUTO_FOCUS = true; // 自动对焦
+	
+	private static final boolean INVERT_SCAN = false; // 扫描黑色背景上的白色条码。仅适用于部分设备。
+	
+	private static final boolean DISABLE_CONTINUOUS_FOCUS = true; // 使用标准对焦模式(不持续对焦)
+	
+	private static final boolean DISABLE_EXPOSURE = true; // 不曝光
+	
+	private static final boolean DISABLE_METERING = true; // 不使用距离测量
+	
+	private static final boolean DISABLE_BARCODE_SCENE_MODE = true; // 不进行条形码场景匹配
+	
 	private static final String TAG = "CameraConfiguration";
 	
 	private int cwNeededRotation;
@@ -123,18 +134,18 @@ public final class CameraConfigurationManager {
 		
 		initializeTorch(parameters, safeMode);
 		
-		CameraConfigurationUtils.setFocus(parameters, DBManager.getInstance().getAutoFocus(), DBManager.getInstance().getDisableContinuousFocus(), safeMode);
+		CameraConfigurationUtils.setFocus(parameters, AUTO_FOCUS, DISABLE_CONTINUOUS_FOCUS, safeMode);
 		
 		if (!safeMode) {
-			if (DBManager.getInstance().getInvertScan()) {
+			if (INVERT_SCAN) {
 				CameraConfigurationUtils.setInvertColor(parameters);
 			}
 			
-			if (!DBManager.getInstance().getDisableBarcodeSceneMode()) {
+			if (!DISABLE_BARCODE_SCENE_MODE) {
 				CameraConfigurationUtils.setBarcodeSceneMode(parameters);
 			}
 			
-			if (!DBManager.getInstance().getDisableMetering()) {
+			if (!DISABLE_METERING) {
 				CameraConfigurationUtils.setVideoStabilization(parameters);
 				CameraConfigurationUtils.setFocusArea(parameters);
 				CameraConfigurationUtils.setMetering(parameters);
@@ -205,7 +216,7 @@ public final class CameraConfigurationManager {
 	
 	private void doSetTorch(Camera.Parameters parameters, boolean newSetting, boolean safeMode) {
 		CameraConfigurationUtils.setTorch(parameters, newSetting);
-		if (!safeMode && !DBManager.getInstance().getDisableExposure()) {
+		if (!safeMode && !DISABLE_EXPOSURE) {
 			CameraConfigurationUtils.setBestExposure(parameters, newSetting);
 		}
 	}

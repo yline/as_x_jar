@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.concurrent.RejectedExecutionException;
 
 import com.google.zxing.client.android.helper.CodeManager;
-import com.zxing.demo.manager.DBManager;
 
 @SuppressWarnings("deprecation") // camera APIs
 public final class AutoFocusManager implements Camera.AutoFocusCallback {
@@ -37,9 +36,7 @@ public final class AutoFocusManager implements Camera.AutoFocusCallback {
 	public AutoFocusManager(Camera camera) {
 		this.camera = camera;
 		String currentFocusMode = camera.getParameters().getFocusMode();
-		useAutoFocus =
-				DBManager.getInstance().getAutoFocus() &&
-						FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
+		useAutoFocus = CameraConfigurationManager.AUTO_FOCUS && FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
 		CodeManager.v(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
 		start();
 	}
