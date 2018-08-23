@@ -14,9 +14,6 @@ import android.widget.TextView;
 import com.google.zxing.Result;
 import com.google.zxing.client.android.R;
 import com.google.zxing.client.android.helper.CodeManager;
-import com.google.zxing.client.result.ParsedResult;
-import com.google.zxing.client.result.ResultParser;
-import com.yline.application.SDKConstant;
 import com.yline.base.BaseActivity;
 import com.yline.utils.FileUtil;
 import com.yline.utils.LogUtil;
@@ -54,7 +51,7 @@ public class DecodeActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_decode);
 		
-		PermissionUtil.request(this, SDKConstant.REQUEST_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
+		PermissionUtil.request(this, PermissionUtil.REQUEST_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
 		
 		decodeImageView = findViewById(R.id.decode_image);
 		decodeTextView = findViewById(R.id.decode_info);

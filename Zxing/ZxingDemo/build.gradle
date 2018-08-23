@@ -27,6 +27,6 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
 
-    implementation 'com.yline.lib:LibSDK:2.2.0'
+    implementation 'com.yline.lib:LibSDK:2.3.1'
     implementation 'com.google.zxing:core:3.3.3'
 }

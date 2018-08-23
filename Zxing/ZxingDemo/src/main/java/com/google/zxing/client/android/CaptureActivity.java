@@ -1,5 +1,6 @@
 package com.google.zxing.client.android;
 
+import android.Manifest;
 import android.content.Context;
 
 import com.google.zxing.BarcodeFormat;
@@ -16,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.google.zxing.client.result.ParsedResultType;
 import com.google.zxing.client.result.ResultParser;
 import com.yline.application.SDKManager;
 import com.yline.base.BaseActivity;
+import com.yline.utils.PermissionUtil;
 import com.yline.utils.SPUtil;
 import com.zxing.demo.capture.CaptureResultView;
 import com.zxing.demo.manager.DBManager;
@@ -75,8 +78,14 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 		mCaptureResultView = findViewById(R.id.capture_result_view);
 		mStatusView = findViewById(R.id.capture_status_view);
 		
-		mCaptureFragment = (CaptureFragment) getFragmentManager().findFragmentById(R.id.capture_fragment);
+		mCaptureFragment = new CaptureFragment();
 		mCaptureFragment.setOnResultCallback(this);
+		
+		// 若无权限，则请求权限
+		boolean isRequestPermission = PermissionUtil.request(this, PermissionUtil.REQUEST_CODE_PERMISSION, Manifest.permission.CAMERA);
+		if (!isRequestPermission) {
+			getFragmentManager().beginTransaction().add(R.id.capture_frame, mCaptureFragment).commit();
+		}
 	}
 	
 	@Override
@@ -84,11 +93,20 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 		super.onResume();
 		
 		lastResult = null;
-		//		if (getOrientation()) {
-		//			setRequestedOrientation(getCurrentOrientation(this));
-		//		}
-		
 		resetStatusView();
+	}
+	
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		
+		boolean isPermissionGranted = PermissionUtil.isPermissionGranted(grantResults);
+		if (isPermissionGranted) {
+			getFragmentManager().beginTransaction().add(R.id.capture_frame, mCaptureFragment).commit();
+		} else {
+			SDKManager.toast("未授予权限，扫描功能不能使用");
+			finish();
+		}
 	}
 	
 	@Override
