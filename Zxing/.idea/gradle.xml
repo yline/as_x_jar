@@ -10,8 +10,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ZxingDemo" />
-            <option value="$PROJECT_DIR$/ZxingLib" />
-            <option value="$PROJECT_DIR$/ZxingSample" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
