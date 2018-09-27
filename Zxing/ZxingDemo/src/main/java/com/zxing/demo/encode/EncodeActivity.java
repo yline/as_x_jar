@@ -20,13 +20,15 @@ import com.yline.utils.LogUtil;
 import com.yline.utils.UIScreenUtil;
 
 public final class EncodeActivity extends BaseActivity {
-	private static final String DATA = "encode_data";
+	private static final String ONECODE_DATA = "onecode_data";
+	private static final String QRCODE_DATA = "qrcode_data";
 	
-	public static void launch(Context context, String encodeData) {
+	public static void launch(Context context, String oneCodeData, String qrcodeData) {
 		if (null != context) {
 			Intent intent = new Intent();
 			intent.setClass(context, EncodeActivity.class);
-			intent.putExtra(DATA, encodeData);
+			intent.putExtra(ONECODE_DATA, oneCodeData);
+			intent.putExtra(QRCODE_DATA, qrcodeData);
 			if (!(context instanceof Activity)) {
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			}
@@ -44,29 +46,50 @@ public final class EncodeActivity extends BaseActivity {
 		} else {
 			setContentView(R.layout.activity_encode);
 			
-			initView();
+			String onecodeData = intent.getStringExtra(ONECODE_DATA);
+			String qrcodeData = intent.getStringExtra(QRCODE_DATA);
+			
+			initOneCodeView(onecodeData);
+			initQrcodeView(qrcodeData);
 		}
 	}
 	
-	private void initView() {
-		String encodeData = getIntent().getStringExtra(DATA);
-		
+	private void initOneCodeView(String onecodeData) {
 		int screenWidth = UIScreenUtil.getScreenWidth(SDKManager.getApplication());
 		int smallerDimension = screenWidth * 7 / 8;
 		
-		Bitmap bitmap = CodeManager.encodeAsQRCodeBitmap(encodeData, smallerDimension);
-		
+		Bitmap bitmap = CodeManager.encodeAsOneCodeBitmap(onecodeData, smallerDimension, smallerDimension / 2);
 		if (bitmap == null) {
-			LogUtil.v("Could not activity_encode barcode");
-			showErrorMessage("无法生成条码。");
+			LogUtil.v("Could not activity_encode barcode, onecodeData = " + onecodeData);
+			showErrorMessage("无法生成条形码。");
 			return;
 		}
 		
-		ImageView view = findViewById(R.id.encode_image_view);
+		ImageView view = findViewById(R.id.encode_onecode_img);
 		view.setImageBitmap(bitmap);
 		
-		TextView contents = findViewById(R.id.encode_contents_text_view);
-		contents.setText(encodeData);
+		TextView contents = findViewById(R.id.encode_onecode_text);
+		contents.setText(onecodeData);
+		
+		setTitle("纯文本");
+	}
+	
+	private void initQrcodeView(String qrcodeData) {
+		int screenWidth = UIScreenUtil.getScreenWidth(SDKManager.getApplication());
+		int smallerDimension = screenWidth * 7 / 8;
+		
+		Bitmap bitmap = CodeManager.encodeAsQRCodeBitmap(qrcodeData, smallerDimension);
+		if (bitmap == null) {
+			LogUtil.v("Could not activity_encode barcode, qrcodeData = " + qrcodeData);
+			showErrorMessage("无法生成二维码。");
+			return;
+		}
+		
+		ImageView view = findViewById(R.id.encode_qrcode_img);
+		view.setImageBitmap(bitmap);
+		
+		TextView contents = findViewById(R.id.encode_qrcode_text);
+		contents.setText(qrcodeData);
 		
 		setTitle("纯文本");
 	}

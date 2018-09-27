@@ -22,14 +22,14 @@ public class MainActivity extends BaseTestActivity {
 			}
 		});
 		
-		addButton("生成 - 二维码", new View.OnClickListener() {
+		addButton("生成 - 二维码 + 条形码", new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				EncodeInputActivity.launch(MainActivity.this);
 			}
 		});
 		
-		addButton("解析 - 图片二维码", new View.OnClickListener() {
+		addButton("解析 - 图片(二维码 + 条形码)", new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				DecodeActivity.launch(MainActivity.this);

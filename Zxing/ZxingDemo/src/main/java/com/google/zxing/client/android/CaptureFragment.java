@@ -68,6 +68,18 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback,
 		hasSurface = false;
 	}
 	
+	private boolean isLight = (AmbientLightHelper.getLightMode() == AmbientLightHelper.LightMode.ON);
+	
+	public void switchAmbientLight() {
+		if (isLight){
+			CameraManager.getInstance().setTorch(false);
+			isLight = false;
+		}else {
+			CameraManager.getInstance().setTorch(true);
+			isLight = true;
+		}
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();

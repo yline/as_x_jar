@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.google.zxing.Result;
 import com.google.zxing.client.android.R;
 import com.google.zxing.client.android.helper.CodeManager;
+import com.google.zxing.client.result.ParsedResult;
+import com.google.zxing.client.result.ResultParser;
 import com.yline.base.BaseActivity;
 import com.yline.utils.FileUtil;
 import com.yline.utils.LogUtil;
@@ -112,8 +114,13 @@ public class DecodeActivity extends BaseActivity {
 		}
 		
 		if (null != rawResult) {
-			LogUtil.v("text = " + rawResult.getText());
-			decodeTextView.setText(rawResult.getText());
+			// ParsedResult parsedResult = ResultParser.parseResult(rawResult);
+			String format = String.valueOf(rawResult.getBarcodeFormat());
+			LogUtil.v("format = " + format);
+			
+			String text = String.valueOf(rawResult.getText());
+			LogUtil.v("text = " + text);
+			decodeTextView.setText(String.format("format = %s\ntext = %s", format, text));
 		}
 	}
 }

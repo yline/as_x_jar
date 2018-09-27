@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
+
     <FrameLayout
         android:id="@+id/capture_frame"
         android:layout_width="match_parent"
@@ -19,4 +20,12 @@
         android:background="@android:color/transparent"
         android:text="请将条码置于取景框内扫描。  "
         android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/capture_setting_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:padding="10dp"
+        android:text="闪光灯" />
 </merge>

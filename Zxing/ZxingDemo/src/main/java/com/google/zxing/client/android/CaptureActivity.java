@@ -86,6 +86,13 @@ public final class CaptureActivity extends BaseActivity implements CaptureFragme
 		if (!isRequestPermission) {
 			getFragmentManager().beginTransaction().add(R.id.capture_frame, mCaptureFragment).commit();
 		}
+		
+		findViewById(R.id.capture_setting_light).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mCaptureFragment.switchAmbientLight();
+			}
+		});
 	}
 	
 	@Override

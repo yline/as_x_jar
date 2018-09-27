@@ -132,6 +132,8 @@ public final class CodeManager {
 		}
 	}
 	
+	/* ------------------------- 生成 二维码 -------------------------- */
+	
 	/**
 	 * 编码成 二维码图片
 	 *
@@ -151,7 +153,7 @@ public final class CodeManager {
 	 * @param margin     边距
 	 * @return bitmap or null
 	 */
-	private static Bitmap encodeAsQRCodeBitmap(String encodeData, int dimension, int margin) {
+	public static Bitmap encodeAsQRCodeBitmap(String encodeData, int dimension, int margin) {
 		if (TextUtils.isEmpty(encodeData)) {
 			return null;
 		}
@@ -164,23 +166,64 @@ public final class CodeManager {
 			paramMap.put(EncodeHintType.MARGIN, (margin >= 0) ? margin : 5);
 			
 			BitMatrix result = new MultiFormatWriter().encode(encodeData, format, dimension, dimension, paramMap);
-			int width = result.getWidth();
-			int height = result.getHeight();
-			int[] pixels = new int[width * height];
-			for (int y = 0; y < height; y++) {
-				int offset = y * width;
-				for (int x = 0; x < width; x++) {
-					pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
-				}
-			}
-			
-			Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-			bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-			
-			return bitmap;
+			return matrixToBitmap(result);
 		} catch (IllegalArgumentException | WriterException iae) {
 			// Unsupported format
 			return null;
 		}
+	}
+	
+	/* ------------------------- 生成 一维码 -------------------------- */
+	public static Bitmap encodeAsOneCodeBitmap(String encodeData, int widthBitmap, int heightBitmap) {
+		return encodeAsOneCodeBitmap(encodeData, widthBitmap, heightBitmap, 0);
+	}
+	
+	/**
+	 * 编码成 一维码图片
+	 *
+	 * @param encodeData   内容（仅仅允许字符串(0-9)）
+	 * @param bitmapWidth  宽度
+	 * @param bitmapHeight 高度
+	 * @param margin       边距
+	 * @return bitmap or null
+	 */
+	public static Bitmap encodeAsOneCodeBitmap(String encodeData, int bitmapWidth, int bitmapHeight, int margin) {
+		if (TextUtils.isEmpty(encodeData)) {
+			return null;
+		}
+		
+		try {
+			BarcodeFormat format = BarcodeFormat.CODE_128;
+			
+			Map<EncodeHintType, Object> paramMap = new EnumMap<>(EncodeHintType.class);
+			paramMap.put(EncodeHintType.CHARACTER_SET, CHARACTER);
+			paramMap.put(EncodeHintType.MARGIN, (margin >= 0) ? margin : 5);
+			
+			BitMatrix result = new MultiFormatWriter().encode(encodeData, format, bitmapWidth, bitmapHeight, paramMap);
+			return matrixToBitmap(result);
+		} catch (WriterException | IllegalArgumentException e) {
+			// Unsupported format
+			LogUtil.e("xxx", e);
+			return null;
+		}
+	}
+	
+	private static Bitmap matrixToBitmap(BitMatrix bitMatrix) {
+		int width = bitMatrix.getWidth();
+		int height = bitMatrix.getHeight();
+		int[] pixels = new int[width * height];
+		for (int y = 0; y < height; y++) {
+			int offset = y * width;
+			for (int x = 0; x < width; x++) {
+				pixels[offset + x] = bitMatrix.get(x, y) ? BLACK : WHITE;
+			}
+		}
+		
+		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
+		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+		
+		LogUtil.v("width = " + bitmap.getWidth() + ", height = " + bitmap.getHeight());
+		
+		return bitmap;
 	}
 }

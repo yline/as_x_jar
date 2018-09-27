@@ -36,17 +36,17 @@ public final class EncodeInputActivity extends BaseActivity {
 		super.onCreate(icicle);
 		setContentView(R.layout.activity_encode_input);
 		
-		findViewById(R.id.encode_input_text_view).setOnKeyListener(new View.OnKeyListener() {
+		final TextView onecodeTextView = findViewById(R.id.encode_input_onecode);
+		final TextView qrcodeTextView = findViewById(R.id.encode_input_qrcode);
+		
+		findViewById(R.id.encode_input_gen).setOnClickListener(new View.OnClickListener() {
 			@Override
-			public boolean onKey(View view, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-					String text = ((TextView) view).getText().toString();
-					if (!TextUtils.isEmpty(text)) {
-						EncodeActivity.launch(EncodeInputActivity.this, text);
-					}
-					return true;
+			public void onClick(View v) {
+				String onecodeText = onecodeTextView.getText().toString();
+				String qrcodeText = qrcodeTextView.getText().toString();
+				if (!TextUtils.isEmpty(onecodeText) && !TextUtils.isEmpty(qrcodeText)) {
+					EncodeActivity.launch(EncodeInputActivity.this, onecodeText, qrcodeText);
 				}
-				return false;
 			}
 		});
 	}

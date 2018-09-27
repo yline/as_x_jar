@@ -24,6 +24,23 @@ CameraConfigurationManager.DISABLE_METERING     不使用距离测量
 界面大小: ViewfinderView.getFramingRect
 屏幕真实大小: CameraManager.getFramingRect
 
+7,条形码，参考：https://zh.wikipedia.org/wiki/%E6%9D%A1%E5%BD%A2%E7%A0%81
+UPC_A		定长码，只能表示13位数字
+UPC_E		短码，总长度位8个字码
+EAN_13		欧洲商品条形码，总长度为13位
+EAN_8		欧洲商品码，总长度为8位
+CODABAR		过时，不推荐使用
+CODE_39		长度不限制，简单方便实用，能够对0-9，A-Z，+-*/%$进行编码
+CODE_93		128px，维基百科找不到相应链接
+CODE_128	维基百科找不到相应链接
+ITF			非零售包装的水平，交错2/5码
+RSS_14			GS1的的 DataBar 的前身缩减码
+RSS_EXPANDED
+
+支付宝付款码的条形码使用的是：CODE_128
+微信付款码的条形码使用的是：CODE_128
+终上所述，推荐使用 CODE_128
+
 调试：
 1，Camera和Display的横竖方向:
 日志，CameraConfigurationManager.initFromCameraParameters()，中打印了相关信息

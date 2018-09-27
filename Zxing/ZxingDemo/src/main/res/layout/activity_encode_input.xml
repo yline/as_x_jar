@@ -5,11 +5,29 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/encode_input_text_view"
+        android:id="@+id/encode_input_onecode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:gravity="top"
+        android:hint="只能输入数字"
+        android:inputType="numberDecimal"
+        android:minLines="3" />
+
+    <EditText
+        android:id="@+id/encode_input_qrcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/encode_input_onecode"
+        android:layout_marginTop="30dp"
+        android:gravity="top"
         android:hint="或键入一些文字"
-        android:minLines="3"
-        android:selectAllOnFocus="true" />
+        android:minLines="3" />
+
+    <Button
+        android:id="@+id/encode_input_gen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="生成内容" />
 </RelativeLayout>
