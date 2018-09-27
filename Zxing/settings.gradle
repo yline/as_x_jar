@@ -1,1 +1,1 @@
-include ':ZxingSample', ':ZxingLib', ':ZxingDemo'
+include ':ZxingDemo'
