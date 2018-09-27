@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Zxing.iml" filepath="$PROJECT_DIR$/Zxing.iml" />
       <module fileurl="file://$PROJECT_DIR$/ZxingDemo/ZxingDemo.iml" filepath="$PROJECT_DIR$/ZxingDemo/ZxingDemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ZxingLib/ZxingLib.iml" filepath="$PROJECT_DIR$/ZxingLib/ZxingLib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ZxingSample/ZxingSample.iml" filepath="$PROJECT_DIR$/ZxingSample/ZxingSample.iml" />
     </modules>
   </component>
 </project>
