@@ -65,7 +65,7 @@ public final class DecodeThread extends Thread {
 	 */
 	private static Map<DecodeHintType, Object> buildDecodeHintMap(ResultPointCallback resultPointCallback) {
 		Map<DecodeHintType, Object> hintMap = new EnumMap<>(DecodeHintType.class);
-		attachBarcodeFormat(hintMap);
+		//		attachBarcodeFormat(hintMap);
 		
 		hintMap.put(DecodeHintType.CHARACTER_SET, "UTF-8");
 		hintMap.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
@@ -83,10 +83,17 @@ public final class DecodeThread extends Thread {
 		
 		/*
 		 * 一维码  对应  MultiFormatOneDReader
-		 * {UPC_A、UPC_E、EAN_13、EAN_8、CODABAR、CODE_39、CODE_93、CODE_128、ITF、RSS_14、RSS_EXPANDED}
+		 * {UPC_A、UPC_E、EAN_13、EAN_8}  // 一般用于超市
+		 * {CODE_39} // 应用广
+		 * {CODE_93} // 应用广
+		 * {CODE_128} // 应用最广
+		 * {CODABAR、ITF、RSS_14、RSS_EXPANDED} // 有场景，应用不多
 		 * 以上满足一条，即可支持一维码解码
 		 */
 		barcodeFormats.add(BarcodeFormat.UPC_A);
+		barcodeFormats.add(BarcodeFormat.CODE_39);
+		barcodeFormats.add(BarcodeFormat.CODE_93);
+		barcodeFormats.add(BarcodeFormat.CODE_128);
 		
 		/* 二维码  对应 QRCodeReader */
 		barcodeFormats.add(BarcodeFormat.QR_CODE);

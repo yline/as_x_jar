@@ -57,14 +57,16 @@ public class LogManager {
 		// {key = BYTE_SEGMENTS, value = [[B@b50c9f6]
 		//    key = ERROR_CORRECTION_LEVEL, value = H}
 		Map<ResultMetadataType, Object> resultMetadata = rawResult.getResultMetadata();
-		stringBuilder.append('\n');
-		stringBuilder.append("resultMetadata = ");
-		for (ResultMetadataType key : resultMetadata.keySet()) {
-			stringBuilder.append("key = ");
-			stringBuilder.append(key.toString());
-			stringBuilder.append(", value = ");
-			stringBuilder.append(resultMetadata.get(key));
+		if (null != resultMetadata) {
 			stringBuilder.append('\n');
+			stringBuilder.append("resultMetadata = ");
+			for (ResultMetadataType key : resultMetadata.keySet()) {
+				stringBuilder.append("key = ");
+				stringBuilder.append(key.toString());
+				stringBuilder.append(", value = ");
+				stringBuilder.append(resultMetadata.get(key));
+				stringBuilder.append('\n');
+			}
 		}
 		
 		// 毫秒级{1532934507021}
