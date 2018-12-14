@@ -112,7 +112,7 @@ public final class CodeManager {
 		long start = System.currentTimeMillis();
 		// 参数配置
 		Map<DecodeHintType, Object> hintMap = new EnumMap<>(DecodeHintType.class);
-		//		DecodeThread.attachBarcodeFormat(hintMap);
+		DecodeThread.attachBarcodeFormat(hintMap);
 		hintMap.put(DecodeHintType.CHARACTER_SET, CHARACTER);
 		
 		MultiFormatReader multiFormatReader = new MultiFormatReader();

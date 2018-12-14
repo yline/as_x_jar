@@ -65,7 +65,7 @@ public final class DecodeThread extends Thread {
 	 */
 	private static Map<DecodeHintType, Object> buildDecodeHintMap(ResultPointCallback resultPointCallback) {
 		Map<DecodeHintType, Object> hintMap = new EnumMap<>(DecodeHintType.class);
-		//		attachBarcodeFormat(hintMap);
+		attachBarcodeFormat(hintMap);
 		
 		hintMap.put(DecodeHintType.CHARACTER_SET, "UTF-8");
 		hintMap.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);

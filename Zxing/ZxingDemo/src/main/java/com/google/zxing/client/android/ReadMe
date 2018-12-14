@@ -4,7 +4,7 @@
 3，生成图片，具体参考EncodeActivity使用
 
 模块：
-camera: 调用摄像头预览，并找到byte[]
+camera: 调用摄像头预览，并得到byte[]
 decode: 将byte[]解析出来，并回调到UI层
 view: 预览界面
 helper: 实现附加功能：生成二维码、解析图片二维码、日志统一管理、闪光灯和声音管理
@@ -52,4 +52,4 @@ UI展示Rect: CameraManager.getFramingRect()
 预览解析Rect: CameraManager.getFramingRectInPreview()
 ps: 已经进行横屏和竖屏的适配
 测试: 1)，较为复杂度图，识别速度较快
-2)，CameraManager.getFramingRect 和 CamaraManager.getFramingRectInPreview两个方法答应的Rect相同
+2)，CameraManager.getFramingRect 和 CamaraManager.getFramingRectInPreview两个方法对应的Rect相同
