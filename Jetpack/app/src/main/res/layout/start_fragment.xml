@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/start_container"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/start_container_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新数据" />
+
+        <Button
+            android:id="@+id/start_container_jump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳转" />
+
+        <Button
+            android:id="@+id/start_container_jump_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳转并关闭" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/start_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/start_container" />
+</RelativeLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <!-- 引入依赖库 -->
+        <import type="android.view.View" />
+
+        <!-- 数据 -->
+        <variable
+            name="userInfo"
+            type="com.yline.jetpack.binding.model.UserInfoModel" />
+        <!-- 点击事件 -->
+        <variable
+            name="event"
+            type="com.yline.jetpack.binding.manager.BindingEventManager" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- 简单使用 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:gravity="center"
+            android:text="@{userInfo.name, default=`yline`}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:gravity="center"
+            android:text="@{userInfo.age > 18 ? `成年` : `未成年`}"
+            android:textColor="@{userInfo.age >= 18 ? @android:color/white:@android:color/black}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:visibility="@{userInfo.visible ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{event::onClickToast}"
+            android:text="点击，就给你吐司" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> event.onClickModel(userInfo)}"
+            android:text="点击，修改数据" />
+
+        <!-- app:actualImageUri="@{userInfo.avatar}" -->
+        <com.yline.view.fresco.view.FrescoView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:actualImageScaleType="center"
+            app:placeholderImage="@mipmap/ic_launcher"
+            app:placeholderImageScaleType="center" />
+    </LinearLayout>
+</layout>
