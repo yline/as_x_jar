@@ -6,6 +6,11 @@ public class DataBindingItemModel implements Serializable {
     private int type;
     private String text;
 
+    public DataBindingItemModel(int type, String text) {
+        this.type = type;
+        this.text = text;
+    }
+
     public int getType() {
         return type;
     }

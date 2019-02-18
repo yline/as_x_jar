@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="java.util.Arrays" />
+
+        <import type="android.databinding.ObservableList" />
+
+        <!-- 数据模型 -->
+        <variable
+            name="valueModel"
+            type="com.yline.jetpack.binding.observe.model.ObserveModel" />
+
+        <variable
+            name="filedModel"
+            type="com.yline.jetpack.binding.observe.model.ObserveFiledModel" />
+
+        <variable
+            name="dataList"
+            type="ObservableList&lt;String>" />
+
+        <!-- 点击事件处理 -->
+        <variable
+            name="presenter"
+            type="com.yline.jetpack.binding.observe.ObserveActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:gravity="center"
+            android:text="@{valueModel.name}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_orange_dark"
+            android:gravity="center"
+            android:text="@{valueModel.phone}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:text="@{String.valueOf(valueModel.age)}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> presenter.onUpdateName(valueModel)}"
+            android:text="更新-名称" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> presenter.onUpdatePhone(valueModel)}"
+            android:text="更新-电话" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> presenter.onUpdateAge(valueModel)}"
+            android:text="更新-年龄" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> presenter.onUpdateModel(valueModel)}"
+            android:text="更新-名称+年龄" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{filedModel.mPhone}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> presenter.onUpdatePhone(filedModel)}"
+            android:text="更新-自动电话" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
+            android:text="@{Arrays.toString(dataList.toArray())}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> presenter.onUpdateList(dataList)}"
+            android:text="更新-数组" />
+    </LinearLayout>
+</layout>

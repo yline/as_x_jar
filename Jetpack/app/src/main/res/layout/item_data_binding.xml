@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> presenter.onTypeClick(context, data)}"
-            android:text="@{data.text}" />
+            android:text="@{data.text}"
+            android:textAllCaps="false" />
     </RelativeLayout>
 </layout>

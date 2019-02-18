@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="java.util.Arrays" />
+
+        <import
+            alias="AliasModel"
+            type="com.yline.jetpack.binding.express.model.ExpressModel" />
+
+        <!--  直接使用java.lang.* -->
+        <variable
+            name="strValue"
+            type="String" />
+
+        <!-- 直接使用基本数据类型 -->
+        <variable
+            name="intValue"
+            type="int" />
+
+        <!-- 导入使用，List -->
+        <variable
+            name="valueList"
+            type="java.util.List&lt;String>" />
+
+        <!-- 导入使用，Map -->
+        <variable
+            name="valueMap"
+            type="java.util.Map&lt;String, String>" />
+
+        <!-- 别名，alias -->
+        <variable
+            name="valueModel"
+            type="AliasModel" />
+
+        <!-- 点击事件，处理 -->
+        <variable
+            name="presenter"
+            type="com.yline.jetpack.binding.express.helper.ExpressPresenter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <!-- 表达式使用 “@{}” 语法 - 字符串 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{strValue}" />
+
+        <!-- 表达式使用 “@{}” 语法 - 整数 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:gravity="center"
+            android:text="@{String.valueOf(intValue)}" />
+
+        <!-- 表达式使用 “@{}” 语法 - 数组 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{valueList[intValue]}" />
+
+        <!-- 表达式使用 “@{}” 语法 - map -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:text="@{valueMap[&quot;0&quot;]}" />
+
+        <!-- 字符串拼接 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`字符串内容：` + strValue}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:text="@{`数组大小：` + String.valueOf(valueList.size())}" />
+
+        <!-- 数组 + 工具类 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`数组内容：` + Arrays.toString(valueList.toArray())}" />
+
+        <!-- 三目运算 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:text="@{valueModel.age > 18 ? `成年`:`未成年`}"
+            android:textColor="@{valueModel.age > 18 ? @android:color/white: @android:color/black}"
+            android:visibility="@{valueModel.visible ? View.VISIBLE : View.GONE}" />
+
+        <!-- 类三目运算 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{valueModel.realName ?? valueModel.nickName}" />
+
+        <!-- 字符串，格式拼接 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:text="@{@string/string_user(valueModel.nickName, valueModel.age, 1.9234f)}" />
+
+        <!-- 点击事件 -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{presenter::onClickToast}"
+            android:text="点击，就给你吐司" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> presenter.onClickModel(valueModel)}"
+            android:text="点击，修改数据" />
+    </LinearLayout>
+</layout>

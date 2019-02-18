@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".start.StartActivity" />
-        <activity android:name=".binding.BindingActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -27,7 +26,9 @@
         </activity>
         <!-- DataBinding 相关 -->
         <activity android:name=".binding.DataBindingActivity" />
-
+        <activity android:name=".binding.express.ExpressActivity" />
+        <activity android:name=".binding.observe.ObserveActivity" />
+        <activity android:name=".binding.custom.CustomActivity" />
     </application>
 
 </manifest>

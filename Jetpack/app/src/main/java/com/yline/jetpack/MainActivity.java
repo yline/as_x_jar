@@ -3,7 +3,7 @@ package com.yline.jetpack;
 import android.os.Bundle;
 import android.view.View;
 
-import com.yline.jetpack.binding.BindingActivity;
+import com.yline.jetpack.binding.DataBindingActivity;
 import com.yline.jetpack.start.StartActivity;
 import com.yline.test.BaseTestActivity;
 
@@ -14,7 +14,7 @@ public class MainActivity extends BaseTestActivity {
         addButton("DataBinding", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BindingActivity.launch(MainActivity.this);
+                DataBindingActivity.launch(MainActivity.this);
             }
         });
 

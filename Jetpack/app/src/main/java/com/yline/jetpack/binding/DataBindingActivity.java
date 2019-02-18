@@ -14,7 +14,11 @@ import android.view.ViewGroup;
 
 import com.yline.base.BaseAppCompatActivity;
 import com.yline.jetpack.R;
+import com.yline.jetpack.binding.custom.CustomActivity;
+import com.yline.jetpack.binding.express.ExpressActivity;
 import com.yline.jetpack.binding.model.DataBindingItemModel;
+import com.yline.jetpack.binding.observe.ObserveActivity;
+import com.yline.jetpack.binding.observe.model.ObserveModel;
 import com.yline.jetpack.databinding.ActivityDataBindingBinding;
 import com.yline.jetpack.databinding.ItemDataBindingBinding;
 
@@ -58,14 +62,13 @@ public class DataBindingActivity extends BaseAppCompatActivity {
 
         @Override
         public RecyclerBindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            RecyclerBindingHolder bindingHolder = new RecyclerBindingHolder(parent);
-
             // 布局，数据处理工具绑定
             ItemDataBindingBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_data_binding, parent, false);
             DataBindingPresenter presenter = new DataBindingPresenter();
             binding.setPresenter(presenter);
 
             // viewHolder 和 布局绑定
+            RecyclerBindingHolder bindingHolder = new RecyclerBindingHolder(binding.getRoot());
             bindingHolder.setBinding(binding);
             return bindingHolder;
         }
@@ -97,15 +100,24 @@ public class DataBindingActivity extends BaseAppCompatActivity {
         public void onTypeClick(Context context, DataBindingItemModel itemModel) {
             switch (itemModel.getType()) {
                 case 0:
+                    ExpressActivity.launch(context);
                     break;
                 case 1:
+                    ObserveActivity.launch(context);
+                    break;
+                case 2:
+                    CustomActivity.launch(context);
                     break;
                 default:
             }
         }
 
         private static List<DataBindingItemModel> genItemList() {
-            return new ArrayList<>();
+            List<DataBindingItemModel> itemModelList = new ArrayList<>();
+            itemModelList.add(new DataBindingItemModel(0, "Express xml -> Java 数据引用"));
+            itemModelList.add(new DataBindingItemModel(1, "Observe Java -> xml 数据修改"));
+            itemModelList.add(new DataBindingItemModel(2, "Custom xml组件化"));
+            return itemModelList;
         }
     }
 
