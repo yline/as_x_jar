@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <variable
+            name="imgUrl"
+            type="String" />
+
+        <variable
+            name="valueModel"
+            type="com.yline.jetpack.binding.custom.model.CustomModel" />
     </data>
 
     <LinearLayout
@@ -11,6 +19,42 @@
         android:orientation="vertical"
         android:padding="5dp">
 
+        <!-- setData 并通过 旧式的模式实现 -->
+        <com.yline.jetpack.binding.custom.view.CustomView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:data="@{valueModel}" />
 
+        <!-- setData 并通过 新的DataBinding方式实现 -->
+        <com.yline.jetpack.binding.custom.model.CustomBindingView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:data="@{valueModel}" />
+
+        <!-- 原先通过 Attribute实现的api，不支持通过数据摄入 -->
+        <com.yline.view.fresco.view.FrescoView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:actualImageScaleType="centerCrop"
+            app:actualImageUri="https://raw.githubusercontent.com/yline/as_lib_sdk/master/pic/1440_900_jpg/01.jpg"
+            app:placeholderImage="@mipmap/ic_launcher"
+            app:placeholderImageScaleType="centerCrop" />
+
+        <!-- 当数据存在是，会自动调用注解方法，即:XmlBindingUtils中对应的 bindingImageUri 字段对应的方法  -->
+        <!-- 思考：如果原先有API，是否命名保持与原先一模一样最好[是，这样给使用者减少差别，相当于底层做了适配] -->
+        <com.yline.view.fresco.view.FrescoView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:actualImageScaleType="centerCrop"
+            app:bindingImageUri="@{imgUrl}"
+            app:placeholderImage="@mipmap/ic_launcher"
+            app:placeholderImageScaleType="centerCrop" />
+
+        <!-- android:text="@{valueModel}" -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:text="@{valueModel}" />
     </LinearLayout>
 </layout>

@@ -1,13 +1,12 @@
 参考：
+https://developer.android.com/jetpack/  // 官网位置
 https://developer.android.com/topic/libraries/data-binding/expressions // xml -> Java的使用 [不支持merge]
 https://developer.android.com/topic/libraries/data-binding/observability // Java -> Observer通知UI直接按照原先规则修改
-https://github.com/ConnorLin/DataBindingDemo // github demo
+https://github.com/ConnorLin/DataBindingDemo // github demo[重要]
 
 接下来：
-https://blog.csdn.net/qibanxuehua/article/details/71728100 // blog
-https://www.cnblogs.com/connorlin/p/5669014.html // Android Data Binding 系列(一) -- 详细介绍与使用
-
-https://developer.android.com/jetpack/  // 官网位置
+https://blog.csdn.net/qibanxuehua/article/details/71728100 // blog[不太重要]
+https://www.cnblogs.com/connorlin/p/5669014.html // Android Data Binding 系列(一) -- 详细介绍与使用[不太重要]
 
 ------------------------------------------Expression--------------------------------------------------
 Mathematical + - / * %
