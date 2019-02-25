@@ -2,6 +2,8 @@
 .metadata/
 .recommenders/
 RemoteSystemsTempFiles/
+*/.idea/compiler.xml
+*/.idea/inspectionProfiles/
 
 # Built application files
 *.apk
