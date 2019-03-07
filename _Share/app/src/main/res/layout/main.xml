@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/NavPage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/result_tv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enter"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/main_yline"
+            style="@style/MMLineActionButton"
+            android:layout_margin="10dp"
+            android:text="测试自己写的工具类"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/reg_btn"
+            style="@style/MMLineActionButton"
+            android:layout_margin="10dp"
+            android:text="@string/reg"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/goto_send_btn"
+            style="@style/MMLineActionButton"
+            android:layout_margin="10dp"
+            android:text="@string/goto_send" />
+
+        <Button
+            android:id="@+id/launch_wx_btn"
+            style="@style/MMLineActionButton"
+            android:layout_margin="10dp"
+            android:text="@string/launch_wx" />
+
+        <Button
+            android:id="@+id/goto_subscribe_message_btn"
+            style="@style/MMLineActionButton"
+            android:layout_margin="10dp"
+            android:text="@string/subscribe_message" />
+
+        <Button
+            android:id="@+id/goto_subscribe_mini_program_msg_btn"
+            style="@style/MMLineActionButton"
+            android:layout_margin="10dp"
+            android:text="@string/subscribe_mini_program" />
+
+        <Button
+            android:id="@+id/jump_to_offline_pay"
+            style="@style/MMLineActionButton"
+            android:layout_margin="10dp"
+            android:text="@string/jump_to_offline_pay" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    style="@style/NavPage">
+
+    <TextView
+        style="@style/MMBriefText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_mini_program_appid" />
+
+    <EditText
+        android:id="@+id/mini_program_appid_et"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input MiniProgramAppId"
+        android:layout_margin="5dp"
+        android:text = "wxe5f52902cf4de896"
+        android:selectAllOnFocus="true" />
+
+    <Button
+        android:id="@+id/check_subscribe_message_btn"
+        style="@style/MMLineActionButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/check_subscribe_message" />
+
+    <Button
+        android:id="@+id/subscribe_message_btn"
+        style="@style/MMLineActionButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/subscribe_message" />
+
+</LinearLayout>

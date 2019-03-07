@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    style="@style/NavPage">
+    
+	<EditText
+		android:id="@+id/scene_et"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+        android:text = "1000"
+		android:hint="Input Scene"/>
+
+	<EditText
+		android:id="@+id/templateid_et"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+        android:text = "Jo-ywGDy0K9zGY87D2Cs2D51ExMoA1xSor7UxfIiLG8"
+		android:hint="Input Template ID"/>
+
+	<EditText
+		android:id="@+id/reserved_et"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+        android:text = "abcAbc"
+		android:hint="Input Reserved"/>
+
+	<Button
+		android:id="@+id/check_subscribe_message_btn"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/check_subscribe_message"
+        android:layout_marginTop = "12dp"
+		style="@style/MMLineActionButton"/>
+
+	<Button
+		android:id="@+id/subscribe_message_btn"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+        android:layout_marginTop = "12dp"
+		android:text="@string/subscribe_message"
+		style="@style/MMLineActionButton"/>
+
+</LinearLayout>

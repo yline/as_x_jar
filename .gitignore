@@ -4,6 +4,7 @@
 RemoteSystemsTempFiles/
 */.idea/compiler.xml
 */.idea/inspectionProfiles/
+*/.idea/
 
 # Built application files
 *.apk
