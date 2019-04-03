@@ -86,7 +86,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:lines="2"
-            android:text="使用说明"
+            android:text="初始化"
             android:textSize="12dp" />
     </LinearLayout>
 

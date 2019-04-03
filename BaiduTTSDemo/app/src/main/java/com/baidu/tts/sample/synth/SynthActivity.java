@@ -45,11 +45,6 @@ public class SynthActivity extends BaseAppCompatActivity {
     private SynthView mSynthView;
     private SpeechSynthesizerManager synthesizerManager;
 
-    private static final String SYNTH_HELP = "1，测试离线合成功能需要首次联网。\n" +
-            "2，纯在线请修改代码里ttsMode为TtsMode.ONLINE， 没有纯离线。\n" +
-            "3，本Demo的默认参数设置为wifi情况下在线合成, 其它网络（包括4G）使用离线合成。 在线普通女声发音，离线男声发音.\n" +
-            "4，合成可以多次调用，SDK内部有缓存队列，会依次完成。";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +114,7 @@ public class SynthActivity extends BaseAppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int voiceType = typeArray[which];
-                        synthesizerManager.loadModel(SynthActivity.this, voiceType);
+                        synthesizerManager.loadModel(voiceType);
                     }
                 });
                 builder.show();
@@ -154,7 +149,7 @@ public class SynthActivity extends BaseAppCompatActivity {
         mSynthView.setOnHelpClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSynthView.setShowText(SYNTH_HELP);
+                synthesizerManager.init(); // 推到子线程中，初始化
             }
         });
     }
@@ -163,7 +158,6 @@ public class SynthActivity extends BaseAppCompatActivity {
         AutoCheck.check(TtsMode.MIX);
 
         synthesizerManager = SpeechSynthesizerManager.getInstance();
-        synthesizerManager.init(); // 推到子线程中，初始化
         synthesizerManager.setSpeechSynthesizerListener(providerListener());
     }
 

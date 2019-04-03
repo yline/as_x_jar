@@ -32,9 +32,6 @@ public class SpeechSynthesizerManager {
     public static final int ERROR = -1;
     public static final int SUCCESS = 0;
 
-    private static final int SPEECH_INIT = 1;
-    private static final int SPEECH_RELEASE = 2;
-
     private static final String APP_ID = "11005757";
     private static final String APP_KEY = "Ovcz19MGzIKoDDb3IsFFncG1";
     private static final String SECRET_KEY = "e72ebb6d43387fc7f85205ca7e6706e2";
@@ -52,89 +49,140 @@ public class SpeechSynthesizerManager {
     }
 
     public void init() {
-        tHandler.obtainMessage(SPEECH_INIT).sendToTarget();
+        tHandler.obtainMessage(SpeechHandler.INIT).sendToTarget();
     }
 
     public void release() {
-        tHandler.obtainMessage(SPEECH_RELEASE).sendToTarget();
+        tHandler.obtainMessage(SpeechHandler.RELEASE).sendToTarget();
     }
 
     public void speak(@NonNull String text) {
-        int result = tHandler.speak(text);
-        if (SUCCESS != result) {
-            SpeechManager.e("code = " + result + ", 文档：" + DOC);
-        }
+        tHandler.obtainMessage(SpeechHandler.SPEAK, text).sendToTarget();
     }
 
     public void synthesize(@NonNull String text) {
-        int result = tHandler.synthesize(text);
-        if (SUCCESS != result) {
-            SpeechManager.e("code = " + result + ", 文档：" + DOC);
-        }
+        tHandler.obtainMessage(SpeechHandler.SYNTHESIZE, text).sendToTarget();
     }
 
     public void speakBatch(@NonNull Map<String, String> map) {
-        int result = tHandler.batchSpeak(map);
-        if (SUCCESS != result) {
-            SpeechManager.e("code = " + result + ", 文档：" + DOC);
-        }
+        tHandler.obtainMessage(SpeechHandler.BATCH_SPEAK, map).sendToTarget();
     }
 
     public void resume() {
-        int result = tHandler.resume();
-        if (SUCCESS != result) {
-            SpeechManager.e("code = " + result + ", 文档：" + DOC);
-        }
+        tHandler.obtainMessage(SpeechHandler.RESUME).sendToTarget();
     }
 
     public void pause() {
-        int result = tHandler.pause();
-        if (SUCCESS != result) {
-            SpeechManager.e("code = " + result + ", 文档：" + DOC);
-        }
+        tHandler.obtainMessage(SpeechHandler.PAUSE).sendToTarget();
     }
 
     public void stop() {
-        int result = tHandler.stop();
-        if (SUCCESS != result) {
-            SpeechManager.e("code = " + result + ", 文档：" + DOC);
-        }
+        tHandler.obtainMessage(SpeechHandler.STOP).sendToTarget();
     }
 
-    public void loadModel(Context context, int voiceType) {
-        int result = tHandler.loadModel(context, voiceType);
-        if (SUCCESS != result) {
-            SpeechManager.e("code = " + result + ", 文档：" + DOC);
-        }
+    public void loadModel(int voiceType) {
+        tHandler.obtainMessage(SpeechHandler.LOAD_MODEL, voiceType).sendToTarget();
     }
 
     public void setSpeechSynthesizerListener(SpeechSynthesizerListener listener) {
         tHandler.setSpeechSynthesizerListener(listener);
     }
 
-    // 真正实现功能的地方，如果通过handler实现，则是在子线程
+    // 真正实现功能的地方，如果通过handler实现，则是在子线程；并且，内部都是阻塞进行的
     private static class SpeechHandler extends Handler {
+        private static final int INIT = 1; // 初始化
+
+        private static final int SPEAK = 10; // 合成并播放
+        private static final int SYNTHESIZE = 11; // 只合成，不播放
+        private static final int BATCH_SPEAK = 12; // 批量播放
+        private static final int PAUSE = 13; // 暂停播放
+        private static final int RESUME = 14; // 继续播放
+        private static final int STOP = 15; // 停止合成引擎。即停止播放，合成，清空内部合成队列。
+        private static final int LOAD_MODEL = 16; // 切换离线发音。注意需要添加额外的判断：引擎在合成时该方法不能调用
+
+        private static final int RELEASE = 100; // 释放
+
+        private boolean sInitSuccess;
+
         private SpeechSynthesizer sSynthesizer;
 
         private SpeechHandler(Looper looper) {
             super(looper);
+            sInitSuccess = false;
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            switch (msg.what) {
-                case SPEECH_INIT:
-                    init(SDKManager.getApplication(), TtsMode.MIX);
-                    break;
-                case SPEECH_RELEASE:
-                    sSynthesizer.stop();
-                    sSynthesizer.release();
-                    sSynthesizer = null;
+            SpeechManager.v("msg.what = " + msg.what);
+            try {
+                if (!sInitSuccess) {
+                    if (msg.what == INIT) {
+                        int result = init(SDKManager.getApplication(), TtsMode.MIX);
+                        sInitSuccess = (result == SUCCESS);
+                    }
+                } else {
+                    int code = 0;
+                    switch (msg.what) {
+                        case SPEAK:
+                            String textSpeak = (String) msg.obj;
+                            code = sSynthesizer.speak(textSpeak);
+                            break;
+                        case SYNTHESIZE:
+                            String textSynth = (String) msg.obj;
+                            code = sSynthesizer.synthesize(textSynth);
+                            break;
+                        case BATCH_SPEAK:
+                            if (msg.obj instanceof Map) {
+                                Map batchMap = (Map) msg.obj;
 
-                    releaseLooper();
-                    break;
+                                List<SpeechSynthesizeBag> bagList = new ArrayList<>();
+                                SpeechSynthesizeBag bag = new SpeechSynthesizeBag();
+                                for (Object text : batchMap.keySet()) {
+                                    bag.setText(String.valueOf(text));
+                                    Object value = batchMap.get(text);
+                                    if (null != value) {
+                                        bag.setUtteranceId(String.valueOf(value));
+                                    }
+                                }
+                                code = sSynthesizer.batchSpeak(bagList);
+                            }
+                            break;
+                        case PAUSE:
+                            code = sSynthesizer.pause();
+                            break;
+                        case RESUME:
+                            code = sSynthesizer.resume();
+                            break;
+                        case STOP:
+                            code = sSynthesizer.stop();
+                            break;
+                        case LOAD_MODEL:
+                            int voiceType = (int) msg.obj;
+                            String textSource = OfflineResourceManager.getTextSource(SDKManager.getApplication());
+                            String voiceSource = OfflineResourceManager.getVoiceSource(SDKManager.getApplication(), voiceType);
+                            if (!TextUtils.isEmpty(textSource) && !TextUtils.isEmpty(voiceSource)) {
+                                code = sSynthesizer.loadModel(textSource, voiceSource);
+                            }
+                            break;
+                        case RELEASE:
+                            sSynthesizer.stop();
+                            code = sSynthesizer.release();
+                            sSynthesizer = null;
+                            sInitSuccess = false;
+
+                            releaseLooper();
+                            break;
+                    }
+
+                    // 异常
+                    if (code != SUCCESS) {
+                        SpeechManager.e("code = " + code + ", 文档 = " + DOC);
+                    }
+                }
+            } catch (Exception ex) {
+                SpeechManager.e("handlerMessage Error, ex = " + android.util.Log.getStackTraceString(ex));
             }
         }
 
@@ -196,105 +244,6 @@ public class SpeechSynthesizerManager {
                 sSynthesizer.setParam(SpeechSynthesizer.PARAM_TTS_TEXT_MODEL_FILE, textSource);
                 sSynthesizer.setParam(SpeechSynthesizer.PARAM_TTS_SPEECH_MODEL_FILE, voiceSource);
             }
-        }
-
-        /**
-         * 合成并播放
-         *
-         * @param text 小于1024 GBK字节，即512个汉字或者字母数字
-         * @return -1 if synthesizer is null
-         */
-        private int speak(String text) {
-            if (null != sSynthesizer) {
-                return sSynthesizer.speak(text);
-            }
-            return ERROR;
-        }
-
-        /**
-         * 只合成不播放
-         *
-         * @param text 小于1024 GBK字节，即512个汉字或者字母数字
-         * @return -1 if synthesizer is null
-         */
-        private int synthesize(String text) {
-            if (null != sSynthesizer) {
-                return sSynthesizer.synthesize(text);
-            }
-            return ERROR;
-        }
-
-        /**
-         * 批量播放
-         *
-         * @param map 文案和音量(可以为null)，集合
-         * @return error if synthesizer is null and map is null
-         */
-        private int batchSpeak(Map<String, String> map) {
-            if (null != sSynthesizer && null != map) {
-                List<SpeechSynthesizeBag> bagList = new ArrayList<>();
-                SpeechSynthesizeBag bag = new SpeechSynthesizeBag();
-                for (String text : map.keySet()) {
-                    bag.setText(text);
-                    String value = map.get(text);
-                    if (null != value) {
-                        bag.setUtteranceId(value);
-                    }
-                }
-                sSynthesizer.batchSpeak(bagList);
-            }
-            return ERROR;
-        }
-
-        /**
-         * 暂停播放。仅调用speak后生效
-         *
-         * @return error if synthesizer is null
-         */
-        private int pause() {
-            if (null != sSynthesizer) {
-                return sSynthesizer.pause();
-            }
-            return ERROR;
-        }
-
-        /**
-         * 继续播放。仅调用speak后生效，调用pause生效
-         *
-         * @return error if synthesizer is null
-         */
-        private int resume() {
-            if (null != sSynthesizer) {
-                return sSynthesizer.resume();
-            }
-            return ERROR;
-        }
-
-        /**
-         * 停止合成引擎。即停止播放，合成，清空内部合成队列。
-         *
-         * @return error if synthesizer is null
-         */
-        private int stop() {
-            if (null != sSynthesizer) {
-                return sSynthesizer.stop();
-            }
-            return ERROR;
-        }
-
-        /**
-         * 切换离线发音。注意需要添加额外的判断：引擎在合成时该方法不能调用
-         * 注意 只有 TtsMode.MIX 才可以切换离线发音
-         */
-        private int loadModel(Context context, int voiceType) {
-            if (null != sSynthesizer) {
-                String textSource = OfflineResourceManager.getTextSource(context);
-                String voiceSource = OfflineResourceManager.getVoiceSource(context, voiceType);
-                if (!TextUtils.isEmpty(textSource) && !TextUtils.isEmpty(voiceSource)) {
-                    return sSynthesizer.loadModel(textSource, voiceSource);
-                }
-            }
-            return ERROR;
         }
 
         private void setSpeechSynthesizerListener(SpeechSynthesizerListener listener) {
