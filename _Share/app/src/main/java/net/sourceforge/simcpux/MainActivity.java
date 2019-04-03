@@ -15,11 +15,12 @@ import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.JumpToOfflinePay;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yline.base.BaseActivity;
 
 import net.sourceforge.simcpux.yline.ShareActivity;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
     private Button gotoBtn, regBtn, launchBtn, scanBtn, subscribeMsgBtn, subscribeMiniProgramMsgBtn;
 

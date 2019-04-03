@@ -8,7 +8,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-public class ShowFromWXActivity extends Activity {
+import com.yline.base.BaseActivity;
+
+public class ShowFromWXActivity extends BaseActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

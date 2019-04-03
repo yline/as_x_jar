@@ -28,13 +28,14 @@ import com.tencent.mm.opensdk.modelmsg.WXVideoObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yline.base.BaseActivity;
 
 import net.sourceforge.simcpux.uikit.CameraUtil;
 import net.sourceforge.simcpux.uikit.MMAlert;
 
 import java.io.File;
 
-public class SendToWXActivity extends Activity {
+public class SendToWXActivity extends BaseActivity {
     private final static String TAG = "SendToWXActivity";
 
     private static final int THUMB_SIZE = 150;

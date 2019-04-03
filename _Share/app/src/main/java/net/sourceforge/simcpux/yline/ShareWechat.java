@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -35,6 +36,10 @@ public class ShareWechat {
     private static final int SCENE_FRIEND = SendMessageToWX.Req.WXSceneSession; // 好友
     private static final int SCENE_CIRCLE = SendMessageToWX.Req.WXSceneTimeline; // 朋友圈
     private static final int SCENE_FAVORITE = SendMessageToWX.Req.WXSceneFavorite; // 收藏
+
+    public static void shareText2Friend(Context context, @NonNull String text) {
+        new ShareWechat(context).sendText(text, SCENE_FRIEND);
+    }
 
     public static void shareWebpage2Friend(Context context, @NonNull String webpageUrl, @NonNull String title, String description, @NonNull String picUrl) {
         new ShareWechat(context).sendWebpage(context, webpageUrl, title, description, picUrl, SCENE_FRIEND);
@@ -126,6 +131,15 @@ public class ShareWechat {
         });
     }
 
+    private void sendText(String text, int scene) {
+        if (TextUtils.isEmpty(text)) {
+            LogUtil.v("分享内容有误，缺少必要信息, text is null");
+            return;
+        }
+
+        sendTextInner(mWxApi, text, scene);
+    }
+
     /**
      * 压缩并转换成 bytes
      *
@@ -184,6 +198,28 @@ public class ShareWechat {
         req.transaction = buildTransaction("webpage");
         req.message = mediaMessage;
         req.scene = scene; // 发送给谁
+
+        wxapi.sendReq(req);
+    }
+
+    /**
+     * 分享文字，给微信
+     *
+     * @param description 文案描述 长度需大于0且不超过10KB
+     * @param scene       好友(0)、朋友圈(1)、收藏(2)
+     */
+    private static void sendTextInner(IWXAPI wxapi, String description, int scene) {
+        WXTextObject textObject = new WXTextObject();
+        textObject.text = description;
+
+        WXMediaMessage mediaMessage = new WXMediaMessage();
+        mediaMessage.mediaObject = textObject;
+        mediaMessage.description = description;
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("text");
+        req.message = mediaMessage;
+        req.scene = scene;
 
         wxapi.sendReq(req);
     }

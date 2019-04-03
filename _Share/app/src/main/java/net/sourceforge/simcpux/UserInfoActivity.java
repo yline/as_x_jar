@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yline.base.BaseActivity;
+
 import net.sourceforge.simcpux.uikit.NetworkUtil;
 
 import org.json.JSONException;
@@ -23,7 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
-public class UserInfoActivity extends Activity {
+public class UserInfoActivity extends BaseActivity {
     private static String TAG = "MicroMsg.UserInfoActivity";
 
     private static MyHandler handler;

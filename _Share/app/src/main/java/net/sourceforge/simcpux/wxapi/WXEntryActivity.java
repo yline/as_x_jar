@@ -22,6 +22,7 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yline.base.BaseActivity;
 
 import net.sourceforge.simcpux.Constants;
 import net.sourceforge.simcpux.GetFromWXActivity;
@@ -35,7 +36,7 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
+public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 	private static String TAG = "MicroMsg.WXEntryActivity";
 
     private IWXAPI api;

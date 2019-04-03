@@ -11,8 +11,9 @@ import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelbiz.SubscribeMessage;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yline.base.BaseActivity;
 
-public class SubscribeMessageActivity extends Activity {
+public class SubscribeMessageActivity extends BaseActivity {
 
     private IWXAPI api = WXAPIFactory.createWXAPI(this, Constants.WECHAT_APP_ID,false);
 

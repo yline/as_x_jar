@@ -22,8 +22,9 @@ import com.tencent.mm.opensdk.modelmsg.WXVideoObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yline.base.BaseActivity;
 
-public class GetFromWXActivity extends Activity {
+public class GetFromWXActivity extends BaseActivity {
 
 	private static final int THUMB_SIZE = 150;
 

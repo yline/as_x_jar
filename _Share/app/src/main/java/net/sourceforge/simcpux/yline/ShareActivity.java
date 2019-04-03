@@ -68,5 +68,12 @@ public class ShareActivity extends BaseTestActivity {
                 ShareWechat.shareImage2Circle(ShareActivity.this, FileUtil.getPathTop() + "a.jpg");
             }
         });
+
+        addButton("分享文案 a - 朋友", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareWechat.shareText2Friend(ShareActivity.this, DESCRIPTION);
+            }
+        });
     }
 }
