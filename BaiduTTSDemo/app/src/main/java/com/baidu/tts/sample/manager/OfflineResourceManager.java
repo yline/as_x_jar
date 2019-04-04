@@ -108,7 +108,7 @@ public class OfflineResourceManager {
             }
 
             if (!TextUtils.isEmpty(sPath)) {
-                sPath += (File.separator + ".kjt" + File.separator);
+                sPath += (File.separator + ".baidu" + File.separator);
             }
         }
         return sPath;
