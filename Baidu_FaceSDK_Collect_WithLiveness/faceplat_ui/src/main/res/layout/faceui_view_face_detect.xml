@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Surface View -->
+    <FrameLayout
+        android:id="@+id/view_face_detect_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 圆框蒙版 -->
+    <com.baidu.idl.face.platform.ui.view.FaceDetectRoundView
+        android:id="@+id/view_face_detect_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Tips提示语句 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15" />
+
+        <TextView
+            android:id="@+id/view_face_detect_top_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:paddingTop="8dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="8dp"
+            android:text="@string/faceui_detect_face_in"
+            android:textColor="#F6A623"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.65" />
+
+        <TextView
+            android:id="@+id/view_face_detect_bottom_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.36"
+            android:gravity="center|top"
+            android:text=""
+            android:textColor="#D0D0D0"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- 成功之后勾选的图片，需要动态的改变位置 -->
+    <ImageView
+        android:id="@+id/view_face_detect_success_image"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/faceui_ic_success"
+        android:visibility="invisible" />
+
+    <!-- 关闭按钮 + 声音按钮 + 结果展示的横向滑动框 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/view_face_detect_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:src="@drawable/faceui_ic_close_ext" />
+
+        <ImageView
+            android:id="@+id/view_face_detect_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="20dp"
+            android:src="@drawable/faceui_ic_enable_sound_ext" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:id="@+id/view_face_detect_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+    </RelativeLayout>
+</RelativeLayout>

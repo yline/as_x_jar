@@ -1,0 +1,12 @@
+Global:
+    tool : build_submitter
+
+Default:
+    profile : [deploy]
+
+Profiles:
+    - profile:
+      name : deploy
+      env : ubuntu
+      command : sh xDeploy.sh
+      release : true

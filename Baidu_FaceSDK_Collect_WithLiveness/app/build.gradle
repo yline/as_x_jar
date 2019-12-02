@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+    defaultConfig {
+        applicationId  "com.kjtpay.face.sample"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1000
+        versionName "3.3.0.0"
+
+    }/*
+    signingConfigs {
+
+        def passwordK = 'kjtpay12'
+        def passwordS = 'kjtpay12'
+        def alias = 'kjtapp'
+        def filePath = '../faceprint.jks' // 签名文件路径
+
+        release {
+            keyAlias alias
+            keyPassword passwordK
+            storeFile file(filePath)
+            storePassword(passwordS)
+        }
+    }*/
+
+    signingConfigs {
+        release {
+            keyAlias 'kjtapp'
+            keyPassword 'kjt123'
+            storeFile file('../kjtkey.keystore')
+            storePassword 'kjtpay12'
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            debuggable true
+            jniDebuggable true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            debuggable false
+            jniDebuggable false
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+
+    implementation 'com.yline.lib:LibSDK:2.3.8'
+    implementation 'com.yline.lib:LibViewRecycler:1.3.0'
+    implementation project(path: ':faceplat_ui')
+}
