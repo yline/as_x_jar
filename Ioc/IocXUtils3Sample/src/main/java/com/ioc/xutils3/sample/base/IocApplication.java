@@ -11,42 +11,28 @@ import com.yline.application.SDKConfig;
  * @author YLine 2016/8/18 --> 23:56
  * @version 1.0.0
  */
-public class IocApplication extends BaseApplication
-{
-	private static final String TAG = "IocXUtils3Sample";
+public class IocApplication extends BaseApplication {
+    private static final String TAG = "IocXUtils3Sample";
 
-	/** 抛出x.app() + 设置环境 */
-	protected static final boolean isInject = true;
+    /**
+     * 抛出x.app() + 设置环境
+     */
+    protected static final boolean isInject = true;
 
-	/** 关闭调试,默认开启 */
-	private static final boolean isDebug = true;
+    /**
+     * 关闭调试,默认开启
+     */
+    private static final boolean isDebug = true;
 
-	@Override
-	public void onCreate()
-	{
-		super.onCreate();
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-		if (isInject)
-		{
-			x.Ext.init(this);
-		}
-		x.Ext.setDebug(isDebug);
-	}
-
-	@Override
-	protected void handlerDefault(Message message)
-	{
-
-	}
-
-	@Override
-	protected SDKConfig initConfig()
-	{
-		SDKConfig sdkConfig = new SDKConfig();
-		sdkConfig.setLogFilePath(TAG);
-		return null;
-	}
-
+        if (isInject) {
+            x.Ext.init(this);
+        }
+        x.Ext.setDebug(isDebug);
+    }
 }
 
 
