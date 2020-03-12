@@ -13,26 +13,23 @@ import com.ioc.xutils3.sample.base.IocActivity;
 
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends IocActivity
-{
-	
-	@ViewInject(R.id.tv_main)
-	private TextView mTvMain;
+public class MainActivity extends IocActivity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
+    @ViewInject(R.id.tv_main)
+    private TextView mTvMain;
 
-		mTvMain.setText("Main After");
-	}
-	
-	@Event(R.id.btn_main)
-	private void onClick(View v)
-	{
-		Intent intent = new Intent();
-		intent.setClass(this, SecondActivity.class);
-		this.startActivity(intent);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mTvMain.setText("Main After");
+    }
+
+    @Event(R.id.btn_main)
+    private void onClick(View v) {
+        Intent intent = new Intent();
+        intent.setClass(this, SecondActivity.class);
+        this.startActivity(intent);
+    }
 
 }

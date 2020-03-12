@@ -14,33 +14,22 @@ import com.yline.base.BaseFragment;
  * zc.view().inject(this, inflater, container);
  * zc.view().inject(mHolder, this.getView());
  */
-public class IocFragment extends BaseFragment
-{
-	private boolean injected = false;
+public class IocFragment extends BaseFragment {
+    private boolean injected = false;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-	{
-		if (IocApplication.isInject)
-		{
-			injected = true;
-			return x.view().inject(this, inflater, container);
-		}
-		else
-		{
-			return super.onCreateView(inflater, container, savedInstanceState);
-		}
-	}
-	
-	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-	{
-		super.onViewCreated(view, savedInstanceState);
-		
-		if (IocApplication.isInject && !injected)
-		{
-			x.view().inject(this, this.getView());
-		}
-	}
-	
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        injected = true;
+        return x.view().inject(this, inflater, container);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (!injected) {
+            x.view().inject(this, this.getView());
+        }
+    }
+
 }

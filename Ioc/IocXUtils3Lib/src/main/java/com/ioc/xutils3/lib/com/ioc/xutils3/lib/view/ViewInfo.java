@@ -6,37 +6,31 @@ package com.ioc.xutils3.lib.com.ioc.xutils3.lib.view;
  * @author fatenliyer
  * @date 2016-1-2
  */
-final class ViewInfo
-{
-	public int value;
+final class ViewInfo {
+    public int value;
 
-	public int parentId;
-	
-	@Override
-	public boolean equals(Object o)
-	{
-		if (o == this)
-		{
-			return true;
-		}
-		if (null == o || getClass() != o.getClass())
-		{
-			return false;
-		}
-		
-		ViewInfo viewInfo = (ViewInfo) o;
-		if (value != viewInfo.value)
-		{
-			return false;
-		}
-		return parentId == viewInfo.parentId;
-	}
-	
-	@Override
-	public int hashCode()
-	{
-		int result = value;
-		result = 31 * result + parentId;
-		return result;
-	}
+    public int parentId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (null == o || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ViewInfo viewInfo = (ViewInfo) o;
+        if (value != viewInfo.value) {
+            return false;
+        }
+        return parentId == viewInfo.parentId;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = value;
+        result = 31 * result + parentId;
+        return result;
+    }
 }
