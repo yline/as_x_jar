@@ -13,14 +13,14 @@
         android:textColor="@android:color/holo_red_light"/>
 
     <TextView
-        android:id="@+id/tv_one"
+        android:id="@+id/fragment_main_one_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textColor="@android:color/holo_blue_light"/>
 
     <TextView
-        android:id="@+id/tv_two"
+        android:id="@+id/fragment_main_two_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

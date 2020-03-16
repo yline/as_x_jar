@@ -11,30 +11,30 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
-        android:id="@+id/tv_one"
+        android:id="@+id/main_one_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"/>
 
     <TextView
-        android:id="@+id/tv_two"
+        android:id="@+id/main_two_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"/>
 
     <TextView
-        android:id="@+id/tv_three"
+        android:id="@+id/main_three_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"/>
 
     <Button
-        android:id="@+id/btn_one"
+        android:id="@+id/main_btn_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <fragment
-        android:name="com.butter.fragment.MainFragment"
+        android:name="com.butter.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </fragment>
