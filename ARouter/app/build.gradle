@@ -30,4 +30,5 @@ dependencies {
 
     implementation project(path: ':Framework')
     implementation project(path: ':ModuleTest')
+    implementation project(path: ':ModuleFunction')
 }
