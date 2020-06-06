@@ -8,7 +8,7 @@ import com.alibaba.android.arouter.facade.template.IInterceptor
 import com.yline.utils.LogUtil
 
 @Interceptor(priority = 2, name = "测试使用")
-class RouterBBBBInterceptor : IInterceptor {
+class RouterInterceptor : IInterceptor {
 
     override fun process(
         postcard: Postcard,

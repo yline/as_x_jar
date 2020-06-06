@@ -14,11 +14,11 @@ import com.yline.utils.LogUtil;
 import androidx.annotation.Nullable;
 
 @Route(path = RouterManager.Test.TEST_ACTIVITY)
-public class TestOneActivity extends BaseTestActivity {
+public class TestAActivity extends BaseTestActivity {
     public static void launch(Context context) {
         if (null != context) {
             Intent intent = new Intent();
-            intent.setClass(context, TestOneActivity.class);
+            intent.setClass(context, TestAActivity.class);
             if (!(context instanceof Activity)) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
@@ -30,19 +30,19 @@ public class TestOneActivity extends BaseTestActivity {
 
     @Override
     public void testStart(View view, Bundle savedInstanceState) {
-        addTextView("TestOneActivity");
+        addTextView("TestAActivity");
 
         addButton("Activity 跳转携带参数", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RouterManager.moduleFunction().launchOneActivity(TestOneActivity.this, "yline", 25);
+                RouterManager.moduleFunction().launchOneActivity(TestAActivity.this, "yline", 25);
             }
         });
 
         addButton("StartActivityForResult", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RouterManager.moduleFunction().launchTwoActivityForResult(TestOneActivity.this, REQUEST_CODE);
+                RouterManager.moduleFunction().launchTwoActivityForResult(TestAActivity.this, REQUEST_CODE);
             }
         });
     }

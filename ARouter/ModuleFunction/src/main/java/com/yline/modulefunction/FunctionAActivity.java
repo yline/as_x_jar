@@ -14,9 +14,8 @@ import com.yline.utils.LogUtil;
 
 import androidx.core.content.ContextCompat;
 
-@Route(path = RouterManager.Function.ONE_ACTIVITY)
-
-public class FunctionOneActivity extends BaseTestActivity {
+@Route(path = "/function/a")
+public class FunctionAActivity extends BaseTestActivity {
     @Autowired(name = "name")
     public String name; // 这个还不能是 private类型
 
@@ -25,10 +24,10 @@ public class FunctionOneActivity extends BaseTestActivity {
 
     @Override
     public void testStart(View view, Bundle savedInstanceState) {
-        addTextView("FunctionOneActivity");
+        addTextView("FunctionAActivity");
 
         final TextView contentTextView = addTextView("");
-        contentTextView.setTextColor(ContextCompat.getColor(FunctionOneActivity.this, android.R.color.holo_red_light));
+        contentTextView.setTextColor(ContextCompat.getColor(FunctionAActivity.this, android.R.color.holo_red_light));
 
         LogUtil.v("-------------------正常赋值------------------");
         LogUtil.v("name = " + name + ", age = " + ageOut);

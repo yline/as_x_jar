@@ -5,7 +5,7 @@
         android:allowBackup="true"
         android:label="@string/app_name">
 
-        <activity android:name="com.yline.moduletest.TestActivity" />
+        <activity android:name="com.yline.moduletest.TestAActivity" />
     </application>
 
 </manifest>
