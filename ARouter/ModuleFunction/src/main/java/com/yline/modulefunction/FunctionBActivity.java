@@ -10,11 +10,11 @@ import com.yline.framework.router.RouterManager;
 import com.yline.test.BaseTestActivity;
 
 @Route(path = RouterManager.Function.TWO_ACTIVITY)
-public class TwoActivity extends BaseTestActivity {
+public class FunctionTwoActivity extends BaseTestActivity {
 
     @Override
     public void testStart(View view, Bundle savedInstanceState) {
-        addTextView("TwoActivity");
+        addTextView("FunctionTwoActivity");
 
         addButton("点击成功结束", new View.OnClickListener() {
             @Override
