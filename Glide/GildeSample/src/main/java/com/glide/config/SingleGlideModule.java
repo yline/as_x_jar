@@ -22,17 +22,17 @@ public class SingleGlideModule extends OkHttpGlideModule {
         //设置内存缓存大小
         builder.setMemoryCache(new LruResourceCache(memoryCacheSize));
 
-        MemorySizeCalculator calculator = new MemorySizeCalculator(context);
-        int defaultMemoryCacheSize = calculator.getMemoryCacheSize();
-        int defaultBitmapPoolSize = calculator.getBitmapPoolSize();
+        // MemorySizeCalculator calculator = new MemorySizeCalculator(context);
+        // int defaultMemoryCacheSize = calculator.getMemoryCacheSize();
+        // int defaultBitmapPoolSize = calculator.getBitmapPoolSize();
 
-        LogFileUtil.v("defaultMemoryCacheSize = " + defaultMemoryCacheSize + ",defaultBitmapPoolSize = " + defaultBitmapPoolSize);
+        // LogFileUtil.v("defaultMemoryCacheSize = " + defaultMemoryCacheSize + ",defaultBitmapPoolSize = " + defaultBitmapPoolSize);
 
         // 设置 缓存 磁盘 大小
         builder.setDiskCache(new DiskLruCacheFactory(context.getExternalFilesDir("GlidePicture").getAbsolutePath(), 512 * 1024 * 1024));
 
         //设置图片解码格式
-        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888); // 默认格式RGB_565使用内存是ARGB_8888的一半
+        // builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888); // 默认格式RGB_565使用内存是ARGB_8888的一半
     }
 
     @Override
