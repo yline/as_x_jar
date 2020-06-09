@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GildeSample/GildeSample.iml" filepath="$PROJECT_DIR$/GildeSample/GildeSample.iml" />
       <module fileurl="file://$PROJECT_DIR$/Glide.iml" filepath="$PROJECT_DIR$/Glide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/as_x_jar-Glide.iml" filepath="$PROJECT_DIR$/as_x_jar-Glide.iml" />
     </modules>
   </component>
 </project>

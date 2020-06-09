@@ -1,24 +1,24 @@
 package com.glide.sample
 
-import android.os.Bundle
-import com.glide.R
-import com.yline.base.BaseAppCompatActivity
-import android.content.Intent
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.Glide
+import com.glide.R
+import com.glide.sdk.ImageLoader
+import com.yline.base.BaseAppCompatActivity
 import com.yline.test.UrlConstant
 import com.yline.view.recycler.adapter.AbstractRecyclerAdapter
 import com.yline.view.recycler.holder.RecyclerViewHolder
-import kotlinx.android.synthetic.main.activity_sample.sample_recycler
+import kotlinx.android.synthetic.main.activity_sample_recycler.sample_recycler
 
 /**
  * created on 2020-06-08 -- 20:52
  * @author yline
  */
-class SampleActivity : BaseAppCompatActivity() {
+class SampleRecyclerActivity : BaseAppCompatActivity() {
     companion object {
         fun launch(context: Context?) {
             if (null == context) {
@@ -26,7 +26,7 @@ class SampleActivity : BaseAppCompatActivity() {
             }
 
             val intent = Intent()
-            intent.setClass(context, SampleActivity::class.java)
+            intent.setClass(context, SampleRecyclerActivity::class.java)
             if (context !is Activity) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
@@ -36,7 +36,7 @@ class SampleActivity : BaseAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sample)
+        setContentView(R.layout.activity_sample_recycler)
 
         val recyclerAdapter = SampleRecyclerAdapter()
         sample_recycler.layoutManager = GridLayoutManager(this, 2)
@@ -52,7 +52,7 @@ class SampleActivity : BaseAppCompatActivity() {
 
     inner class SampleRecyclerAdapter : AbstractRecyclerAdapter<String>() {
         override fun getItemRes(): Int {
-            return R.layout.item_sample
+            return R.layout.item_sample_recycler
         }
 
         override fun onBindViewHolder(
@@ -61,12 +61,10 @@ class SampleActivity : BaseAppCompatActivity() {
         ) {
             val url = get(position)
 
-            val targetView = holder.get<ImageView>(R.id.item_sample_img)
-            Glide.with(targetView.context)
-                    .load(url)
-                    .into(targetView)
+            val targetView = holder.get<ImageView>(R.id.item_sample_recycler_img)
+            ImageLoader.displayImage(targetView, url)
 
-            holder.setText(R.id.item_sample_text, url)
+            holder.setText(R.id.item_sample_recycler_text, url)
         }
 
     }

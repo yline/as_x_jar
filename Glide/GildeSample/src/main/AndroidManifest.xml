@@ -2,8 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.glide">
 
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <!--  必要权限-->
   <uses-permission android:name="android.permission.INTERNET" />
+
+  <!--  ACCESS_NETWORK_STATE 对于 Glide 加载 URL 并不是必需的，但是它将帮助 Glide 处理 片状网络(flaky network) 和飞行模式 -->
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+  <!--  READ_EXTERNAL_STORAGE 权限，要从本地文件夹或 DCIM 或图库中加载图片-->
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+  <!-- 如果要使用 ExternalPreferredCacheDiskCacheFactory 来将 Glide 的缓存存储到公有 SD 卡上，你还需要添加 WRITE_EXTERNAL_STORAGE 权限 -->
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
   <application
       android:name="com.yline.application.BaseApplication"
@@ -22,16 +31,9 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".sample.SampleActivity" />
+    <activity android:name=".sample.SampleRecyclerActivity" />
 
-<!--    &lt;!&ndash; 这个必须在 activity 的前面; debug时, 不需要去混淆 &ndash;&gt;-->
-<!--    <meta-data-->
-<!--        android:name="com.glide.config.SingleGlideModule"-->
-<!--        android:value="GlideModule" />-->
-    <!--
-        <meta-data
-            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
-            android:value="GlideModule"/>-->
+    <activity android:name=".sample.SampleSingleActivity" />
 
   </application>
 </manifest>
