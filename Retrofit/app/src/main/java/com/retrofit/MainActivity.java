@@ -8,7 +8,6 @@ import com.yline.test.BaseTestActivity;
 
 public class MainActivity extends BaseTestActivity {
 
-
     @Override
     public void testStart(View view, Bundle savedInstanceState) {
         addButton("getSimpleSample", new View.OnClickListener() {
@@ -18,6 +17,5 @@ public class MainActivity extends BaseTestActivity {
             }
         });
     }
-
 
 }

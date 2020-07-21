@@ -1,9 +1,13 @@
 package com.retrofit.model;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 接口的数据
+ *
  * @author yline 2017/10/26 -- 20:26
  * @version 1.0.0
  */
@@ -96,6 +100,20 @@ public class ChapterModel implements Serializable {
         public void setChildren(List<?> children) {
             this.children = children;
         }
+
+        @Override
+        public String toString() {
+            return "ChapterItem{" +
+                "courseId=" + courseId +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", order=" + order +
+                ", parentChapterId=" + parentChapterId +
+                ", userControlSetTop=" + userControlSetTop +
+                ", visible=" + visible +
+                ", children=" + children +
+                '}';
+        }
     }
 
     public int getErrorCode() {
@@ -120,5 +138,14 @@ public class ChapterModel implements Serializable {
 
     public void setData(List<ChapterItem> data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "ChapterModel{" +
+            "errorCode=" + errorCode +
+            ", errorMsg='" + errorMsg + '\'' +
+            ", data=" + data +
+            '}';
     }
 }

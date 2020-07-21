@@ -3,7 +3,6 @@ package com.retrofit.server;
 import com.retrofit.model.ChapterModel;
 import com.yline.utils.LogUtil;
 
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,9 +16,9 @@ public class ServerManager {
         LogUtil.v("request start, thread = " + Thread.currentThread().getId());
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
         ServerApi.ChapterService chapterService = retrofit.create(ServerApi.ChapterService.class);
 
@@ -33,6 +32,7 @@ public class ServerManager {
                 ChapterModel chapterModel = response.body();
                 if (null != chapterModel) {
                     LogUtil.v(chapterModel.getErrorCode() + ", " + chapterModel.getErrorMsg());
+                    LogUtil.v(chapterModel.toString());
                 }
             }
 
