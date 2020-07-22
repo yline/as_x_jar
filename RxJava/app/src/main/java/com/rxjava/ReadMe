@@ -1,15 +1,26 @@
-借鉴：https://juejin.im/user/573dba2171cfe448aa97b7b0
+参考 {
+    https://github.com/ReactiveX/RxJava/blob/3.x/README.md      // github rxjava ReadMe
+    https://github.com/ReactiveX/RxJava/wiki                    // github rxjava Wiki
+    http://reactivex.io/RxJava/3.x/javadoc/                     // api 在线 API 文档
 
-默认线程：
-Schedulers.computation(); // 计算使用，不会阻塞
-Schedulers.newThread(); // 启用新线程
-Schedulers.io(); // IO流读取
-Schedulers.shutdown(); // 关闭所有线程
-AndroidSchedulers.mainThread(); // Android主线程
+    #### 其它     主要: https://juejin.im/user/573dba2171cfe448aa97b7b0
+    https://juejin.im/post/5848d96761ff4b0058c9d3dc     // 给初学者的RxJava2.0教程(一)  Observable和Observer
+    https://juejin.im/post/5848dd11b123db0066030123     // 给初学者的RxJava2.0教程(二)  切换 线程
+    https://juejin.im/post/5848dd3eac502e00691385c5     // 给初学者的RxJava2.0教程(三)  map、flatMap
+    https://juejin.im/post/584a6dd9128fe100589bf29d     // 给初学者的 RxJava2.0 教程 (四)  Zip
 
-调用和被调用；所在的线程；若调用多次，则每次next一次就会切换一次；
-.subscribeOn(Schedulers.newThread())
-.observeOn(AndroidSchedulers.mainThread())
+
+    #### 未做Demo的
+    https://juejin.im/post/584f76f48e450a006ad12ebf     // 给初学者的RxJava2.0教程(五)   Backpressure
+
+    https://juejin.im/post/58510ec3ac502e0067cfa4a2     // 给初学者的RxJava2.0教程(六)   使用的一次案例分析
+
+    https://juejin.im/post/5857a5e48e450a006c752701     // 给初学者的RxJava2.0教程(七)   Flowable
+    https://juejin.im/post/585b8f741b69e600560602d3     // 给初学者的RxJava2.0教程(八)   Flowable
+    https://juejin.im/post/58807ef92f301e00697f6ad8     // 给初学者的RxJava2.0教程(九)   Flowable
+}
+
+
 
 
 
